@@ -1,6 +1,8 @@
 # Hammerspoon-config
 [Hammerspoon][hammerspoon] is a tool for powerful automation of OS X. And here is my config file for realizing some functionality I want.
 
+[中文版](https://github.com/ashfinal/Hammerspoon-config/blob/master/README-CN.md)
+
 ## How to use?
 
 - You need to install [Hammerspoon][hammerspoon] first. Remember to manually allow Hammerspoon access to the accessibility features.
@@ -15,9 +17,7 @@
 
 You can do lots of things with [Hammerspoon][hammerspoon]. As for this config, it currently allow you to:
 
-- Manipulating windows
-
-    Here is the cheatsheet:
+- Manipulate windows
 
     `⌘ + ⌃ + Arrow`     -- halfscreen
 
@@ -35,11 +35,11 @@ You can do lots of things with [Hammerspoon][hammerspoon]. As for this config, i
 
     `⌘ + ⌃ + ⇧ +=/-`    -- expand & shrink windows
 
-- Windows switch
+- Switch windows
 
     Use the shortcut `⌥ + ␣` to show the windows hint.
 
-    ![](path "opt title")
+    ![windows hint](https://raw.githubusercontent.com/ashfinal/Hammerspoon-config/master/screenshot/20160328-115751.png "windows hint")
 
 
 
@@ -49,12 +49,12 @@ You can do lots of things with [Hammerspoon][hammerspoon]. As for this config, i
 
 - Lock the screen
 
-    Use the shortcut `⌘ + ⌃ + m`.
+    Use the shortcut `⌘ + ⌃ + l`.
 
 
 ## Any suggestions?
 
-Use and spread. Send me some feedback. :)
+Use and spread. Send me some feedback.
 
 
 [hammerspoon]:http://www.hammerspoon.org "http://www.hammerspoon.org"
