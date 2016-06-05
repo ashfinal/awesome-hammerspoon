@@ -1,6 +1,7 @@
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
     hs.reload()
-    hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+    -- hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+    hs.alert.show("Config loaded")
 end)
 
 function reloadConfig(files)
@@ -14,14 +15,36 @@ function reloadConfig(files)
         hs.reload()
     end
 end
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Config loaded")
+-- hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+-- hs.alert.show("Config loaded")
+
+function getFileCount()
+    offlineInboxNew = os.getenv("HOME") .. "/.mutt/viziner/INBOX/new/"
+    local i = 0
+    local p = io.popen('find "'..offlineInboxNew..'" -type f')
+    for file in p:lines() do
+        i = i + 1
+    end
+    return i
+end
+
+oldNum = getFileCount()
+
+function offlineimap(files)
+    newNum = getFileCount()
+    if newNum > oldNum then
+        hs.notify.new({title="New mail recieved!", informativeText="OfflineIMAP: Totally " .. newNum .. " Email(s)." }):send()
+    end
+    hs.reload()
+end
+hs.pathwatcher.new(offlineInboxNew, offlineimap):start()
 
 -- Window sizing:halfscreen
 
-hs.hotkey.bind({"cmd", "ctrl"}, "Left", function()
+hs.hotkey.bind({"cmd", "alt"}, "Left", function()
     local win = hs.window.focusedWindow()
     local f = win:frame()
+    f0 = win:frame()
     local screen = win:screen()
     local max = screen:frame()
 
@@ -32,8 +55,9 @@ hs.hotkey.bind({"cmd", "ctrl"}, "Left", function()
     win:setFrame(f)
 end)
 
-hs.hotkey.bind({"cmd", "ctrl"}, "Right", function()
+hs.hotkey.bind({"cmd", "alt"}, "Right", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -45,8 +69,9 @@ hs.hotkey.bind({"cmd", "ctrl"}, "Right", function()
     win:setFrame(f)
 end)
 
-hs.hotkey.bind({"cmd", "ctrl"}, "Up", function()
+hs.hotkey.bind({"cmd", "alt"}, "Up", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -58,8 +83,9 @@ hs.hotkey.bind({"cmd", "ctrl"}, "Up", function()
     win:setFrame(f)
 end)
 
-hs.hotkey.bind({"cmd", "ctrl"}, "Down", function()
+hs.hotkey.bind({"cmd", "alt"}, "Down", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -75,6 +101,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Left", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -88,6 +115,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Up", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -101,6 +129,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Right", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -114,6 +143,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Down", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -129,6 +159,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "alt"}, "C", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -146,6 +177,7 @@ end)
 
 hs.hotkey.bind({"cmd", "ctrl", "alt"}, "M", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local screen = win:screen()
     local max = screen:frame()
     win:setFrame(max)
@@ -275,8 +307,9 @@ end)
 
 -- Window movement:center
 
-hs.hotkey.bind({"alt", "ctrl"}, "C", function()
+hs.hotkey.bind({"cmd", "ctrl"}, "C", function()
     local win = hs.window.focusedWindow()
+    f0 = win:frame()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
@@ -286,29 +319,36 @@ hs.hotkey.bind({"alt", "ctrl"}, "C", function()
     win:setFrame(f)
 end)
 
+-- Restore the last window postion
+
+hs.hotkey.bind({"cmd", "ctrl"}, "Z", function()
+    local win = hs.window.focusedWindow()
+    win:setFrame(f0)
+end)
+
 hs.hotkey.bind({"cmd", "ctrl"}, "L", function()
     hs.caffeinate.lockScreen()
 end)
 
 hs.hotkey.bind("Alt", "Space", hs.hints.windowHints)
 
-caffeine = hs.menubar.new()
-function setCaffeineDisplay(state)
-    local result
-    if state then
-        result = caffeine:setTitle("♨︎")
-    else
-        result = caffeine:setTitle("♺")
-    end
-end
+-- caffeine = hs.menubar.new()
+-- function setCaffeineDisplay(state)
+    -- local result
+    -- if state then
+        -- result = caffeine:setTitle("♨︎")
+    -- else
+        -- result = caffeine:setTitle("♺")
+    -- end
+-- end
 
-function caffeineClicked()
-    setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
-end
+-- function caffeineClicked()
+    -- setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
+-- end
 
-if caffeine then
-    caffeine:setClickCallback(caffeineClicked)
-    setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
-end
+-- if caffeine then
+    -- caffeine:setClickCallback(caffeineClicked)
+    -- setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
+-- end
 
-hs.hotkey.bind({"cmd", "ctrl", "alt"}, "L", function() caffeineClicked() end)
+-- hs.hotkey.bind({"cmd", "ctrl", "alt"}, "L", function() caffeineClicked() end)
