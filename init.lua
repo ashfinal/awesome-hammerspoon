@@ -18,6 +18,25 @@ end
 -- hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 -- hs.alert.show("Config loaded")
 
+-- Toggle files on Desktop hidden
+hs.hotkey.bind({"cmd", "ctrl"}, "H", function()
+    if hadHidden == nil then
+        os.execute("chflags hidden ~/Desktop/*")
+        hadHidden = 1
+        hs.alert.show("All hidden")
+    else
+        os.execute("chflags nohidden ~/Desktop/*")
+        hadHidden = nil
+        hs.alert.show("Set unhidden")
+    end
+end)
+-- In case reboot or hammerspoon relaunch
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
+    os.execute("chflags nohidden ~/Desktop/*")
+    hadHidden = nil
+    hs.alert.show("Set unhidden")
+end)
+
 function getFileCount()
     offlineInboxNew = os.getenv("HOME") .. "/.mutt/viziner/INBOX/new/"
     local i = 0
