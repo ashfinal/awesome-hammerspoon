@@ -41,16 +41,21 @@ You can do lots of things with [Hammerspoon][hammerspoon]. As for this config, i
 
     ![windows hint](https://raw.githubusercontent.com/ashfinal/Hammerspoon-config/master/screenshot/20160328-115751.png "windows hint")
 
-
-
 - Keep the screen alway on(caffeine)
 
     Click the menu icon to toggle or use the shortcut `⌘ + ⌃ + ⌥ + l`.
+
+    **Update** Has been commented.
 
 - Lock the screen
 
     Use the shortcut `⌘ + ⌃ + l`.
 
+- Toggle hidden of files on Desktop
+
+    Use the shortcut `⌘ + ⌃ + h`.
+
+    **Important** Use `⌘ + ⌃ + ⌥ + h` to unhidden the files if you relaunch hammerspoon or reboot your computer.
 
 ## Any suggestions?
 

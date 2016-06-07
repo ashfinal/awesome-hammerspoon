@@ -40,16 +40,21 @@
 
     ![windows hint](https://raw.githubusercontent.com/ashfinal/Hammerspoon-config/master/screenshot/20160328-115751.png "windows hint")
 
-
-
 - 阻止屏幕进入睡眠
 
     点击菜单栏图标进行切换或者使用快捷键 `⌘ + ⌃ + ⌥ + l`。
+
+    **Update** 该功能已被默认关闭，你可以在 `init.lua` 中将代码反注释即可启用。
 
 - 锁定屏幕
 
     使用快捷键 `⌘ + ⌃ + l`。
 
+- 切换显示桌面文件
+
+    使用快捷键 `⌘ + ⌃ + h`。
+
+    **Important** 如果遭遇掉电或系统崩溃，可使用 `⌘ + ⌃ + ⌥  + h` 总是显示桌面文件。
 
 ## 欢迎反馈
 
