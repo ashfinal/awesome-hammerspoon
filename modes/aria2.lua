@@ -27,7 +27,7 @@ function downloadM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
-    if aria2GUI ~= nil then aria2GUI:delete() aria2GUI=nil end
+    if aria2GUI ~= nil then aria2GUI:hide() end
 end
 downloadM:bind('alt', 'D', function() downloadM:exit() end)
 downloadM:bind('', 'escape', function() downloadM:exit() end)

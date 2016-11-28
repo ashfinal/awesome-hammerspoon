@@ -117,7 +117,7 @@ I use [glutton](https://github.com/NemoAlex/glutton)(a tiny webclient for aria2)
 
 ![glutton](./screenshots/glutton.png)
 
-*After some operation in `download` mode, you can use <kbd>⌃</kbd> + <kbd>⎋</kbd> to hide(instead of destory) the interface, that should speed up the display of webclient.*
+*To speed up the display of webclient, by default when you press `⎋` the interface is hiden(instead destroyed). This may increase resource occupation. If you don't use `download` mode for a long time, when quitting use <kbd>⌃</kbd> + <kbd>⎋</kbd> to completely destory the webclient.*
 
 ### Cheatsheet(cheatsheet mode)
 
