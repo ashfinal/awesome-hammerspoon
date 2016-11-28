@@ -22,7 +22,7 @@ Well... simply to say, it allows you using <kbd>S</kbd> key to resize windows in
 
 And this means a lot.
 
-- It's scene-wise, you can use same key bindings to do different jobs in different scenes. You don't worry to run out of your hotkey bindings, and wrist your fingers to press <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>C</kbd> in the end.
+- It's scene-wise, you can use same key bindings to do different jobs in different scenes. You don't worry to run out of your hotkey bindings, and twist your fingers to press <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>C</kbd> in the end.
 - Less keystrokes, less memory pressure. You can press <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode, release, then press single key <kbd>S</kbd> to launch Safari, or <kbd>C</kbd> to lauch Chrome. Sounds good? You keep your pace, no rush.
 - Easy to extend, you can create your own modals if you like. For example, `Finder` mode, in which you press <kbd>T</kbd> to open Terminal here, press <kbd>S</kbd> to send files to predefined path, press <kbd>C</kbd> to upload images to cloud storage.
 
@@ -30,7 +30,7 @@ And this means a lot.
 
 ## How to use?
 
-So, after having done above procedures, you have launched Hammerspoon. Let's see what we've got here.
+So, following above procedures, you have reloaded Hammerspoon's configutation. Let's see what we've got here.
 
 ### Desktop widgets
 
@@ -73,7 +73,7 @@ Use <kbd>⌃</kbd> + <kbd>H/L/J/K</kbd> to resize windows to 1/2 of screen.
 
 Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.
 
-Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center it.
+Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.
 
 Use <kbd>⇥</kbd> to cycle through active windows.
 
@@ -103,9 +103,11 @@ Press <kbd>9</kbd> to set a 90-mins timer.
 
 ### Clipboard show(clipboard mode)
 
-It shows the content of your clipboard. If text or image type then display it with proper size, if hyberlink type then use default browser to open it. Click on it the display block will destory itself.
+It shows the content of your clipboard. If text or image type then display it with proper size, if hyperlink type then use default browser to open it. Click the display block it will destory itself.
 
-I usually use it to display QR image for cellphone's easier scanning, or display some text for better reading.
+I usually use this to display QR image for cellphone's faster scanning, or display some text for better reading.
+
+Below is what happened when I press <kbd>⌘</kbd> + <kbd>C</kbd> to copy `Hammerspoon.app`, then press <kbd>⌥</kbd> + <kbd>C</kbd> to activate clipboard mode.
 
 ![clipshow](./screenshots/clipshow.png)
 
@@ -115,17 +117,19 @@ I use [glutton](https://github.com/NemoAlex/glutton)(a tiny webclient for aria2)
 
 ![glutton](./screenshots/glutton.png)
 
-*After some operation in `download` mode, you can use <kbd>⌃</kbd> + <kbd>⎋</kbd> to hide(instead of destory) the interface, that can speed up the display of webclient.*
+*After some operation in `download` mode, you can use <kbd>⌃</kbd> + <kbd>⎋</kbd> to hide(instead of destory) the interface, that should speed up the display of webclient.*
 
 ### Cheatsheet(cheatsheet mode)
 
-I just copy code from [here](https://github.com/dharmapoudel/hammerspoon-config). Thank you! Let the picture talk:
+It shows the cheatsheet of current application's hotkeys. Code comes from [here](https://github.com/dharmapoudel/hammerspoon-config).
+
+Let the picture talk:
 
 ![cheatsheet](./screenshots/cheatsheet.png)
 
 ### Other stuff
 
-- **tmux-styled time** <kbd>⌥</kbd> + <kbd>T</kbd>
+- **tmux-styled clock** <kbd>⌥</kbd> + <kbd>T</kbd>
 
 Works even when you're watching video in fullscreen.
 
@@ -133,7 +137,7 @@ Works even when you're watching video in fullscreen.
 
 - **windows hint** <kbd>⌥</kbd> + <kbd>⇥</kbd>
 
-Focus to your windows more easier.
+Focus to your windows easier.
 
 ![windowshint](./screenshots/windowshint.png)
 
@@ -145,7 +149,7 @@ And <kbd>⌘</kbd> + <kbd>F</kbd> to <kbd>/</kbd>.
 
 - **hide desktop** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd>
 
-Hide your desktop files temporarily to avoid embarrass under some occasion.
+Hide your desktop files temporarily to avoid embarrass on some occasion.
 
 Use <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>H</kbd> to force show all hiden files.
 
@@ -173,13 +177,13 @@ For those who care about system resource:
 
 ## TODO
 
-[ ] Code cleanup. Make moduales can be easily pluged or unpluged.
+- [ ] Code cleanup. Make modules can be easily pluged or unpluged.
 
-[ ] Put mode block into menubar? As I usually hide the system menubar, this will be a better idea? Or just provide an option?
+- [ ] Put mode block into menubar? As I usually hide menubar, this will be a better idea? Or just provide an option?
 
-[ ] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don't have to list them all in this README file.
+- [ ] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don't have to list them all in this file.
 
-[ ] Safari tabs/history search
+- [ ] Safari tabs/history search
 
 ## Thanks to
 
