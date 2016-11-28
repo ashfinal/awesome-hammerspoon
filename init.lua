@@ -101,28 +101,6 @@ hs.hotkey.bind({"cmd", "alt"}, "down", function() resize_win('fcenter') end)
 hs.hotkey.bind({"cmd", "alt"}, "return", function() resize_win('center') end)
 
 
--- function getFileCount()
-    -- offlineInboxNew = os.getenv("HOME") .. "/.mutt/viziner/INBOX/new/"
-    -- local i = 0
-    -- local p = io.popen('find "'..offlineInboxNew..'" -type f')
-    -- for file in p:lines() do
-        -- i = i + 1
-    -- end
-    -- return i
--- end
-
--- oldNum = getFileCount()
-
--- function offlineimap(files)
-    -- newNum = getFileCount()
-    -- if newNum > oldNum then
-        -- hs.notify.new({title="New mail recieved!", informativeText="OfflineIMAP: Totally " .. newNum .. " Email(s)." }):send()
-    -- end
-    -- hs.reload()
--- end
--- hs.pathwatcher.new(offlineInboxNew, offlineimap):start()
-
-
 -- caffeine = hs.menubar.new()
 -- function setCaffeineDisplay(state)
     -- local result
