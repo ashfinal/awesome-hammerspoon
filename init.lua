@@ -1,4 +1,4 @@
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+hs.hotkey.bind({"cmd", "shift", "ctrl"}, "R", function()
     hs.reload()
     -- hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
     hs.alert.show("Config loaded")
@@ -15,6 +15,7 @@ function reloadConfig(files)
         hs.reload()
     end
 end
+
 -- hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 -- hs.alert.show("Config loaded")
 
@@ -23,333 +24,104 @@ hs.hotkey.bind({"cmd", "ctrl"}, "H", function()
     if hadHidden == nil then
         os.execute("chflags hidden ~/Desktop/*")
         hadHidden = 1
-        hs.alert.show("All hidden")
+        hs.alert.show(" ⚑ Set hidden")
     else
         os.execute("chflags nohidden ~/Desktop/*")
         hadHidden = nil
-        hs.alert.show("Set unhidden")
+        hs.alert.show(" ⚐ Set unhidden")
     end
 end)
 -- In case reboot or hammerspoon relaunch
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "H", function()
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "H", function()
     os.execute("chflags nohidden ~/Desktop/*")
     hadHidden = nil
-    hs.alert.show("Set unhidden")
+    hs.alert.show(" ⚐ Set unhidden")
 end)
 
-function getFileCount()
-    offlineInboxNew = os.getenv("HOME") .. "/.mutt/viziner/INBOX/new/"
-    local i = 0
-    local p = io.popen('find "'..offlineInboxNew..'" -type f')
-    for file in p:lines() do
-        i = i + 1
-    end
-    return i
-end
+hs.hotkey.bind({"cmd", "shift", "ctrl"}, "Z", function() hs.openConsole() end)
 
-oldNum = getFileCount()
-
-function offlineimap(files)
-    newNum = getFileCount()
-    if newNum > oldNum then
-        hs.notify.new({title="New mail recieved!", informativeText="OfflineIMAP: Totally " .. newNum .. " Email(s)." }):send()
-    end
-    hs.reload()
-end
-hs.pathwatcher.new(offlineInboxNew, offlineimap):start()
-
--- Window sizing:halfscreen
-
-hs.hotkey.bind({"cmd", "alt"}, "Left", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    f0 = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y
-    f.w = max.w / 2
-    f.h = max.h
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "alt"}, "Right", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x + (max.w / 2)
-    f.y = max.y
-    f.w = max.w / 2
-    f.h = max.h
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "alt"}, "Up", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y
-    f.w = max.w
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "alt"}, "Down", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y + (max.h / 2)
-    f.w = max.w
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
--- Window sizing:quarterscreen
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Left", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y
-    f.w = max.w / 2
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Up", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x + (max.w / 2)
-    f.y = max.y
-    f.w = max.w / 2
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Right", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x + (max.w / 2)
-    f.y = max.y + (max.h / 2)
-    f.w = max.w / 2
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "Down", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = max.x
-    f.y = max.y + (max.h / 2)
-    f.w = max.w / 2
-    f.h = max.h / 2
-    win:setFrame(f)
-end)
-
--- Window sizing:fixedsize & center
-
-hs.hotkey.bind({"cmd", "ctrl", "alt"}, "C", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local stepw = max.w / 50
-    local steph = max.h / 50
-
-    f.x = max.x + (stepw * 10)
-    f.y = max.y + (steph * 10)
-    f.w = stepw * 30
-    f.h = steph * 30
-    win:setFrame(f)
-end)
-
--- Window sizing:fullscreen
-
-hs.hotkey.bind({"cmd", "ctrl", "alt"}, "M", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    win:setFrame(max)
-end)
-
--- Window sizing:expand & shrink
-
-hs.hotkey.bind({"alt"}, "Right", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.w / 30
-
-    f.w = f.w + step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt"}, "Left", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.w / 30
-
-    f.w = f.w - step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt"}, "Down", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.h / 30
-
-    f.h = f.h + step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt"}, "Up", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.h / 30
-
-    f.h = f.h - step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "=", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local stepw = max.w / 100
-    local steph = max.h / 100
-
-    f.x = f.x - stepw
-    f.y = f.y - steph
-    f.w = f.w + (stepw * 2)
-    f.h = f.h + (steph * 2)
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "-", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local stepw = max.w / 100
-    local steph = max.h / 100
-
-    f.x = f.x + stepw
-    f.y = f.y + steph
-    f.w = f.w - (stepw * 2)
-    f.h = f.h - (steph * 2)
-    win:setFrame(f)
-end)
-
--- Window movement
-
-hs.hotkey.bind({"alt","shift"}, "Right", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.w / 30
-
-    f.x = f.x + step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt","shift"}, "Left", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.w / 30
-
-    f.x = f.x - step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt","shift"}, "Up", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.h / 30
-
-    f.y = f.y - step
-    win:setFrame(f)
-end)
-
-hs.hotkey.bind({"alt","shift"}, "Down", function()
-    local win = hs.window.focusedWindow()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-    local step = max.h / 30
-
-    f.y = f.y + step
-    win:setFrame(f)
-end)
-
--- Window movement:center
-
-hs.hotkey.bind({"cmd", "ctrl"}, "C", function()
-    local win = hs.window.focusedWindow()
-    f0 = win:frame()
-    local f = win:frame()
-    local screen = win:screen()
-    local max = screen:frame()
-
-    f.x = (max.w - f.w) / 2
-    f.y = (max.h - f.h) / 2
-    win:setFrame(f)
-end)
-
--- Restore the last window postion
-
-hs.hotkey.bind({"cmd", "ctrl"}, "Z", function()
-    local win = hs.window.focusedWindow()
-    win:setFrame(f0)
-end)
-
-hs.hotkey.bind({"cmd", "ctrl"}, "L", function()
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L", function()
     hs.caffeinate.lockScreen()
 end)
 
-hs.hotkey.bind("Alt", "Space", hs.hints.windowHints)
+darkblue = {red=24/255,blue=195/255,green=145/255,alpha=1}
+function show_time()
+    if not time_draw then
+        local mainScreen = hs.screen.mainScreen()
+        local mainRes = mainScreen:fullFrame()
+        local time_str = hs.styledtext.new(os.date("%H:%M"),{font={name="Impact",size=120},color=darkblue,paragraphStyle={alignment="center"}})
+        local timeframe = hs.geometry.rect((mainRes.w-300)/2,(mainRes.h-200)/2,300,150)
+        time_draw = hs.drawing.text(timeframe,time_str)
+        time_draw:setLevel(hs.drawing.windowLevels.overlay)
+        time_draw:show()
+        ttimer = hs.timer.doAfter(4, function() time_draw:delete() time_draw=nil end)
+    else
+        time_draw:delete()
+        time_draw=nil
+    end
+end
+
+hs.hotkey.bind({"cmd", "shift", "ctrl"}, "T", function() show_time() end)
+
+function resize_win(direction)
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:fullFrame()
+    local stepw = max.w/30
+    local steph = max.h/30
+    if direction == "right" then f.w = f.w+stepw end
+    if direction == "left" then f.w = f.w-stepw end
+    if direction == "up" then f.h = f.h-steph end
+    if direction == "down" then f.h = f.h+steph end
+    if direction == "halfright" then f.x = max.w/2 f.y = 0 f.w = max.w/2 f.h = max.h end
+    if direction == "halfleft" then f.x = 0 f.y = 0 f.w = max.w/2 f.h = max.h end
+    if direction == "halfup" then f.x = 0 f.y = 0 f.w = max.w f.h = max.h/2 end
+    if direction == "halfdown" then f.x = 0 f.y = max.h/2 f.w = max.w f.h = max.h/2 end
+    if direction == "cornerNE" then f.x = max.w/2 f.y = 0 f.w = max.w/2 f.h = max.h/2 end
+    if direction == "cornerSE" then f.x = max.w/2 f.y = max.h/2 f.w = max.w/2 f.h = max.h/2 end
+    if direction == "cornerNW" then f.x = 0 f.y = 0 f.w = max.w/2 f.h = max.h/2 end
+    if direction == "cornerSW" then f.x = 0 f.y = max.h/2 f.w = max.w/2 f.h = max.h/2 end
+    if direction == "center" then f.x = (max.w-f.w)/2 f.y = (max.h-f.h)/2 end
+    if direction == "fcenter" then f.x = (stepw*5) f.y = (steph*5) f.w = stepw*20 f.h = steph*20 end
+    if direction == "fullscreen" then f = max end
+    if direction == "shrink" then f.x = f.x+stepw f.y = f.y+steph f.w = f.w-(stepw*2) f.h = f.h-(steph*2) end
+    if direction == "expand" then f.x = f.x-stepw f.y = f.y-steph f.w = f.w+(stepw*2) f.h = f.h+(steph*2) end
+    if direction == "mright" then f.x = f.x+stepw end
+    if direction == "mleft" then f.x = f.x-stepw end
+    if direction == "mup" then f.y = f.y-steph end
+    if direction == "mdown" then f.y = f.y+steph end
+    win:setFrame(f)
+end
+
+hs.hotkey.bind({"cmd", "alt"}, "left", function() resize_win('halfleft') end)
+hs.hotkey.bind({"cmd", "alt"}, "right", function() resize_win('halfright') end)
+hs.hotkey.bind({"cmd", "alt"}, "up", function() resize_win('fullscreen') end)
+hs.hotkey.bind({"cmd", "alt"}, "down", function() resize_win('fcenter') end)
+hs.hotkey.bind({"cmd", "alt"}, "return", function() resize_win('center') end)
+
+
+-- function getFileCount()
+    -- offlineInboxNew = os.getenv("HOME") .. "/.mutt/viziner/INBOX/new/"
+    -- local i = 0
+    -- local p = io.popen('find "'..offlineInboxNew..'" -type f')
+    -- for file in p:lines() do
+        -- i = i + 1
+    -- end
+    -- return i
+-- end
+
+-- oldNum = getFileCount()
+
+-- function offlineimap(files)
+    -- newNum = getFileCount()
+    -- if newNum > oldNum then
+        -- hs.notify.new({title="New mail recieved!", informativeText="OfflineIMAP: Totally " .. newNum .. " Email(s)." }):send()
+    -- end
+    -- hs.reload()
+-- end
+-- hs.pathwatcher.new(offlineInboxNew, offlineimap):start()
+
 
 -- caffeine = hs.menubar.new()
 -- function setCaffeineDisplay(state)
@@ -371,3 +143,13 @@ hs.hotkey.bind("Alt", "Space", hs.hints.windowHints)
 -- end
 
 -- hs.hotkey.bind({"cmd", "ctrl", "alt"}, "L", function() caffeineClicked() end)
+
+require "modalmgr"
+require "widgets/netspeed"
+require "widgets/calendar"
+require "widgets/analogclock"
+require "modes/indicator"
+require "modes/clipshow"
+require "modes/aria2"
+require "modes/cheatsheet"
+
