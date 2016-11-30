@@ -127,21 +127,15 @@ function updateClock()
     local houreangle = 30*hournum+30/60*minnum+30/60/60*secnum
 
     sechand:setArcAngles(0,seceangle)
-    if seceangle >= 360 then
-        seceangle = 0
-    end
     minhand1:setArcAngles(0,mineangle)
     minhand2:setArcAngles(0,mineangle)
     minhand3:setArcAngles(0,mineangle)
-    if mineangle >= 360 then
-        mineangle = 0
+    if houreangle >= 360 then
+        houreangle = houreangle - 360
     end
     hourhand1:setArcAngles(0,houreangle)
     hourhand2:setArcAngles(0,houreangle)
     hourhand3:setArcAngles(0,houreangle)
-    if houreangle >= 360 then
-        houreangle = 0
-    end
 end
 
 if not launch_analogclock then launch_analogclock = true end
