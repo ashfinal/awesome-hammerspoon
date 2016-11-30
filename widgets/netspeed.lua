@@ -38,7 +38,7 @@ end
 
 netspeedM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'N')
 table.insert(modal_list, netspeedM)
-function netspeedM:entered() modal_stat('netspeed',gray) disp_netspeed() end
+function netspeedM:entered() modal_stat('netspeed',black50) disp_netspeed() end
 function netspeedM:exited()
     if dock_launched then
         modal_stat('dock',black)

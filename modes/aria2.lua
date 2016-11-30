@@ -1,5 +1,4 @@
-aria2URL = "http://macplay.coding.me/aria/"
-
+if not aria2URL then aria2URL = "http://macplay.coding.me/aria/" end
 function aria2ctl()
     if not aria2GUI then
         local mainScreen = hs.screen.mainScreen()
@@ -19,7 +18,7 @@ end
 
 downloadM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'd')
 table.insert(modal_list, downloadM)
-function downloadM:entered() modal_stat('download',green) aria2ctl() end
+function downloadM:entered() modal_stat('download',osx_green) aria2ctl() end
 function downloadM:exited()
     if dock_launched then
         modal_stat('dock',black)
@@ -32,4 +31,4 @@ end
 downloadM:bind('alt', 'D', function() downloadM:exit() end)
 downloadM:bind('', 'escape', function() downloadM:exit() end)
 downloadM:bind('', 'Q', function() downloadM:exit() end)
-downloadM:bind('ctrl', 'escape', function() downloadM:exit() aria2GUI:delete() aria2GUI=nil end)
+downloadM:bind('ctrl', 'escape', 'Destroy Webclient', function() downloadM:exit() aria2GUI:delete() aria2GUI=nil end)

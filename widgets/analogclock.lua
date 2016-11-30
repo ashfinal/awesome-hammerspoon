@@ -1,13 +1,14 @@
-local mainScreen = hs.screen.mainScreen()
-local mainRes = mainScreen:fullFrame()
-aclockcenter = {x=mainRes.w-200-20,y=200}
-launch_analogclock = true
-
 seccolor = {red=158/255,blue=158/255,green=158/255,alpha=0.5}
 tofilledcolor = {red=1,blue=1,green=1,alpha=0.1}
 secfillcolor = {red=158/255,blue=158/255,green=158/255,alpha=0.1}
 mincolor = {red=24/255,blue=195/255,green=145/255,alpha=0.75}
 hourcolor = {red=236/255,blue=39/255,green=109/255,alpha=0.75}
+
+if not aclockcenter then
+    local mainScreen = hs.screen.mainScreen()
+    local mainRes = mainScreen:fullFrame()
+    aclockcenter = {x=mainRes.w-200-20,y=200}
+end
 
 function showAnalogClock()
     if not bgcirle then
@@ -143,7 +144,7 @@ function updateClock()
     end
 end
 
-if launch_analogclock == true then
-    showAnalogClock()
-end
+if not launch_analogclock then launch_analogclock = true end
+if launch_analogclock == true then showAnalogClock() end
+
 hs.hotkey.bind({"cmd", "shift", "ctrl"}, "E", function() showAnalogClock() end)
