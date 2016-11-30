@@ -20,8 +20,8 @@ function drawToday()
     local today = math.tointeger(os.date("%d"))
     local firstdayofcurrentmonth = os.time{year=currentyear, month=currentmonth, day=1}
     local lastdayoflastmonth = os.date("*t", firstdayofcurrentmonth-24*60*60)
-    local weekyearoflastday = math.floor(lastdayoflastmonth.yday/7)+1
-    local weekyearoftoday = math.floor(os.date("*t").yday/7)+1
+    local weekyearoflastday = math.ceil(lastdayoflastmonth.yday/7)
+    local weekyearoftoday = math.ceil(os.date("*t").yday/7)
     local rowofcurrentmonth = weekyearoftoday-weekyearoflastday+1
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205

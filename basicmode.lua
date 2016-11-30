@@ -26,11 +26,10 @@ end
 viewM:bind('alt', 'V', function() viewM:exit() end)
 viewM:bind('', 'escape', function() viewM:exit() end)
 viewM:bind('', 'tab', function() showavailableHotkey() end)
-viewM:bind('', 'H', 'Left', function() hs.eventtap.scrollWheel({1,0},{},"line") end, '', function() hs.eventtap.scrollWheel({1,0},{},"line") end)
-viewM:bind('', 'L', 'Right', function() hs.eventtap.scrollWheel({-1,0},{},"line") end, '', function() hs.eventtap.scrollWheel({-1,0},{},"line") end)
-viewM:bind('', 'J', 'Down', function() hs.eventtap.scrollWheel({0,-1},{},"line") end, '', function() hs.eventtap.scrollWheel({0,-1},{},"line") end)
-viewM:bind('', 'K', 'Up', function() hs.eventtap.scrollWheel({0,1},{},"line") end, '', function() hs.eventtap.scrollWheel({0,1},{},"line") end)
-viewM:bind('', '/', 'Find', function() hs.eventtap.keyStroke({'cmd'},'f') end)
+viewM:bind('', 'H', 'Left', function() hs.eventtap.scrollWheel({1,0},{},"line") end, nil, function() hs.eventtap.scrollWheel({1,0},{},"line") end)
+viewM:bind('', 'L', 'Right', function() hs.eventtap.scrollWheel({-1,0},{},"line") end, nil, function() hs.eventtap.scrollWheel({-1,0},{},"line") end)
+viewM:bind('', 'J', 'Down', function() hs.eventtap.scrollWheel({0,-1},{},"line") end, nil, function() hs.eventtap.scrollWheel({0,-1},{},"line") end)
+viewM:bind('', 'K', 'Up', function() hs.eventtap.scrollWheel({0,1},{},"line") end, nil, function() hs.eventtap.scrollWheel({0,1},{},"line") end)
 
 
 resizeM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'r')
