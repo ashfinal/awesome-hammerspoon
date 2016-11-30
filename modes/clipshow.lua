@@ -12,6 +12,7 @@ function clipshow()
                 centerimgframe = hs.geometry.rect((mainRes.w-imagesize.w)/2,(mainRes.h-imagesize.h)/2,imagesize.w,imagesize.h)
             end
             imageshow = hs.drawing.image(centerimgframe,imagedata)
+            imageshow:setLevel(hs.drawing.windowLevels.modalPanel)
             imageshow:show()
             clipDrawn = true
             imageshow:setClickCallback(nil,function() imageshow:delete() clipboardM:exit() clipDrawn=nil end)
@@ -23,14 +24,15 @@ function clipshow()
         elseif clipType.styledText == true then
             local textdata = hs.pasteboard.readString()
             -- textdata = hs.pasteboard.readStyledText()
-            local clipBGcolor = {["red"]=0,["blue"]=0,["green"]=0,["alpha"]=0.75}
             local bgframe = hs.geometry.rect(0,mainRes.h/5,mainRes.w,mainRes.h/5*3)
             clipbackground = hs.drawing.rectangle(bgframe)
+            clipbackground:setLevel(hs.drawing.windowLevels.modalPanel)
             clipbackground:setFill(true)
-            clipbackground:setFillColor(clipBGcolor)
+            clipbackground:setFillColor({red=0,blue=0,green=0,alpha=0.75})
             clipbackground:show()
             textframe = hs.geometry.rect(bgframe.x+20,bgframe.y+20,bgframe.w-40,bgframe.h-40)
             textshow = hs.drawing.text(textframe,textdata)
+            textshow:setLevel(hs.drawing.windowLevels.modalPanel)
             if string.len(textdata) < 180 then
                 textshow:setTextSize(80.0)
             else
@@ -41,6 +43,7 @@ function clipshow()
             clipbackground:setClickCallback(nil,function() clipbackground:delete() textshow:delete() clipboardM:exit() clipDrawn=nil end)
         else
             hs.alert.show("Empty clipboard or unsupported type.")
+            if clipboardM then clipboardM:exit() end
         end
     end
 end

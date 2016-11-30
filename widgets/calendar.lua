@@ -2,10 +2,11 @@ caltodaycolor = hs.drawing.color.white
 calcolor = {red=235/255,blue=235/255,green=235/255}
 calbgcolor = {red=0,blue=0,green=0,alpha=0.3}
 
-local mainScreen = hs.screen.mainScreen()
-local mainRes = mainScreen:fullFrame()
-caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
-launch_calendar = true
+if not caltopleft then
+    local mainScreen = hs.screen.mainScreen()
+    local mainRes = mainScreen:fullFrame()
+    caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
+end
 
 -- task_calendar = hs.styledtext.ansi(hs.execute("/usr/local/opt/task/bin/task calendar"):gsub("-",""),{font={name="Courier",size=16},color=red})
 
@@ -74,7 +75,7 @@ function showCalendar()
     end
 end
 
-if launch_calendar == true then
-    showCalendar()
-end
+if not launch_calendar then launch_calendar=true end
+if launch_calendar == true then showCalendar() end
+
 hs.hotkey.bind({"cmd", "shift", "ctrl"}, "K", function() showCalendar() end)

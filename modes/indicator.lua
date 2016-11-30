@@ -1,13 +1,11 @@
-indicator_joinallspaces = true
-red = hs.drawing.color.osx_red
-green = hs.drawing.color.osx_green
+if not indicator_joinallspaces then indicator_joinallspaces = true end
 
 function timer_indicator(timelen)
     if not indicator_used then
         indicator_used = hs.drawing.rectangle({0,0,0,0})
         indicator_used:setStroke(false)
         indicator_used:setFill(true)
-        indicator_used:setFillColor(red)
+        indicator_used:setFillColor(osx_red)
         indicator_used:setAlpha(0.35)
         indicator_used:setLevel(hs.drawing.windowLevels.modalPanel)
         if indicator_joinallspaces == true then
@@ -18,7 +16,7 @@ function timer_indicator(timelen)
         indicator_left = hs.drawing.rectangle({0,0,0,0})
         indicator_left:setStroke(false)
         indicator_left:setFill(true)
-        indicator_left:setFillColor(green)
+        indicator_left:setFillColor(osx_green)
         indicator_left:setAlpha(0.35)
         indicator_left:setLevel(hs.drawing.windowLevels.modalPanel)
         if indicator_joinallspaces == true then
@@ -66,7 +64,15 @@ end
 
 timerM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'I')
 table.insert(modal_list, timerM)
-function timerM:entered() modal_stat('timer',tomato) end
+function timerM:entered()
+    modal_stat('timer',tomato)
+    if hotkeytext then
+        hotkeytext:delete()
+        hotkeytext=nil
+        hotkeybg:delete()
+        hotkeybg=nil
+    end
+end
 function timerM:exited()
     if dock_launched then
         modal_stat('dock',black)
@@ -74,18 +80,25 @@ function timerM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if hotkeytext then
+        hotkeytext:delete()
+        hotkeytext=nil
+        hotkeybg:delete()
+        hotkeybg=nil
+    end
 end
 timerM:bind('alt', 'I', function() timerM:exit() end)
 timerM:bind('', 'escape', function() timerM:exit() end)
 timerM:bind('', 'Q', function() timerM:exit() end)
-timerM:bind('', '1', function() timer_indicator(10) timerM:exit() end)
-timerM:bind('', '2', function() timer_indicator(20) timerM:exit() end)
-timerM:bind('', '3', function() timer_indicator(30) timerM:exit() end)
-timerM:bind('', '4', function() timer_indicator(40) timerM:exit() end)
-timerM:bind('', '5', function() timer_indicator(50) timerM:exit() end)
-timerM:bind('', '6', function() timer_indicator(60) timerM:exit() end)
-timerM:bind('', '7', function() timer_indicator(70) timerM:exit() end)
-timerM:bind('', '8', function() timer_indicator(80) timerM:exit() end)
-timerM:bind('', '9', function() timer_indicator(90) timerM:exit() end)
-timerM:bind('', '0', function() timer_indicator(5) timerM:exit() end)
-timerM:bind('', 'return', function() timer_indicator(25) timerM:exit() end)
+timerM:bind('', 'tab', function() showavailableHotkey() end)
+timerM:bind('', '1', '10 minute countdown', function() timer_indicator(10) timerM:exit() end)
+timerM:bind('', '2', '20 minute countdown', function() timer_indicator(20) timerM:exit() end)
+timerM:bind('', '3', '30 minute countdown', function() timer_indicator(30) timerM:exit() end)
+timerM:bind('', '4', '40 minute countdown', function() timer_indicator(40) timerM:exit() end)
+timerM:bind('', '5', '50 minute countdown', function() timer_indicator(50) timerM:exit() end)
+timerM:bind('', '6', '60 minute countdown', function() timer_indicator(60) timerM:exit() end)
+timerM:bind('', '7', '70 minute countdown', function() timer_indicator(70) timerM:exit() end)
+timerM:bind('', '8', '80 minute countdown', function() timer_indicator(80) timerM:exit() end)
+timerM:bind('', '9', '90 minute countdown', function() timer_indicator(90) timerM:exit() end)
+timerM:bind('', '0', '5 minute countdown', function() timer_indicator(5) timerM:exit() end)
+timerM:bind('', 'return', '25 minute countdown', function() timer_indicator(25) timerM:exit() end)

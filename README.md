@@ -26,11 +26,15 @@ And this means a lot.
 - Less keystrokes, less memory pressure. You can press <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode, release, then press single key <kbd>S</kbd> to launch Safari, or <kbd>C</kbd> to lauch Chrome. Sounds good? You keep your pace, no rush.
 - Easy to extend, you can create your own modals if you like. For example, `Finder` mode, in which you press <kbd>T</kbd> to open Terminal here, press <kbd>S</kbd> to send files to predefined path, press <kbd>C</kbd> to upload images to cloud storage.
 
-**NOTICE:** All key bindings are global. After your work you'd better quit current mode back to normal. Or, you carefully pick your key bindings to avoid conflict with other hotkeys.
+**NOTICE:** After your work you'd better quit current mode back to normal. Or, you carefully pick your key bindings to avoid conflict with other hotkeys.
 
 ## How to use?
 
 So, following above procedures, you have reloaded Hammerspoon's configutation. Let's see what we've got here.
+
+**UPDATE:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
+
+![tips](./screenshots/tips.png)
 
 ### Desktop widgets
 
@@ -67,7 +71,9 @@ Use <kbd>H</kbd>, <kbd>L</kbd>, <kbd>J</kbd>, <kbd>K</kbd> to **resize** windows
 
 Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.
 
-Use <kbd>⌘</kbd> + <kbd>H/L/J/K</kbd> to **move** windows around.
+Use <kbd>⌘</kbd> + <kbd>H/L/J/K</kbd> to cycle through active windows.
+
+Use <kbd>⇧</kbd> + <kbd>H/L/J/K</kbd> to **move** windows around.
 
 Use <kbd>⌃</kbd> + <kbd>H/L/J/K</kbd> to resize windows to 1/2 of screen.
 
@@ -75,15 +81,24 @@ Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.
 
 Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.
 
-Use <kbd>⇥</kbd> to cycle through active windows.
-
 And of course, you can use system-wide <kbd>⌘</kbd> + <kbd>⇥</kbd> to switch between active applications.
 
 ### App launcher(app mode)
 
 Use <kbd>F</kbd> to launch Finder or focus the existing window; <kbd>S</kbd> for Safari; <kbd>T</kbd> for Terminal; <kbd>V</kbd> for Activity Monitor; <kbd>Y</kbd> for System Preferences... etc.
 
-If you want to define your own hotkeys, please refer to the `modalmgr.lua` file.
+If you want to define your own hotkeys, please create `~/.hammerspoon/private/awesomeconfig.lua` file, then add something like below:
+
+``` lua
+applist = {
+    {shortcut = 'i',appname = 'iTerm'},
+    {shortcut = 'l',appname = 'Sublime Text'},
+    {shortcut = 'm',appname = 'MacVim'},
+    {shortcut = 'o',appname = 'LibreOffice'},
+    {shortcut = 'r',appname = 'Firefox'},
+}
+
+```
 
 ### Timer indicator(timer mode)
 
@@ -175,13 +190,61 @@ For those who care about system resource:
 
 ![memusage](./screenshots/memusage.png)
 
+## Customization
+
+Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it before doing that.
+
+1. Add application launching hotkey
+
+    See the section `App launcher(app mode)` above.
+
+2. Add/Remove the plugin modules
+
+    default modules:
+
+    ``` lua
+    module_list = {
+        "basicmode",
+        "widgets/netspeed",
+        "widgets/calendar",
+        "widgets/analogclock",
+        "modes/indicator",
+        "modes/clipshow",
+        "modes/aria2",
+        "modes/cheatsheet",
+    }
+    ```
+
+    For example, remove `aria2` module(`Download` mode), add your own module `mymodule`:
+
+    ``` lua
+    module_list = {
+        "basicmode",
+        "widgets/netspeed",
+        "widgets/calendar",
+        "widgets/analogclock",
+        "modes/indicator",
+        "modes/clipshow",
+        "modes/cheatsheet",
+        "private/mymodule",
+    }
+    ```
+
+3. Create your own modal key bindings
+
+    See http://www.hammerspoon.org/docs/hs.hotkey.modal.html, also you can refer to my scripts.
+
 ## TODO
 
-- [ ] Code cleanup. Make modules can be easily pluged or unpluged.
+- [X] Code cleanup. Make modules can be easily pluged or unpluged.
+
+    Done. It should work now, also some global options can be set by using `~/.hammerspoon/private/awesomeconfig.lua` file.
 
 - [ ] Put mode block into menubar? As I usually hide menubar, this will be a better idea? Or just provide an option?
 
-- [ ] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don't have to list them all in this file.
+- [X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don't have to list them all in this file.
+
+    Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.
 
 - [ ] Safari tabs/history search
 
