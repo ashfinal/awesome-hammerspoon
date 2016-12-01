@@ -56,7 +56,7 @@ modalmgr:bind('alt', 'T', 'Show Digital Clock', function() show_time() end)
 if viewM then
     modalmgr:bind('alt', 'V', 'Enter View Mode', function() exit_others(viewM) viewM:enter() end)
 end
-modalmgr:bind('alt', 'Z', 'Open Hammerspoon Console', function() hs.openConsole() end)
+modalmgr:bind('alt', 'Z', 'Open Hammerspoon Console', function() hs.toggleConsole() end)
 modalmgr:bind('alt', 'tab', 'Show Windows Hint', function() exit_others(nil) hs.hints.windowHints() end)
 
 if modalmgr then

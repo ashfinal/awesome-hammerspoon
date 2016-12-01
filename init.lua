@@ -1,6 +1,3 @@
-hs.hotkey.alertDuration=0
-hs.window.animationDuration = 0
-
 white = hs.drawing.color.white
 black = hs.drawing.color.black
 blue = hs.drawing.color.blue
@@ -67,7 +64,7 @@ hs.hotkey.bind({"cmd", "ctrl", "shift"}, "H", "Force Show Files on Desktop ", fu
     hs.alert.show(" ⚐ Set unhidden")
 end)
 
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "Z", "Show Hammerspoon Console", function() hs.openConsole() end)
+hs.hotkey.bind({"cmd", "shift", "ctrl"}, "Z", "Show Hammerspoon Console", function() hs.toggleConsole() end)
 
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L", function()
     hs.caffeinate.lockScreen()
