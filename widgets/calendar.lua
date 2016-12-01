@@ -11,30 +11,48 @@ end
 -- task_calendar = hs.styledtext.ansi(hs.execute("/usr/local/opt/task/bin/task calendar"):gsub("-",""),{font={name="Courier",size=16},color=red})
 
 function drawToday()
-    if todaycover ~= nil then
-        todaycover:delete()
-        todaycover=nil
-    end
+    -- How to get yearweek of someday
+    -- 1+tolastdayof1stweek+7*(yearweek-1)=yday
+    -- tolastdayof1stweek=7-weekdayof1stday
+    -- then
+    -- yearweek=(yday-1-tolastdayof1stweek)/7+1
+
     local currentyear = os.date("%Y")
     local currentmonth = os.date("%m")
     local today = math.tointeger(os.date("%d"))
-    local firstdayofcurrentmonth = os.time{year=currentyear, month=currentmonth, day=1}
+    local weekdayof1stday = os.date("*t",os.time{year=currentyear,month=1,day=1,hour      =0}).wday
+    local tolastdayof1stweek = 7-weekdayof1stday
+    local todayyday = os.date("*t").yday
+    if todayyday-1-tolastdayof1stweek<0 then
+        todayyearweek = 1
+    else
+        todayyearweek = math.ceil((todayyday-1-tolastdayof1stweek)/7)+1
+    end
+    local firstdayofcurrentmonth = os.time{year=currentyear, month=currentmonth, day=1, hour=0}
     local lastdayoflastmonth = os.date("*t", firstdayofcurrentmonth-24*60*60)
-    local weekyearoflastday = math.ceil(lastdayoflastmonth.yday/7)
-    local weekyearoftoday = math.ceil(os.date("*t").yday/7)
-    local rowofcurrentmonth = weekyearoftoday-weekyearoflastday+1
+    local lastdayyday = lastdayoflastmonth.yday
+    if lastdayyday-1-tolastdayof1stweek<0 then
+        lastdayyearweek = 1
+    else
+        lastdayyearweek = math.ceil((lastdayyday-1-tolastdayof1stweek)/7)+1
+    end
+    local rowofcurrentmonth = todayyearweek-lastdayyearweek+1
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
     local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
-    todaycover = hs.drawing.rectangle(todaycoverrect)
-    todaycover:setStroke(false)
-    todaycover:setRoundedRectRadii(3,3)
-    todaycover:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-    todaycover:setLevel(hs.drawing.windowLevels.desktopIcon)
-    todaycover:setFillColor(caltodaycolor)
-    todaycover:setAlpha(0.3)
-    todaycover:show()
+    if not todaycover then
+        todaycover = hs.drawing.rectangle(todaycoverrect)
+        todaycover:setStroke(false)
+        todaycover:setRoundedRectRadii(3,3)
+        todaycover:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
+        todaycover:setLevel(hs.drawing.windowLevels.desktopIcon)
+        todaycover:setFillColor(caltodaycolor)
+        todaycover:setAlpha(0.3)
+        todaycover:show()
+    else
+        todaycover:setFrame(todaycoverrect)
+    end
 end
 
 function updateCal()
