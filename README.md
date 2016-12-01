@@ -144,31 +144,33 @@ Let the picture talk:
 
 ### Other stuff
 
-- **tmux-styled clock** <kbd>⌥</kbd> + <kbd>T</kbd>
+- **Tmux-styled Clock** <kbd>⌥</kbd> + <kbd>T</kbd>
 
 Works even when you're watching video in fullscreen.
 
 ![tmuxtime](./screenshots/tmuxtime.png)
 
-- **windows hint** <kbd>⌥</kbd> + <kbd>⇥</kbd>
+- **Windows Hint** <kbd>⌥</kbd> + <kbd>⇥</kbd>
 
 Focus to your windows easier.
 
 ![windowshint](./screenshots/windowshint.png)
 
-- **`view` mode** <kbd>⌥</kbd> + <kbd>V</kbd>
+- **`View` Mode** <kbd>⌥</kbd> + <kbd>V</kbd>
 
-Simply remap <kbd>⇡/⇣/⇠/⇢</kbd> to <kbd>K/J/H/L</kbd> respectively.
+Use <kbd>K/J/H/L</kbd> to scroll around.
 
-And <kbd>⌘</kbd> + <kbd>F</kbd> to <kbd>/</kbd>.
+Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>K/J/H/L</kbd> to move mouse around.
 
-- **hide desktop** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd>
+Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
+
+- **Hide Desktop** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd>
 
 Hide your desktop files temporarily to avoid embarrass on some occasion.
 
 Use <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>H</kbd> to force show all hiden files.
 
-- **lock screen** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd>
+- **Lock Screen** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd>
 
 -------
 
@@ -247,6 +249,8 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.
 
 - [ ] Safari tabs/history search
+
+- [ ] Make opening URL works for ordinary string in `clipboard` mode
 
 ## Thanks to
 
