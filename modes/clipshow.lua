@@ -18,29 +18,36 @@ function clipshow()
             imageshow:setClickCallback(nil,function() imageshow:delete() clipboardM:exit() clipDrawn=nil end)
         elseif clipType.URL == true then
             local URLdata = hs.pasteboard.readURL()
-            defaultbrowser = hs.urlevent.getDefaultHandler('http')
+            local defaultbrowser = hs.urlevent.getDefaultHandler('http')
             hs.urlevent.openURLWithBundle(URLdata,defaultbrowser)
             clipboardM:exit()
         elseif clipType.styledText == true then
             local textdata = hs.pasteboard.readString()
             -- textdata = hs.pasteboard.readStyledText()
-            local bgframe = hs.geometry.rect(0,mainRes.h/5,mainRes.w,mainRes.h/5*3)
-            clipbackground = hs.drawing.rectangle(bgframe)
-            clipbackground:setLevel(hs.drawing.windowLevels.modalPanel)
-            clipbackground:setFill(true)
-            clipbackground:setFillColor({red=0,blue=0,green=0,alpha=0.75})
-            clipbackground:show()
-            textframe = hs.geometry.rect(bgframe.x+20,bgframe.y+20,bgframe.w-40,bgframe.h-40)
-            textshow = hs.drawing.text(textframe,textdata)
-            textshow:setLevel(hs.drawing.windowLevels.modalPanel)
-            if string.len(textdata) < 180 then
-                textshow:setTextSize(80.0)
+            local matchurl = string.match(textdata,'https?://%w[-.%w]*:?%d*/?[%w_.~!*:@&+$/?%%#=-]*')
+            if matchurl == textdata then
+                local defaultbrowser = hs.urlevent.getDefaultHandler('http')
+                hs.urlevent.openURLWithBundle(textdata,defaultbrowser)
+                clipboardM:exit()
             else
-                textshow:setTextSize(50.0)
+                local bgframe = hs.geometry.rect(0,mainRes.h/5,mainRes.w,mainRes.h/5*3)
+                clipbackground = hs.drawing.rectangle(bgframe)
+                clipbackground:setLevel(hs.drawing.windowLevels.modalPanel)
+                clipbackground:setFill(true)
+                clipbackground:setFillColor({red=0,blue=0,green=0,alpha=0.75})
+                clipbackground:show()
+                textframe = hs.geometry.rect(bgframe.x+20,bgframe.y+20,bgframe.w-40,bgframe.h-40)
+                textshow = hs.drawing.text(textframe,textdata)
+                textshow:setLevel(hs.drawing.windowLevels.modalPanel)
+                if string.len(textdata) < 180 then
+                    textshow:setTextSize(80.0)
+                else
+                    textshow:setTextSize(50.0)
+                end
+                textshow:show()
+                clipDrawn = true
+                clipbackground:setClickCallback(nil,function() clipbackground:delete() textshow:delete() clipboardM:exit() clipDrawn=nil end)
             end
-            textshow:show()
-            clipDrawn = true
-            clipbackground:setClickCallback(nil,function() clipbackground:delete() textshow:delete() clipboardM:exit() clipDrawn=nil end)
         else
             hs.alert.show("Empty clipboard or unsupported type.")
             if clipboardM then clipboardM:exit() end
