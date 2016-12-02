@@ -236,6 +236,23 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
     See http://www.hammerspoon.org/docs/hs.hotkey.modal.html, also you can refer to my scripts.
 
+4. Global options
+
+    These options should be in `~/.hammerspoon/private/awesomeconfig.lua` file.
+    ``` lua
+    aria2URL = "http://www.myaria2.com/"
+    -- You may want to use your own aria2 webclient. Local files also are supported, like this:
+    aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
+    idle_to_which = "never/netspeed/hide"
+    -- Make mode block idle to netspeed or just hide.
+    show_applauncher_tips = true/false
+    -- When enter `app` mode show or hide applauncher tips automatically.
+    aclockcenter = {x=200,y=200}
+    -- Put analogclock to somewhere by defining center point.
+    caltopleft = {200,200}
+    -- Put calendar to somewhere by defining topleft point.
+    ```
+
 ## TODO
 
 - [X] Code cleanup. Make modules can be easily pluged or unpluged.
@@ -250,7 +267,9 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
 - [ ] Safari tabs/history search
 
-- [ ] Make opening URL works for ordinary string in `clipboard` mode
+- [X] Make opening URL works for ordinary string in `clipboard` mode
+
+    Should work now.
 
 ## Thanks to
 
