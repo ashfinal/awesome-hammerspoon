@@ -38,6 +38,7 @@ So, following above procedures, you have reloaded Hammerspoon's configutation. L
 
 - Add it to your config:
 
+``` lua
     module_list = {
         "basicmode",
         "widgets/netspeed",
@@ -49,6 +50,7 @@ So, following above procedures, you have reloaded Hammerspoon's configutation. L
         "modes/cheatsheet",
         **"widgets/hcalendar.lua",**
     }
+```
 
 - Move it to somewhere else on your desktop:
 
