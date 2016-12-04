@@ -1,6 +1,3 @@
-hs.hotkey.alertDuration=0
-hs.window.animationDuration = 0
-
 viewM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'v')
 table.insert(modal_list, viewM)
 function viewM:entered()

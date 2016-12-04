@@ -32,7 +32,7 @@ And this means a lot.
 
 So, following above procedures, you have reloaded Hammerspoon's configutation. Let's see what we've got here.
 
-**UPDATE:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
+**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
 
 ![hcal](./screenshots/hcal.png)
 
@@ -54,11 +54,11 @@ So, following above procedures, you have reloaded Hammerspoon's configutation. L
 
 - Move it to somewhere else on your desktop:
 
-    And the below line to the `~/.hammerspoon/private/awesomeconfig.lua` file.
+    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
 
     `hcaltopleft = {40,658}`
 
-**UPDATE:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
+**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
 
 ![tips](./screenshots/tips.png)
 
@@ -97,11 +97,11 @@ Use <kbd>H</kbd>, <kbd>L</kbd>, <kbd>J</kbd>, <kbd>K</kbd> to **resize** windows
 
 Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.
 
-Use <kbd>⌘</kbd> + <kbd>H/L/J/K</kbd> to cycle through active windows.
+Use <kbd>⌘</kbd> + <kbd>H/J/K/L</kbd> to cycle through active windows.
 
-Use <kbd>⇧</kbd> + <kbd>H/L/J/K</kbd> to **move** windows around.
+Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to **move** windows around.
 
-Use <kbd>⌃</kbd> + <kbd>H/L/J/K</kbd> to resize windows to 1/2 of screen.
+Use <kbd>⌃</kbd> + <kbd>H/J/K/L</kbd> to resize windows to 1/2 of screen.
 
 Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.
 
@@ -184,9 +184,9 @@ Focus to your windows easier.
 
 - **`View` Mode** <kbd>⌥</kbd> + <kbd>V</kbd>
 
-Use <kbd>K/J/H/L</kbd> to scroll around.
+Use <kbd>H/J/K/L</kbd> to scroll around.
 
-Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>K/J/H/L</kbd> to move mouse around.
+Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to move mouse around.
 
 Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
 
@@ -266,17 +266,22 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
     These options should be in `~/.hammerspoon/private/awesomeconfig.lua` file.
     ``` lua
+    -- You may want to use your own aria2 webclient.
     aria2URL = "http://www.myaria2.com/"
-    -- You may want to use your own aria2 webclient. Local files also are supported, like this:
+    -- Local files also are supported, like this:
     aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
-    idle_to_which = "never/netspeed/hide"
+
     -- Make mode block idle to netspeed or just hide.
-    show_applauncher_tips = true/false
+    idle_to_which = "never/netspeed/hide"
+
     -- When enter `app` mode show or hide applauncher tips automatically.
-    aclockcenter = {x=200,y=200}
+    show_applauncher_tips = true/false
+
     -- Put analogclock to somewhere by defining center point.
-    caltopleft = {200,200}
+    aclockcenter = {x=200,y=200}
+
     -- Put calendar to somewhere by defining topleft point.
+    caltopleft = {200,200}
     ```
 
 ## TODO
