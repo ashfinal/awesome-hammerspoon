@@ -1,3 +1,6 @@
+hs.hotkey.alertDuration=0
+hs.window.animationDuration = 0
+
 white = hs.drawing.color.white
 black = hs.drawing.color.black
 blue = hs.drawing.color.blue
@@ -263,4 +266,4 @@ for i=1,#module_list do
     require(module_list[i])
 end
 
-require "modalmgr"
+if #modal_list > 0 then require(modalmgr) end
