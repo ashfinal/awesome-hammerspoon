@@ -266,4 +266,4 @@ for i=1,#module_list do
     require(module_list[i])
 end
 
-if #modal_list > 0 then require(modalmgr) end
+if #modal_list > 0 then require("modalmgr") end

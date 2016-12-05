@@ -32,36 +32,6 @@ And this means a lot.
 
 So, following above procedures, you have reloaded Hammerspoon's configutation. Let's see what we've got here.
 
-**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
-
-![hcal](./screenshots/hcal.png)
-
-- Add it to your config:
-
-``` lua
-    module_list = {
-        "basicmode",
-        "widgets/netspeed",
-        "widgets/calendar",
-        "widgets/analogclock",
-        "modes/indicator",
-        "modes/clipshow",
-        "modes/aria2",
-        "modes/cheatsheet",
-        **"widgets/hcalendar.lua",**
-    }
-```
-
-- Move it to somewhere else on your desktop:
-
-    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
-
-    `hcaltopleft = {40,658}`
-
-**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
-
-![tips](./screenshots/tips.png)
-
 ### Desktop widgets
 
 As you may have noticed, there are two clean, nice-looking desktop widgets, analogclock and calendar. Usually we don't interact with them, but I do hope you like them.
@@ -283,6 +253,36 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     -- Put calendar to somewhere by defining topleft point.
     caltopleft = {200,200}
     ```
+
+**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
+
+![hcal](./screenshots/hcal.png)
+
+- Add it to your config:
+
+``` lua
+    module_list = {
+        "basicmode",
+        "widgets/netspeed",
+        "widgets/calendar",
+        "widgets/analogclock",
+        "modes/indicator",
+        "modes/clipshow",
+        "modes/aria2",
+        "modes/cheatsheet",
+        **"widgets/hcalendar.lua",**
+    }
+```
+
+- Move it to somewhere else on your desktop:
+
+    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
+
+    `hcaltopleft = {40,658}`
+
+**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
+
+![tips](./screenshots/tips.png)
 
 ## TODO
 
