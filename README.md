@@ -194,6 +194,16 @@ For those who care about system resource:
 
 -------
 
+**UPDATE 3** Add `hsearch` module(default included), use <kbd>⌥</kbd> + <kbd>G</kbd> to activate.
+
+![hsearch](./screenshots/hsearch.gif)
+
+Now you can search Safari tabs and online dictionary(use <kbd>⌃</kbd> + <kbd>⇥</kbd> to switch between them).
+
+Dictionary search supports `Word Suggestion`(see the above gif) and English thesaurus(use <kbd>⌃</kbd> + <kbd>D</kbd> to request).
+
+And did you notice that the translation is instant? Due to the uncertainty of asynchronous request, usually you need to append a space to end of the word to fully translate it.
+
 **UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
 
 ![hcal](./screenshots/hcal.png)
@@ -304,7 +314,9 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
     Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.
 
-- [ ] Safari tabs/history search
+- [X] Safari tabs/history search
+
+    Done. Even better. See the above **UPDATE 3**.
 
 - [X] Make opening URL works for ordinary string in `clipboard` mode
 
