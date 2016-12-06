@@ -194,7 +194,7 @@ For those who care about system resource:
 
 -------
 
-**UPDATE 3** Add `hsearch` module(default included), use <kbd>⌥</kbd> + <kbd>G</kbd> to activate.
+**UPDATE 3:** Add `hsearch` module(default included), use <kbd>⌥</kbd> + <kbd>G</kbd> to activate.
 
 ![hsearch](./screenshots/hsearch.gif)
 
@@ -203,6 +203,17 @@ Now you can search Safari tabs and online dictionary(use <kbd>⌃</kbd> + <kbd>�
 Dictionary search supports `Word Suggestion`(see the above gif) and English thesaurus(use <kbd>⌃</kbd> + <kbd>D</kbd> to request).
 
 And did you notice that the translation is instant? Due to the uncertainty of asynchronous request, usually you need to append a space to end of the word to fully translate it.
+
+**NOTICE:** If you heavily rely on instant translation(youdao dict), please consider applying for your own API keyat here:
+
+[youdaoapi](http://fanyi.youdao.com/openapi?path=data-mode)
+
+Then add them to `~/.hammerspoon/private/awesomeconfig.lua`:
+
+```
+youdaokeyfrom = 'hsearch'  -- keyfrom
+youdaoapikey = '1199732752'  -- API key
+```
 
 **UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
 

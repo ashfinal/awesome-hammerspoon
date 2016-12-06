@@ -1,4 +1,6 @@
 if usesuggest == nil then usesuggest = true end
+if youdaokeyfrom == nil then youdaokeyfrom = 'hsearch' end
+if youdaoapikey == nil then youdaoapikey = '1199732752' end
 
 function safariTabinfoRequest()
     local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
@@ -10,11 +12,11 @@ function safariTabinfoRequest()
 end
 
 function youdaosTranslate()
-    local datamuse_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom=wufeifei&key=716426270&type=data&doctype=json&version=1.1&q='
+    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
     local querystr = string.gsub(search_chooser:query(),'%s+$','')
     if string.len(querystr) > 0 then
         local encoded_query = hs.http.encodeForQuery(querystr)
-        local query_url = datamuse_baseurl..encoded_query
+        local query_url = youdao_baseurl..encoded_query
         local stat,data = hs.http.get(query_url,nil)
         if stat > 0 then
             local decoded_data = hs.json.decode(data)
@@ -32,11 +34,11 @@ function youdaosTranslate()
 end
 
 function youdaoInstantTrans()
-     local datamuse_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom=wufeifei&key=716426270&type=data&doctype=json&version=1.1&q='
+    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
     local querystr = string.gsub(search_chooser:query(),'%s+$','')
     if string.len(querystr) > 0 then
          local encoded_query = hs.http.encodeForQuery(querystr)
-         local query_url = datamuse_baseurl..encoded_query
+         local query_url = youdao_baseurl..encoded_query
 
         hs.http.asyncGet(query_url,nil,function(status,data)
             if status < 0 then
