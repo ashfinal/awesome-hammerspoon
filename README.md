@@ -14,6 +14,10 @@ Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www
 
 and you're set.
 
+## Keep update
+
+`cd ~/.hammerspoon && git pull`
+
 ## What's modal-based key bindings?
 
 Well... simply to say, it allows you using <kbd>S</kbd> key to resize windows in `resize` mode, but in `app` mode, to launch Safari, in `timer` mode, to set a 10-mins timer... something like that. During all progress, you don't have to press extra keys.
@@ -188,6 +192,40 @@ For those who care about system resource:
 
 ![memusage](./screenshots/memusage.png)
 
+-------
+
+**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
+
+![hcal](./screenshots/hcal.png)
+
+- Add it to your config:
+
+``` lua
+    module_list = {
+        "basicmode",
+        "widgets/netspeed",
+        "widgets/calendar",
+        "widgets/analogclock",
+        "modes/indicator",
+        "modes/clipshow",
+        "modes/aria2",
+        "modes/cheatsheet",
+        **"widgets/hcalendar.lua",**
+    }
+```
+
+- Move it to somewhere else on your desktop:
+
+    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
+
+    `hcaltopleft = {40,658}`
+
+**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
+
+![tips](./screenshots/tips.png)
+
+-------
+
 ## Customization
 
 Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it before doing that.
@@ -234,7 +272,7 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
 4. Global options
 
-    These options should be in `~/.hammerspoon/private/awesomeconfig.lua` file.
+    These options should be put into `~/.hammerspoon/private/awesomeconfig.lua` file.
     ``` lua
     -- You may want to use your own aria2 webclient.
     aria2URL = "http://www.myaria2.com/"
@@ -253,36 +291,6 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     -- Put calendar to somewhere by defining topleft point.
     caltopleft = {200,200}
     ```
-
-**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
-
-![hcal](./screenshots/hcal.png)
-
-- Add it to your config:
-
-``` lua
-    module_list = {
-        "basicmode",
-        "widgets/netspeed",
-        "widgets/calendar",
-        "widgets/analogclock",
-        "modes/indicator",
-        "modes/clipshow",
-        "modes/aria2",
-        "modes/cheatsheet",
-        **"widgets/hcalendar.lua",**
-    }
-```
-
-- Move it to somewhere else on your desktop:
-
-    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
-
-    `hcaltopleft = {40,658}`
-
-**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
-
-![tips](./screenshots/tips.png)
 
 ## TODO
 
