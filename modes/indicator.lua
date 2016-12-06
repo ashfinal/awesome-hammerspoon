@@ -1,4 +1,4 @@
-if not indicator_joinallspaces then indicator_joinallspaces = true end
+if indicator_joinallspaces == nil then indicator_joinallspaces = true end
 
 function timer_indicator(timelen)
     if not indicator_used then

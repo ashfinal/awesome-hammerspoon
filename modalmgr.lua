@@ -3,10 +3,10 @@ function modalmgr:entered()
     dock_launched = true
     modal_stat('dock',black)
     if resizeM then
-        if not launch_resizeM then launch_resizeM = false end
+        if launch_resizeM == nil then launch_resizeM = false end
         if launch_resizeM == true then resizeM:enter() end
     end
-    if not idle_to_which then idle_to_which = "netspeed" end
+    if idle_to_which == nil then idle_to_which = "netspeed" end
     if idle_to_which ~= "never" then
         idletimer = hs.timer.doEvery(5,check_idle)
     end
@@ -60,6 +60,6 @@ modalmgr:bind('alt', 'Z', 'Open Hammerspoon Console', function() hs.toggleConsol
 modalmgr:bind('alt', 'tab', 'Show Windows Hint', function() exit_others(nil) hs.hints.windowHints() end)
 
 if modalmgr then
-    if not launch_modalmgr then launch_modalmgr = true end
+    if launch_modalmgr == nil then launch_modalmgr = true end
     if launch_modalmgr == true then modalmgr:enter() end
 end
