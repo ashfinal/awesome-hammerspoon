@@ -1,352 +1,450 @@
-# Awesome-hammerspoon, as advertised.
+<h1>Awesome-hammerspoon, as advertised.</h1>
 
-Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, cheatsheets... etc.
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-modes.png" alt="modes"/></p>
 
-> Hammerspoon is a tool for powerful automation of OS X. You can write Lua code that interacts with OS X APIs for applications, windows, mouse pointers, filesystem objects, audio devices, batteries, screens, low-level keyboard/mouse events, clipboards, location services, wifi, and more.<sup>[1](http://www.hammerspoon.org/)</sup>
+<p>Awesome-hammerspoon is my collection of lua scripts for <a href="http://www.hammerspoon.org/">Hammerspoon</a>. It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, cheatsheets... etc.</p>
 
-*Out of the box, Hammerspoon does nothing. You will need Lua scripts in `~/.hammerspoon/` to do your work. Here is this repository come to help.*
+<h2>Get started</h2>
 
-## Get started
+<ol>
+<li>Install <a href="http://www.hammerspoon.org/">Hammerspoon</a> first.</li>
+<li><code>git clone --depth 1 https://github.com/ashfinal/awesome-hammerspoon.git ~/.hammerspoon</code></li>
+<li>Reload the configutation.</li>
+</ol>
 
-1. Install [Hammerspoon](http://www.hammerspoon.org/) first.
-2. `git clone https://github.com/ashfinal/awesome-hammerspoon.git ~/.hammerspoon`
-3. Reload the configutation.
+<p>and you&#39;re set.</p>
 
-and you're set.
+<h2>Keep update</h2>
 
-## Keep update
+<p><code>cd ~/.hammerspoon &amp;&amp; git pull</code></p>
 
-`cd ~/.hammerspoon && git pull`
+<h2>What's modal-based key bindings?</h2>
 
-## What's modal-based key bindings?
+<details>
+<summary>More details</summary>
 
-Well... simply to say, it allows you using <kbd>S</kbd> key to resize windows in `resize` mode, but in `app` mode, to launch Safari, in `timer` mode, to set a 10-mins timer... something like that. During all progress, you don't have to press extra keys.
+<p>Well... simply to say, it allows you using <kbd>S</kbd> key to resize windows in <code>resize</code> mode, but in <code>app</code> mode, to launch Safari, in <code>timer</code> mode, to set a 10-mins timer... something like that. During all progress, you don&#39;t have to press extra keys.</p></p>
 
-![modes](./screenshots/modes.png)
+<p>And this means a lot.</p>
 
-And this means a lot.
+<ul>
+<li>It&#39;s scene-wise, you can use same key bindings to do different jobs in different scenes. You don&#39;t worry to run out of your hotkey bindings, and twist your fingers to press <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>C</kbd> in the end.</li>
 
-- It's scene-wise, you can use same key bindings to do different jobs in different scenes. You don't worry to run out of your hotkey bindings, and twist your fingers to press <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>C</kbd> in the end.
-- Less keystrokes, less memory pressure. You can press <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode, release, then press single key <kbd>S</kbd> to launch Safari, or <kbd>C</kbd> to lauch Chrome. Sounds good? You keep your pace, no rush.
-- Easy to extend, you can create your own modals if you like. For example, `Finder` mode, in which you press <kbd>T</kbd> to open Terminal here, press <kbd>S</kbd> to send files to predefined path, press <kbd>C</kbd> to upload images to cloud storage.
+<li>Less keystrokes, less memory pressure. You can press <kbd>⌥</kbd> + <kbd>A</kbd> to enter <code>app</code> mode, release, then press single key <kbd>S</kbd> to launch Safari, or <kbd>C</kbd> to lauch Chrome. Sounds good? You keep your pace, no rush.</li>
 
-**NOTICE:** After your work you'd better quit current mode back to normal. Or, you carefully pick your key bindings to avoid conflict with other hotkeys.
+<li>Easy to extend, you can create your own modals if you like. For example, <code>Finder</code> mode, in which you press <kbd>T</kbd> to open Terminal here, press <kbd>S</kbd> to send files to predefined path, press <kbd>C</kbd> to upload images to cloud storage.</li>
+</ul>
 
-## How to use?
+<p><strong>NOTICE:</strong> After your work you&#39;d better quit current mode back to normal. Or, you carefully pick your key bindings to avoid conflict with other hotkeys.</p>
 
-So, following above procedures, you have reloaded Hammerspoon's configutation. Let's see what we've got here.
+</details>
 
-### Desktop widgets
+<h2>How to use?</h2>
 
-As you may have noticed, there are two clean, nice-looking desktop widgets, analogclock and calendar. Usually we don't interact with them, but I do hope you like them.
+<p>So, following above procedures, you have reloaded Hammerspoon&#39;s configutation. Let&#39;s see what we&#39;ve got here.</p>
 
-![widgets](./screenshots/deskwidgets.png)
+<h3>Desktop Widgets</h3>
 
-### Mode block
+<details>
+<summary>More details</summary>
 
-There is also a small gray block in the bottom right corner, maybe displaying current netspeed. Well, it's actually **mode block**. Want to know in which mode you are? Give it a glance. When Hammerspoon starts, or there's no work to do, it shows `DOCK MODE` in black background. But alway displaying the black block is a little boring, so we use it for netspeed monitor if there's no activity for 5 secs.
+<p>As you may have noticed, there are two clean, nice-looking desktop widgets, analogclock and calendar. Usually we don&#39;t interact with them, but I do hope you like them.</p>
 
-**Mode block** holds the entrance to other modes, you can use <kbd>⌥</kbd> + <kbd>space</kbd> to toggle its display. Then use <kbd>⌥</kbd> + <kbd>R</kbd> to enter `resize` mode, or use <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode... etc.
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-deskwidgets.png" alt="widgets"/></p>
 
-Key bindings available:
+<p><strong>UPDATE:</strong> Add new widget <code>hcalendar</code>. The design comes from <a href="https://github.com/ashikahmad/horizontal-calendar-widget">here</a>.</p>
 
-| Key bindings | Movement |
-| --- | :-- |
-| <kbd>⌥</kbd> + <kbd>A</kbd> | Enter app mode |
-| <kbd>⌥</kbd> + <kbd>C</kbd> | Enter `clipboard` mode |
-| <kbd>⌥</kbd> + <kbd>D</kbd> | Enter `download` mode |
-| <kbd>⌥</kbd> + <kbd>I</kbd> | Enter `timer` mode |
-| <kbd>⌥</kbd> + <kbd>R</kbd> | Enter `resize` mode |
-| <kbd>⌥</kbd> + <kbd>S</kbd> | Enter `cheatsheet` mode |
-| <kbd>⌥</kbd> + <kbd>T</kbd> | Show current time |
-| <kbd>⌥</kbd> + <kbd>v</kbd> | Enter `view` mode |
-| <kbd>⌥</kbd> + <kbd>Z</kbd> | Open Hammerspoon console |
-| <kbd>⌥</kbd> + <kbd>⇥</kbd> | Show window hints |
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hcal.png" alt="hcal"/></p>
 
-*In most modes, you can use <kbd>⌥</kbd> + <kbd>key</kbd>, <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back to DOCK mode("key" is the same as you enter modes). And switch from one mode to another directly.*
+<p><em>Default off. To add this module to your config, please refer to the <code>Customization</code> section.</em></p>
 
-### Window management(resize mode)
+</details>
 
-Use <kbd>H</kbd>, <kbd>L</kbd>, <kbd>J</kbd>, <kbd>K</kbd> to **resize** windows.
+<h3>Mode Block</h3>
 
-Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.
+<details>
+<summary>More details</summary>
 
-Use <kbd>⌘</kbd> + <kbd>H/J/K/L</kbd> to cycle through active windows.
+<p>There is also a small gray block in the bottom right corner, maybe displaying current netspeed. Well, it&#39;s actually <strong>mode block</strong>. Want to know in which mode you are? Give it a glance. When Hammerspoon starts, or there&#39;s no work to do, it shows <code>DOCK MODE</code> in black background. But alway displaying the black block is a little boring, so we use it for netspeed monitor if there&#39;s no activity for 5 secs.</p>
 
-Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to **move** windows around.
+<p><strong>Mode block</strong> holds the entrance to other modes, you can use <kbd>⌥</kbd> + <kbd>space</kbd> to toggle its display. Then use <kbd>⌥</kbd> + <kbd>R</kbd> to enter <code>resize</code> mode, or use <kbd>⌥</kbd> + <kbd>A</kbd> to enter <code>app</code> mode... etc.</p>
 
-Use <kbd>⌃</kbd> + <kbd>H/J/K/L</kbd> to resize windows to 1/2 of screen.
+<p>Key bindings available:</p>
 
-Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.
+<table data-anchor-id="lfo3" class="table table-striped-white table-bordered">
+    <thead>
+        <tr>
+            <th style="text-align:left;">Key bindings</th>
+            <th style="text-align:left;">Movement</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>A</kbd></td>
+            <td style="text-align:left;">Enter app mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>C</kbd></td>
+            <td style="text-align:left;">Enter <code>clipboard</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>D</kbd></td>
+            <td style="text-align:left;">Enter <code>download</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>G</kbd></td>
+            <td style="text-align:left;">Launch hammer search</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>I</kbd></td>
+            <td style="text-align:left;">Enter <code>timer</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>R</kbd></td>
+            <td style="text-align:left;">Enter <code>resize</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>S</kbd></td>
+            <td style="text-align:left;">Enter <code>cheatsheet</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>T</kbd></td>
+            <td style="text-align:left;">Show current time</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>v</kbd></td>
+            <td style="text-align:left;">Enter <code>view</code> mode</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>Z</kbd></td>
+            <td style="text-align:left;">Open Hammerspoon console</td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>⇥</kbd></td>
+            <td style="text-align:left;">Show window hints</td>
+        </tr>
+    </tbody>
+</table>
 
-Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.
+<p><em>In most modes, you can use <kbd>⌥</kbd> + <kbd>key</kbd>, <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back to DOCK mode(&quot;key&quot; is the same as you enter modes). And switch from one mode to another directly.</em></p>
 
-And of course, you can use system-wide <kbd>⌘</kbd> + <kbd>⇥</kbd> to switch between active applications.
+</details>
 
-### App launcher(app mode)
+<h3>Window Management(resize mode) <kbd>⌥</kbd> + <kbd>R</kbd></h3>
 
-Use <kbd>F</kbd> to launch Finder or focus the existing window; <kbd>S</kbd> for Safari; <kbd>T</kbd> for Terminal; <kbd>V</kbd> for Activity Monitor; <kbd>Y</kbd> for System Preferences... etc.
+<details>
+<summary>More details</summary>
 
-If you want to define your own hotkeys, please create `~/.hammerspoon/private/awesomeconfig.lua` file, then add something like below:
+<p>Use <kbd>H</kbd>, <kbd>L</kbd>, <kbd>J</kbd>, <kbd>K</kbd> to <strong>resize</strong> windows.</p>
 
-``` lua
-applist = {
-    {shortcut = 'i',appname = 'iTerm'},
-    {shortcut = 'l',appname = 'Sublime Text'},
-    {shortcut = 'm',appname = 'MacVim'},
-    {shortcut = 'o',appname = 'LibreOffice'},
-    {shortcut = 'r',appname = 'Firefox'},
+<p>Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.</p>
+
+<p>Use <kbd>⌘</kbd> + <kbd>H/J/K/L</kbd> to cycle through active windows.</p>
+
+<p>Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to <strong>move</strong> windows around.</p>
+
+<p>Use <kbd>⌃</kbd> + <kbd>H/J/K/L</kbd> to resize windows to 1/2 of screen.</p>
+
+<p>Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.</p>
+
+<p>Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.</p>
+
+<p>And of course, you can use system-wide <kbd>⌘</kbd> + <kbd>⇥</kbd> to switch between active applications.</p>
+
+</details>
+
+<h3>App Launcher(app mode) <kbd>⌥</kbd> + <kbd>A</kbd></h3>
+
+<details>
+<summary>More details</summary>
+
+<p>Use <kbd>F</kbd> to launch Finder or focus the existing window; <kbd>S</kbd> for Safari; <kbd>T</kbd> for Terminal; <kbd>V</kbd> for Activity Monitor; <kbd>Y</kbd> for System Preferences... etc.</p>
+
+<p>If you want to define your own hotkeys, please create <code>~/.hammerspoon/private/awesomeconfig.lua</code> file, then add something like below:</p>
+
+<pre><code class="language-lua">applist = {
+    {shortcut = &#39;i&#39;,appname = &#39;iTerm&#39;},
+    {shortcut = &#39;l&#39;,appname = &#39;Sublime Text&#39;},
+    {shortcut = &#39;m&#39;,appname = &#39;MacVim&#39;},
+    {shortcut = &#39;o&#39;,appname = &#39;LibreOffice&#39;},
+    {shortcut = &#39;r&#39;,appname = &#39;Firefox&#39;},
 }
 
-```
+</code></pre>
 
-### Timer indicator(timer mode)
+<p><strong>UPDATE:</strong> Now you can press <kbd>⇥</kbd> to show key bindings, also available in <code>resize</code>, <code>view</code>, <code>timer</code> mode.</p>
 
-Have you noticed this issue on macos? There is 5 pixel tall blank at the bottom of the screen for non-native fullscreen window, which is sometimes disturbing. Let's make the blank more useful. When you set a timer, this will draw a colored line to fill that blank, meanwhile, show progress of the timer.
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-tips.png" alt="tips"/></p>
 
-![timeralert](./screenshots/timeralert.png)
+</details>
 
-Press <kbd>0</kbd> to set a 5-mins timer, <kbd>↩︎</kbd> to set a 25-mins timer.
+<h3>Hammer Search(search mode) <kbd>⌥</kbd> + <kbd>G</kbd></h3>
 
-Press <kbd>1</kbd> to set a 10-mins timer;
+<details>
+<summary>More details</summary>
 
-Press <kbd>2</kbd> to set a 20-mins timer;
+<p>Now you can search Safari tabs and online dictionary(use <kbd>⌃</kbd> + <kbd>⇥</kbd> to switch between them).</p>
 
-...
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hsearch.gif" alt="hsearch"/></p>
 
-Press <kbd>9</kbd> to set a 90-mins timer.
+<p>Dictionary search supports <code>word suggestion</code>(see the above gif) and English thesaurus(use <kbd>⌃</kbd> + <kbd>D</kbd> to request). And did you notice that the translation is instant?</p>
 
-### Clipboard show(clipboard mode)
+<p><em>Due to the uncertainty of asynchronous request, usually you need to append a space to end of the word to fully translate it.</em></p>
 
-It shows the content of your clipboard. If text or image type then display it with proper size, if hyperlink type then use default browser to open it. Click the display block it will destory itself.
+<p><strong>NOTICE:</strong> If you heavily rely on instant translation(youdao dict), please consider applying for your own API key at here:</p>
 
-I usually use this to display QR image for cellphone's faster scanning, or display some text for better reading.
+<p><a href="http://fanyi.youdao.com/openapi?path=data-mode">http://fanyi.youdao.com/openapi?path=data-mode</a></p>
 
-Below is what happened when I press <kbd>⌘</kbd> + <kbd>C</kbd> to copy `Hammerspoon.app`, then press <kbd>⌥</kbd> + <kbd>C</kbd> to activate clipboard mode.
+<p>Then add them to <code>~/.hammerspoon/private/awesomeconfig.lua</code>:</p>
 
-![clipshow](./screenshots/clipshow.png)
+<pre><code>youdaokeyfrom = &#39;hsearch&#39;  -- keyfrom
+youdaoapikey = &#39;1199732752&#39;  -- API key
+</code></pre>
 
-### Aria2 frontend(download mode)
+</details>
 
-I use [glutton](https://github.com/NemoAlex/glutton)(a tiny webclient for aria2) to manage aria2's download queue. This mode creates an interface for glutton, so I can handle aria2 more convenient.
+<h3>Timer Indicator(timer mode) <kbd>⌥</kbd> + <kbd>I</kbd></h3>
 
-![glutton](./screenshots/glutton.png)
+<details>
+<summary>More details</summary>
 
-*To speed up the display of webclient, by default when you press `⎋` the interface is hiden(instead destroyed). This may increase resource occupation. If you don't use `download` mode for a long time, when quitting use <kbd>⌃</kbd> + <kbd>⎋</kbd> to completely destory the webclient.*
+<p>Have you noticed this issue on macos? There is 5 pixel tall blank at the bottom of the screen for non-native fullscreen window, which is sometimes disturbing. Let&#39;s make the blank more useful. When you set a timer, this will draw a colored line to fill that blank, meanwhile, show progress of the timer.</p>
 
-### Cheatsheet(cheatsheet mode)
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-timeralert.png" alt="timeralert"/></p>
 
-It shows the cheatsheet of current application's hotkeys. Code comes from [here](https://github.com/dharmapoudel/hammerspoon-config).
+<p>Press <kbd>0</kbd> to set a 5-mins timer, <kbd>↩︎</kbd> to set a 25-mins timer.</p>
 
-Let the picture talk:
+<p>Press <kbd>1</kbd> to set a 10-mins timer;</p>
 
-![cheatsheet](./screenshots/cheatsheet.png)
+<p>Press <kbd>2</kbd> to set a 20-mins timer;</p>
 
-### Other stuff
+<p>...</p>
 
-- **Tmux-styled Clock** <kbd>⌥</kbd> + <kbd>T</kbd>
+<p>Press <kbd>9</kbd> to set a 90-mins timer.</p>
 
-Works even when you're watching video in fullscreen.
+</details>
 
-![tmuxtime](./screenshots/tmuxtime.png)
+<h3>Cheatsheet(cheatsheet mode) <kbd>⌥</kbd> + <kbd>S</kbd></h3>
 
-- **Windows Hint** <kbd>⌥</kbd> + <kbd>⇥</kbd>
+<details>
+<summary>More details</summary>
 
-Focus to your windows easier.
+<p>It shows the cheatsheet of current application&#39;s hotkeys. Code comes from <a href="https://github.com/dharmapoudel/hammerspoon-config">here</a>.</p>
 
-![windowshint](./screenshots/windowshint.png)
+<p>Let the picture talk:</p>
 
-- **`View` Mode** <kbd>⌥</kbd> + <kbd>V</kbd>
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-cheatsheet.png" alt="cheatsheet"/></p>
 
-Use <kbd>H/J/K/L</kbd> to scroll around.
+</details>
 
-Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to move mouse around.
+<h3>Clipboard Show(clipboard mode) <kbd>⌥</kbd> + <kbd>C</kbd></h3>
 
-Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
+<details>
+<summary>More details</summary>
 
-- **Hide Desktop** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd>
+<p>It shows the content of your clipboard. If text or image type then display it with proper size, if hyperlink type then use default browser to open it. Click the display block it will destory itself.</p>
 
-Hide your desktop files temporarily to avoid embarrass on some occasion.
+<p>I usually use this to display QR image for cellphone&#39;s faster scanning, or display some text for better reading.</p>
 
-Use <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>H</kbd> to force show all hiden files.
+</details>
 
-- **Lock Screen** <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd>
+<h3>Other Stuff</h3>
 
--------
+<details>
+<summary>Tmux-styled Clock <kbd>⌥</kbd> + <kbd>T</kbd></summary>
 
-For whatever mode, you can always use:
+<p>Works even when you&#39;re watching video in fullscreen.</p>
 
-<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>⇠</kbd> to resize windows to left-half of screen
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-tmuxtime.png" alt="tmuxtime"/></p>
 
-<kbd>⌘</kbd>  + <kbd>⌥</kbd> + <kbd>⇢</kbd> to resize windows to right-half of screen
+</details>
 
-<kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>⇡</kbd> to resize windows to fullscreen
+<details>
+<summary>Windows Hint <kbd>⌥</kbd> + <kbd>⇥</kbd> </summary>
 
-<kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>⇣</kbd> to put windows to predefined size
+<p>Focus to your windows easier.</p>
 
-<kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>↩︎</kbd> to put windows to center of screen
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-windowshint.png" alt="windowshint"/></p>
 
--------
+</details>
 
-For those who care about system resource:
+<details>
+<summary>View Mode <kbd>⌥</kbd> + <kbd>V</kbd></summary>
 
-![memusage](./screenshots/memusage.png)
+<p>Use <kbd>H/J/K/L</kbd> to scroll around.</p>
 
--------
+<p>Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to move mouse around.</p>
 
-**UPDATE 3:** Add `hsearch` module(default included), use <kbd>⌥</kbd> + <kbd>G</kbd> to activate.
+<p>Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.</p>
 
-![hsearch](./screenshots/hsearch.gif)
+</details>
 
-Now you can search Safari tabs and online dictionary(use <kbd>⌃</kbd> + <kbd>⇥</kbd> to switch between them).
+<details>
+<summary>Download Mode(aria2 frontend) <kbd>⌥</kbd> + <kbd>D</kbd></summary>
 
-Dictionary search supports `Word Suggestion`(see the above gif) and English thesaurus(use <kbd>⌃</kbd> + <kbd>D</kbd> to request).
+<p>I use <a href="https://github.com/NemoAlex/glutton">glutton</a>(a tiny webclient for aria2) to manage aria2&#39;s download queue. This mode creates an interface for glutton, so I can handle aria2 more convenient.</p>
 
-And did you notice that the translation is instant? Due to the uncertainty of asynchronous request, usually you need to append a space to end of the word to fully translate it.
+<p>Default off. To add this module to your config, please refer to the <code>Customization</code> section.</p>
 
-**NOTICE:** If you heavily rely on instant translation(youdao dict), please consider applying for your own API keyat here:
+<p><em>To speed up the display of webclient, by default when you press <code>⎋</code> the interface is hiden(instead destroyed). This may increase resource occupation. If you don&#39;t use <code>download</code> mode for a long time, when quitting use <kbd>⌃</kbd> + <kbd>⎋</kbd> to completely destory the webclient.</em></p>
 
-[youdaoapi](http://fanyi.youdao.com/openapi?path=data-mode)
+</details>
 
-Then add them to `~/.hammerspoon/private/awesomeconfig.lua`:
+<details>
+<summary>Hide Desktop <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd></summary>
 
-```
-youdaokeyfrom = 'hsearch'  -- keyfrom
-youdaoapikey = '1199732752'  -- API key
-```
+<p>Hide your desktop files temporarily to avoid embarrass on some occasion.</p>
 
-**UPDATE 2:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
+<p>Use <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>H</kbd> to force show all hiden files.</p>
+</details>
 
-![hcal](./screenshots/hcal.png)
+<details>
+<summary>Lock Screen <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd></summary>
 
-- Add it to your config:
+<p>None</p>
 
-``` lua
-    module_list = {
-        "basicmode",
-        "widgets/netspeed",
-        "widgets/calendar",
-        "widgets/analogclock",
-        "modes/indicator",
-        "modes/clipshow",
-        "modes/aria2",
-        "modes/cheatsheet",
-        **"widgets/hcalendar.lua",**
-    }
-```
+</details>
 
-- Move it to somewhere else on your desktop:
+<details>
+<summary>And More...</summary>
 
-    Modify the numbers of the below line, then add it to the `~/.hammerspoon/private/awesomeconfig.lua` file.
+<p>For whatever mode, you can always use:</p>
 
-    `hcaltopleft = {40,658}`
+<p><kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>⇠</kbd> to resize windows to left-half of screen</p>
 
-**UPDATE 1:** Now you can press <kbd>⇥</kbd> to show key bindings, available in `resize`, `app`, `view`, `timer` mode.
+<p><kbd>⌘</kbd>  + <kbd>⌥</kbd> + <kbd>⇢</kbd> to resize windows to right-half of screen</p>
 
-![tips](./screenshots/tips.png)
+<p><kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>⇡</kbd> to resize windows to fullscreen</p>
 
--------
+<p><kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>⇣</kbd> to put windows to predefined size</p>
 
-## Customization
+<p><kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>↩︎</kbd> to put windows to center of screen</p>
 
-Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it before doing that.
+<hr>
 
-1. Add application launching hotkey
+<p>For those who care about system resource:</p>
 
-    See the section `App launcher(app mode)` above.
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-memusage.png" alt="memusage"/></p>
 
-2. Add/Remove the plugin modules
+<hr/>
 
-    default modules:
+</details>
 
-    ``` lua
-    module_list = {
-        "basicmode",
-        "widgets/netspeed",
-        "widgets/calendar",
-        "widgets/analogclock",
-        "modes/indicator",
-        "modes/clipshow",
-        "modes/aria2",
-        "modes/cheatsheet",
-    }
-    ```
+<h2>Customization</h2>
 
-    For example, remove `aria2` module(`Download` mode), add your own module `mymodule`:
+<details>
+<summary>More details</summary>
 
-    ``` lua
-    module_list = {
-        "basicmode",
-        "widgets/netspeed",
-        "widgets/calendar",
-        "widgets/analogclock",
-        "modes/indicator",
-        "modes/clipshow",
-        "modes/cheatsheet",
-        "private/mymodule",
-    }
-    ```
+<p>Modify the file <code>~/.hammerspoon/private/awesomeconfig.lua</code>, you should create it before doing that.</p>
 
-3. Create your own modal key bindings
+<ol>
+<li><p>Add application launching hotkey</p>
 
-    See http://www.hammerspoon.org/docs/hs.hotkey.modal.html, also you can refer to my scripts.
+<p>See the section <code>App launcher(app mode)</code> above.</p></li>
+<li><p>Add/Remove the plugin modules</p>
 
-4. Global options
+<p>default modules:</p>
 
-    These options should be put into `~/.hammerspoon/private/awesomeconfig.lua` file.
-    ``` lua
-    -- You may want to use your own aria2 webclient.
-    aria2URL = "http://www.myaria2.com/"
-    -- Local files also are supported, like this:
-    aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
+<pre><code class="language-lua">module_list = {
+    &quot;basicmode&quot;,
+    &quot;widgets/netspeed&quot;,
+    &quot;widgets/calendar&quot;,
+    &quot;widgets/analogclock&quot;,
+    &quot;modes/indicator&quot;,
+    &quot;modes/clipshow&quot;,
+    &quot;modes/aria2&quot;,
+    &quot;modes/cheatsheet&quot;,
+}
+</code></pre>
 
-    -- Make mode block idle to netspeed or just hide.
-    idle_to_which = "never/netspeed/hide"
+<p>For example, remove <code>aria2</code> module(<code>Download</code> mode), add your own module <code>mymodule</code>:</p>
 
-    -- When enter `app` mode show or hide applauncher tips automatically.
-    show_applauncher_tips = true/false
+<pre><code class="language-lua">module_list = {
+    &quot;basicmode&quot;,
+    &quot;widgets/netspeed&quot;,
+    &quot;widgets/calendar&quot;,
+    &quot;widgets/analogclock&quot;,
+    &quot;modes/indicator&quot;,
+    &quot;modes/clipshow&quot;,
+    &quot;modes/cheatsheet&quot;,
+    &quot;private/mymodule&quot;,
+}
+</code></pre></li>
+<li><p>Create your own modal key bindings</p>
 
-    -- Put analogclock to somewhere by defining center point.
-    aclockcenter = {x=200,y=200}
+<p>See <a href="http://www.hammerspoon.org/docs/hs.hotkey.modal.html">http://www.hammerspoon.org/docs/hs.hotkey.modal.html</a>, also you can refer to my scripts.</p></li>
+<li><p>Global options</p>
 
-    -- Put calendar to somewhere by defining topleft point.
-    caltopleft = {200,200}
-    ```
+<p>These options should be put into <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.<br/>
+``` lua<br/>
+-- You may want to use your own aria2 webclient.<br/>
+aria2URL = &quot;<a href="http://www.myaria2.com/">http://www.myaria2.com/</a>&quot;<br/>
+-- Local files also are supported, like this:<br/>
+aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;</p>
 
-## TODO
+<p>-- Make mode block idle to netspeed or just hide.<br/>
+idle_to_which = &quot;never/netspeed/hide&quot;</p>
 
-- [X] Code cleanup. Make modules can be easily pluged or unpluged.
+<p>-- When enter <code>app</code> mode show or hide applauncher tips automatically.<br/>
+show_applauncher_tips = true/false</p>
 
-    Done. It should work now, also some global options can be set by using `~/.hammerspoon/private/awesomeconfig.lua` file.
+<p>-- Put analogclock to somewhere by defining center point.<br/>
+aclockcenter = {x=200,y=200}</p>
 
-- [ ] Put mode block into menubar? As I usually hide menubar, this will be a better idea? Or just provide an option?
+<p>-- Put calendar to somewhere by defining topleft point.<br/>
+caltopleft = {200,200}</p>
 
-- [X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don't have to list them all in this file.
+<p>-- put hcalendar to somewhere by defining topleft point.<br/>
+hcaltopleft = {40,658}<br/>
+```</p></li>
+</ol>
 
-    Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.
+</details>
 
-- [X] Safari tabs/history search
+<h2>TODO</h2>
 
-    Done. Even better. See the above **UPDATE 3**.
+工作进度： <progress value="4" max="5"> </progress>
 
-- [X] Make opening URL works for ordinary string in `clipboard` mode
+<details>
+<summary>More details</summary>
 
-    Should work now.
+<ul>
+<li><p>[X] Code cleanup. Make modules can be easily pluged or unpluged.</p>
 
-## Thanks to
+<p>Done. It should work now, also some global options can be set by using <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.</p></li>
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Put mode block into menubar? As I usually hide menubar, this will be a better idea? Or just provide an option?</p>
+</li>
+<li><p>[X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don&#39;t have to list them all in this file.</p>
 
-http://www.hammerspoon.org/
+<p>Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.</p></li>
+<li><p>[X] Safari tabs/history search</p>
 
-https://github.com/zzamboni/oh-my-hammerspoon
+<p>Done. Even better. See the above <strong>hammer search</strong>.</p></li>
+<li><p>[X] Make opening URL works for ordinary string in <code>clipboard</code> mode</p>
 
-https://github.com/scottcs/dot_hammerspoon
+<p>Should work now.</p></li>
+</ul>
 
-https://github.com/dharmapoudel/hammerspoon-config
+</details>
 
-http://tracesof.net/uebersicht/
+<h2>Thanks to</h2>
 
-## Welcome to
+<details>
+<summary>More details</summary>
 
-Share your scripts and thoughts.
+<p><a href="http://www.hammerspoon.org/">http://www.hammerspoon.org/</a></p>
 
-: )
+<p><a href="https://github.com/zzamboni/oh-my-hammerspoon">https://github.com/zzamboni/oh-my-hammerspoon</a></p>
+
+<p><a href="https://github.com/scottcs/dot_hammerspoon">https://github.com/scottcs/dot_hammerspoon</a></p>
+
+<p><a href="https://github.com/dharmapoudel/hammerspoon-config">https://github.com/dharmapoudel/hammerspoon-config</a></p>
+
+<p><a href="http://tracesof.net/uebersicht/">http://tracesof.net/uebersicht/</a></p>
+
+</details>
+
+<h2>Welcome to</h2>
+
+<p>Share your scripts and thoughts.</p>
+
+<p>: )</p>

@@ -257,8 +257,8 @@ if not module_list then
         "widgets/analogclock",
         "modes/indicator",
         "modes/clipshow",
-        "modes/aria2",
         "modes/cheatsheet",
+        "modes/hsearch",
     }
 end
 
