@@ -134,6 +134,8 @@
 <details>
 <summary>More details</summary>
 
+<p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-winresize.gif" alt="winresize"/></p>
+
 <p>Use <kbd>H</kbd>, <kbd>L</kbd>, <kbd>J</kbd>, <kbd>K</kbd> to <strong>resize</strong> windows.</p>
 
 <p>Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.</p>
@@ -375,54 +377,54 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 <li><p>Global options</p>
 
 <p>These options should be put into <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.<br/>
-``` lua<br/>
--- You may want to use your own aria2 webclient.<br/>
-aria2URL = &quot;<a href="http://www.myaria2.com/">http://www.myaria2.com/</a>&quot;<br/>
--- Local files also are supported, like this:<br/>
-aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;</p>
 
-<p>-- Make mode block idle to netspeed or just hide.<br/>
-idle_to_which = &quot;never/netspeed/hide&quot;</p>
+<pre><code class="language-lua">
+     -- You may want to use your own aria2 webclient.
+     aria2URL = &quot;http://www.myaria2.com/&quot;
 
-<p>-- When enter <code>app</code> mode show or hide applauncher tips automatically.<br/>
-show_applauncher_tips = true/false</p>
+     -- Local files also are supported, like this:
+     aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;
 
-<p>-- Put analogclock to somewhere by defining center point.<br/>
-aclockcenter = {x=200,y=200}</p>
+     -- Make mode block idle to netspeed or just hide.
+     idle_to_which = &quot;never/netspeed/hide&quot;
 
-<p>-- Put calendar to somewhere by defining topleft point.<br/>
-caltopleft = {200,200}</p>
+     -- When enter `app` mode show or hide applauncher tips automatically.
+     show_applauncher_tips = true/false
 
-<p>-- put hcalendar to somewhere by defining topleft point.<br/>
-hcaltopleft = {40,658}<br/>
-```</p></li>
+     -- Put analogclock to somewhere by defining center point.
+     aclockcenter = {x=200,y=200}
+
+     -- Put calendar to somewhere by defining topleft point.
+     caltopleft = {200,200}
+     ```
+</code></pre></li>
+
 </ol>
 
 </details>
 
 <h2>TODO</h2>
 
-工作进度： <progress value="4" max="5"> </progress>
+工作进度：
+<progress value="4" max="5">4/5</progress>
 
 <details>
 <summary>More details</summary>
 
-<ul>
-<li><p>[X] Code cleanup. Make modules can be easily pluged or unpluged.</p>
+<p>[X] Code cleanup. Make modules can be easily pluged or unpluged.</p>
+<p>Done. It should work now, also some global options can be set by using <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.</p>
 
-<p>Done. It should work now, also some global options can be set by using <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.</p></li>
-<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Put mode block into menubar? As I usually hide menubar, this will be a better idea? Or just provide an option?</p>
-</li>
-<li><p>[X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don&#39;t have to list them all in this file.</p>
+<p>[ ] Put mode block into menubar?</p>
+<p>As I usually hide menubar, this will be a better idea? Or just provide an option?</p>
 
-<p>Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.</p></li>
-<li><p>[X] Safari tabs/history search</p>
+<p>[X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don&#39;t have to list them all in this file.</p>
+<p>Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.</p>
 
-<p>Done. Even better. See the above <strong>hammer search</strong>.</p></li>
-<li><p>[X] Make opening URL works for ordinary string in <code>clipboard</code> mode</p>
+<p>[X] Safari tabs/history search</p>
+<p>Done. Even better. See the above <strong>hammer search</strong>.</p>
 
-<p>Should work now.</p></li>
-</ul>
+<p>[X] Make opening URL works for ordinary string in <code>clipboard</code> mode</p>
+<p>Should work now.</p>
 
 </details>
 

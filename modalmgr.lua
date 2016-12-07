@@ -37,7 +37,7 @@ end
 if caldraw then
     modalmgr:bind('alt', 'E', nil, function() showCalendar() end)
 end
-modalmgr:bind('alt', 'G', nil, function() launchChooser() end)
+modalmgr:bind('alt', 'G', 'Launch Hammer Search', function() launchChooser() end)
 if timerM then
     modalmgr:bind('alt', 'I', 'Enter Timer Mode', function() exit_others(timerM) timerM:enter() end)
 end
