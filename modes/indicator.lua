@@ -62,7 +62,7 @@ function updateused()
     end
 end
 
-timerM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'I')
+timerM = hs.hotkey.modal.new()
 table.insert(modal_list, timerM)
 function timerM:entered()
     modal_stat('timer',tomato)

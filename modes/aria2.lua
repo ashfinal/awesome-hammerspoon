@@ -16,7 +16,7 @@ function aria2ctl()
     aria2GUI:show()
 end
 
-downloadM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'd')
+downloadM = hs.hotkey.modal.new()
 table.insert(modal_list, downloadM)
 function downloadM:entered() modal_stat('download',osx_green) aria2ctl() end
 function downloadM:exited()
