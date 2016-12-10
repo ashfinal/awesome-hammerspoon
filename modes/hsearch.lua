@@ -1,3 +1,4 @@
+hsearch_loaded = true
 if usesuggest == nil then usesuggest = true end
 if youdaokeyfrom == nil then youdaokeyfrom = 'hsearch' end
 if youdaoapikey == nil then youdaoapikey = '1199732752' end
@@ -136,13 +137,13 @@ function launchChooser()
     suggeststr = ''
     currentsource = 1
     choosersourcetable = {}
-    swither = nil
+    switcher = nil
     meanlike = nil
     search_chooser = hs.chooser.new(function(chosen)
         if suggestframe then suggestframe:hide() end
         if suggesttext then suggesttext:hide() end
         if meanlike then meanlike:delete() end
-        if swither then swither:delete() end
+        if switcher then switcher:delete() end
         if outputtype == "safari" then
             local defaultbrowser = hs.urlevent.getDefaultHandler('http')
             hs.urlevent.openURLWithBundle(chosen.subText,defaultbrowser)
@@ -190,7 +191,7 @@ function launchChooser()
         choosersourcetable[currentsource]()
     end
 
-    swither = hs.hotkey.bind('ctrl','tab',function() switchSource() end)
+    switcher = hs.hotkey.bind('ctrl','tab',function() switchSource() end)
 
     meanlike = hs.hotkey.bind('ctrl','d',function()
         thesaurusRequest()
@@ -198,12 +199,4 @@ function launchChooser()
         search_chooser:refreshChoicesCallback()
         outputtype = 'pasteboard'
     end)
-
-    -- youdao = hs.hotkey.bind('ctrl','y',function()
-        -- search_chooser:queryChangedCallback()
-        -- youdaosTranslate()
-        -- search_chooser:choices(chooser_data)
-        -- outputtype = 'pasteboard'
-    -- end)
-
 end

@@ -23,7 +23,6 @@ function viewM:exited()
         hotkeybg=nil
     end
 end
-viewM:bind('alt', 'V', function() viewM:exit() end)
 viewM:bind('', 'escape', function() viewM:exit() end)
 viewM:bind('', 'Q', function() viewM:exit() end)
 viewM:bind('', 'tab', function() showavailableHotkey() end)
@@ -86,7 +85,6 @@ function resizeM:exited()
         hotkeybg=nil
     end
 end
-resizeM:bind('alt', 'R', function() resizeM:exit() end)
 resizeM:bind('', 'escape', function() resizeM:exit() end)
 resizeM:bind('', 'Q', function() resizeM:exit() end)
 resizeM:bind('', 'tab', function() showavailableHotkey() end)
@@ -143,7 +141,6 @@ function appM:exited()
         hotkeybg=nil
     end
 end
-appM:bind('alt', 'A', function() appM:exit() end)
 appM:bind('', 'escape', function() appM:exit() end)
 appM:bind('', 'Q', function() appM:exit() end)
 appM:bind('', 'tab', function() showavailableHotkey() end)

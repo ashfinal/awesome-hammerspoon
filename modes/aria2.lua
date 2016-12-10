@@ -28,7 +28,6 @@ function downloadM:exited()
     end
     if aria2GUI ~= nil then aria2GUI:hide() end
 end
-downloadM:bind('alt', 'D', function() downloadM:exit() end)
 downloadM:bind('', 'escape', function() downloadM:exit() end)
 downloadM:bind('', 'Q', function() downloadM:exit() end)
-downloadM:bind('ctrl', 'escape', 'Destroy Webclient', function() downloadM:exit() aria2GUI:delete() aria2GUI=nil end)
+downloadM:bind('ctrl', 'escape', nil, function() downloadM:exit() aria2GUI:delete() aria2GUI=nil end)

@@ -81,7 +81,6 @@ function timerM:exited()
         hotkeybg=nil
     end
 end
-timerM:bind('alt', 'I', function() timerM:exit() end)
 timerM:bind('', 'escape', function() timerM:exit() end)
 timerM:bind('', 'Q', function() timerM:exit() end)
 timerM:bind('', 'tab', function() showavailableHotkey() end)

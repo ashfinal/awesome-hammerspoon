@@ -2,7 +2,7 @@
 
 <p><img src="https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-modes.png" alt="modes"/></p>
 
-<p>Awesome-hammerspoon is my collection of lua scripts for <a href="http://www.hammerspoon.org/">Hammerspoon</a>. It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, cheatsheets... etc.</p>
+<p>Awesome-hammerspoon is my collection of lua scripts for <a href="http://www.hammerspoon.org/">Hammerspoon</a>. It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, dictionary translation, cheatsheets... etc.</p>
 
 <h2>Get started</h2>
 
@@ -125,7 +125,7 @@
     </tbody>
 </table>
 
-<p><em>In most modes, you can use <kbd>⌥</kbd> + <kbd>key</kbd>, <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back to DOCK mode(&quot;key&quot; is the same as you enter modes). And switch from one mode to another directly.</em></p>
+<p><em>In most modes, you can use <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back to DOCK mode. And switch from one mode to another directly.</em></p>
 
 </details>
 
@@ -292,17 +292,9 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 </details>
 
 <details>
-<summary>Hide Desktop <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>H</kbd></summary>
-
-<p>Hide your desktop files temporarily to avoid embarrass on some occasion.</p>
-
-<p>Use <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>H</kbd> to force show all hiden files.</p>
-</details>
-
-<details>
 <summary>Lock Screen <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd></summary>
 
-<p>None</p>
+<p>No description.</p>
 
 </details>
 
@@ -336,7 +328,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 <details>
 <summary>More details</summary>
 
-<p>Modify the file <code>~/.hammerspoon/private/awesomeconfig.lua</code>, you should create it before doing that.</p>
+<p>Modify the file <code>~/.hammerspoon/private/awesomeconfig.lua</code>, you should create it before doing below things.</p>
 
 <ol>
 <li><p>Add application launching hotkey</p>
@@ -353,12 +345,12 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
     &quot;widgets/analogclock&quot;,
     &quot;modes/indicator&quot;,
     &quot;modes/clipshow&quot;,
-    &quot;modes/aria2&quot;,
     &quot;modes/cheatsheet&quot;,
+    &quot;modes/hsearch&quot;,
 }
 </code></pre>
 
-<p>For example, remove <code>aria2</code> module(<code>Download</code> mode), add your own module <code>mymodule</code>:</p>
+<p>For example, remove <code>hsearch</code> module, add your own module <code>mymodule</code>:</p>
 
 <pre><code class="language-lua">module_list = {
     &quot;basicmode&quot;,
@@ -371,6 +363,98 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
     &quot;private/mymodule&quot;,
 }
 </code></pre></li>
+
+<li><p>Modify/Remove the default key bindings</p>
+
+<p>Available key binding variables:</p>
+<table data-anchor-id="79xg" class="table table-striped-white table-bordered">
+<thead>
+<tr>
+ <th style="text-align:left;">Action</th>
+ <th style="text-align:left;">Variable</th>
+</tr>
+</thead>
+<tbody><tr>
+ <td style="text-align:left;">Reload Configuration</td>
+ <td style="text-align:left;">hsreload_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Toggle Modal Supervisor</td>
+ <td style="text-align:left;">modalmgr_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Toggle Hammerspoon Console</td>
+ <td style="text-align:left;">toggleconsole_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Lock Screen</td>
+ <td style="text-align:left;">lockscreen_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter Application Mode</td>
+ <td style="text-align:left;">appM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter Clipboard Mode</td>
+ <td style="text-align:left;">clipboardM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Launch Hammer Search</td>
+ <td style="text-align:left;">hsearch_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter Timer Mode</td>
+ <td style="text-align:left;">timerM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter Resize Mode</td>
+ <td style="text-align:left;">resizeM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter Cheatsheet Mode</td>
+ <td style="text-align:left;">cheatsheetM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Show Digital Clock</td>
+ <td style="text-align:left;">showtime_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Enter View Mode</td>
+ <td style="text-align:left;">viewM_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Show Window hints</td>
+ <td style="text-align:left;">winhints_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Lefthalf of Screen</td>
+ <td style="text-align:left;">resizeextra_lefthalf_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Righthalf of Screen</td>
+ <td style="text-align:left;">resizeextra_righthalf_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Fullscreen</td>
+ <td style="text-align:left;">resizeextra_fullscreen_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Resize &amp; Center</td>
+ <td style="text-align:left;">resizeextra_fcenter_keys</td>
+</tr>
+<tr>
+ <td style="text-align:left;">Center Window</td>
+ <td style="text-align:left;">resizeextra_center_keys</td>
+</tr>
+</tbody></table>
+
+<p>For example, to modify <code>Reload Configuration</code> key binding:</p>
+<pre><code class="language-lua">hsreload_keys = {{&quot;cmd&quot;, &quot;shift&quot;, &quot;ctrl&quot;}, &quot;F&quot;}
+</code></pre>
+<p>To completely remove <code>Lock Screen</code> key binding:</p>
+<pre><code class="language-lua">lockscreen_keys = {{}, &quot;&quot;}
+</code></pre> </li>
+
 <li><p>Create your own modal key bindings</p>
 
 <p>See <a href="http://www.hammerspoon.org/docs/hs.hotkey.modal.html">http://www.hammerspoon.org/docs/hs.hotkey.modal.html</a>, also you can refer to my scripts.</p></li>
@@ -400,31 +484,6 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 </code></pre></li>
 
 </ol>
-
-</details>
-
-<h2>TODO</h2>
-
-工作进度：
-<progress value="4" max="5">4/5</progress>
-
-<details>
-<summary>More details</summary>
-
-<p>[X] Code cleanup. Make modules can be easily pluged or unpluged.</p>
-<p>Done. It should work now, also some global options can be set by using <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.</p>
-
-<p>[ ] Put mode block into menubar?</p>
-<p>As I usually hide menubar, this will be a better idea? Or just provide an option?</p>
-
-<p>[X] Help system for modes. Press <kbd>?</kbd> to show hotkeys, so I don&#39;t have to list them all in this file.</p>
-<p>Done. use <kbd>⇥</kbd> for showing hotkeys, and key bindings can update themself dynamically.</p>
-
-<p>[X] Safari tabs/history search</p>
-<p>Done. Even better. See the above <strong>hammer search</strong>.</p>
-
-<p>[X] Make opening URL works for ordinary string in <code>clipboard</code> mode</p>
-<p>Should work now.</p>
 
 </details>
 
