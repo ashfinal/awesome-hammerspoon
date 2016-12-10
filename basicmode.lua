@@ -1,4 +1,4 @@
-viewM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'v')
+viewM = hs.hotkey.modal.new()
 table.insert(modal_list, viewM)
 function viewM:entered()
     modal_stat('view',royalblue)
@@ -61,7 +61,7 @@ function clickWithMouse(opts)
     end
 end
 
-resizeM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'r')
+resizeM = hs.hotkey.modal.new()
 table.insert(modal_list, resizeM)
 function resizeM:entered()
     modal_stat('resize',firebrick)
@@ -116,7 +116,7 @@ resizeM:bind('cmd', 'L', 'Focus Eastward', function() hs.window.filter.focusEast
 resizeM:bind('cmd', 'J', 'Focus Southward', function() hs.window.filter.focusSouth() end, nil, function() hs.window.filter.focusSouth() end)
 resizeM:bind('cmd', 'K', 'Focus Northward', function() hs.window.filter.focusNorth() end, nil, function() hs.window.filter.focusNorth() end)
 
-appM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'm')
+appM = hs.hotkey.modal.new()
 table.insert(modal_list, appM)
 function appM:entered()
     modal_stat('app',osx_yellow)

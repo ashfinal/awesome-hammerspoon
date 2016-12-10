@@ -95,5 +95,3 @@ end
 
 if not launch_calendar then launch_calendar=true end
 if launch_calendar == true then showCalendar() end
-
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "K", function() showCalendar() end)

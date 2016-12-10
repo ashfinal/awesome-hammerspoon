@@ -140,5 +140,3 @@ end
 
 if not launch_analogclock then launch_analogclock = true end
 if launch_analogclock == true then showAnalogClock() end
-
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "E", function() showAnalogClock() end)

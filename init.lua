@@ -67,8 +67,6 @@ hs.hotkey.bind({"cmd", "ctrl", "shift"}, "H", "Force Show Files on Desktop ", fu
     hs.alert.show(" ⚐ Set unhidden")
 end)
 
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "Z", "Show Hammerspoon Console", function() hs.toggleConsole() end)
-
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L", function()
     hs.caffeinate.lockScreen()
 end)
@@ -89,8 +87,6 @@ function show_time()
         time_draw=nil
     end
 end
-
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "T", "Show Digital Clock", function() show_time() end)
 
 function showavailableHotkey()
     if not hotkeytext then
@@ -135,9 +131,6 @@ function showavailableHotkey()
         hotkeybg=nil
     end
 end
-
-hs.hotkey.bind({"cmd", "shift"}, "/", nil, function() showavailableHotkey() end)
-
 
 modal_list = {}
 

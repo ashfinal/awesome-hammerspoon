@@ -36,7 +36,7 @@ function disp_netspeed()
     end
 end
 
-netspeedM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'N')
+netspeedM = hs.hotkey.modal.new()
 table.insert(modal_list, netspeedM)
 function netspeedM:entered() modal_stat('netspeed',black50) disp_netspeed() end
 function netspeedM:exited()
@@ -48,4 +48,3 @@ function netspeedM:exited()
     end
     if nettimer ~= nil then nettimer:stop() end
 end
-netspeedM:bind('alt', 'N', function() netspeedM:exit() end)

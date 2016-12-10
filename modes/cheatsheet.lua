@@ -210,7 +210,7 @@ function showCheatsheet()
     end
 end
 
-cheatsheetM = hs.hotkey.modal.new({'cmd','alt','ctrl'}, 'S')
+cheatsheetM = hs.hotkey.modal.new()
 table.insert(modal_list, cheatsheetM)
 function cheatsheetM:entered() modal_stat('cheatsheet',sandybrown) showCheatsheet() end
 function cheatsheetM:exited()
