@@ -43,7 +43,8 @@
 
 <p>So, following above procedures, you have reloaded Hammerspoon&#39;s configutation. Let&#39;s see what we&#39;ve got here.</p>
 
-<h3>Desktop Widgets</h3>
+<ol>
+<h3><li>Desktop Widgets</li></h3>
 
 <details>
 <summary>More details</summary>
@@ -60,7 +61,7 @@
 
 </details>
 
-<h3>Mode Block</h3>
+<h3><li>Mode Block</li></h3>
 
 <details>
 <summary>More details</summary>
@@ -129,7 +130,7 @@
 
 </details>
 
-<h3>Window Management(resize mode) <kbd>⌥</kbd> + <kbd>R</kbd></h3>
+<h3><li>Window Management(resize mode) <kbd>⌥</kbd> + <kbd>R</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -154,7 +155,7 @@
 
 </details>
 
-<h3>App Launcher(app mode) <kbd>⌥</kbd> + <kbd>A</kbd></h3>
+<h3><li>App Launcher(app mode) <kbd>⌥</kbd> + <kbd>A</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -179,7 +180,7 @@
 
 </details>
 
-<h3>Hammer Search(search mode) <kbd>⌥</kbd> + <kbd>G</kbd></h3>
+<h3><li>Hammer Search(search mode) <kbd>⌥</kbd> + <kbd>G</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -204,7 +205,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 
 </details>
 
-<h3>Timer Indicator(timer mode) <kbd>⌥</kbd> + <kbd>I</kbd></h3>
+<h3><li>Timer Indicator(timer mode) <kbd>⌥</kbd> + <kbd>I</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -225,7 +226,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 
 </details>
 
-<h3>Cheatsheet(cheatsheet mode) <kbd>⌥</kbd> + <kbd>S</kbd></h3>
+<h3><li>Cheatsheet(cheatsheet mode) <kbd>⌥</kbd> + <kbd>S</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -238,7 +239,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 
 </details>
 
-<h3>Clipboard Show(clipboard mode) <kbd>⌥</kbd> + <kbd>C</kbd></h3>
+<h3><li>Clipboard Show(clipboard mode) <kbd>⌥</kbd> + <kbd>C</kbd></li></h3>
 
 <details>
 <summary>More details</summary>
@@ -249,7 +250,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 
 </details>
 
-<h3>Other Stuff</h3>
+<h3><li>Other Stuff</li></h3>
 
 <details>
 <summary>Tmux-styled Clock <kbd>⌥</kbd> + <kbd>T</kbd></summary>
@@ -322,6 +323,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 <hr/>
 
 </details>
+</ol>
 
 <h2>Customization</h2>
 
