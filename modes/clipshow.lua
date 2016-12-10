@@ -13,6 +13,7 @@ function clipshow()
             end
             imageshow = hs.drawing.image(centerimgframe,imagedata)
             imageshow:setLevel(hs.drawing.windowLevels.modalPanel)
+            imageshow:setBehavior(hs.drawing.windowBehaviors.stationary)
             imageshow:show()
             clipDrawn = true
             imageshow:setClickCallback(nil,function() imageshow:delete() clipboardM:exit() clipDrawn=nil end)
@@ -33,12 +34,14 @@ function clipshow()
                 local bgframe = hs.geometry.rect(0,mainRes.h/5,mainRes.w,mainRes.h/5*3)
                 clipbackground = hs.drawing.rectangle(bgframe)
                 clipbackground:setLevel(hs.drawing.windowLevels.modalPanel)
+                clipbackground:setBehavior(hs.drawing.windowBehaviors.stationary)
                 clipbackground:setFill(true)
                 clipbackground:setFillColor({red=0,blue=0,green=0,alpha=0.75})
                 clipbackground:show()
                 textframe = hs.geometry.rect(bgframe.x+20,bgframe.y+20,bgframe.w-40,bgframe.h-40)
                 textshow = hs.drawing.text(textframe,textdata)
                 textshow:setLevel(hs.drawing.windowLevels.modalPanel)
+                textshow:setBehavior(hs.drawing.windowBehaviors.stationary)
                 if string.len(textdata) < 180 then
                     textshow:setTextSize(80.0)
                 else

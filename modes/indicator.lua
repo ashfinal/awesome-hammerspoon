@@ -1,5 +1,3 @@
-if indicator_joinallspaces == nil then indicator_joinallspaces = true end
-
 function timer_indicator(timelen)
     if not indicator_used then
         indicator_used = hs.drawing.rectangle({0,0,0,0})
@@ -7,10 +5,8 @@ function timer_indicator(timelen)
         indicator_used:setFill(true)
         indicator_used:setFillColor(osx_red)
         indicator_used:setAlpha(0.35)
-        indicator_used:setLevel(hs.drawing.windowLevels.modalPanel)
-        if indicator_joinallspaces == true then
-            indicator_used:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        end
+        indicator_used:setLevel(hs.drawing.windowLevels.status)
+        indicator_used:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
         indicator_used:show()
 
         indicator_left = hs.drawing.rectangle({0,0,0,0})
@@ -18,10 +14,8 @@ function timer_indicator(timelen)
         indicator_left:setFill(true)
         indicator_left:setFillColor(osx_green)
         indicator_left:setAlpha(0.35)
-        indicator_left:setLevel(hs.drawing.windowLevels.modalPanel)
-        if indicator_joinallspaces == true then
-            indicator_left:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        end
+        indicator_left:setLevel(hs.drawing.windowLevels.status)
+        indicator_left:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
         indicator_left:show()
 
         totaltime=timelen
