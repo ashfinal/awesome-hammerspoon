@@ -16,28 +16,7 @@ purple = hs.drawing.color.x11.purple
 royalblue = hs.drawing.color.x11.royalblue
 sandybrown = hs.drawing.color.x11.sandybrown
 black50 = {red=0,blue=0,green=0,alpha=0.5}
-
-
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "R", "Reload Hammerspoon Configuration", function()
-    hs.reload()
-    -- hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
-    hs.alert.show("Config loaded")
-end)
-
-function reloadConfig(files)
-    doReload = false
-    for _,file in pairs(files) do
-        if file:sub(-4) == ".lua" then
-            doReload = true
-        end
-    end
-    if doReload then
-        hs.reload()
-    end
-end
-
--- hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
--- hs.alert.show("Config loaded")
+darkblue = {red=24/255,blue=195/255,green=145/255,alpha=1}
 
 privatepath = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private')
 if privatepath == nil then
@@ -48,30 +27,14 @@ if privateconf ~= nil then
     require('private/awesomeconfig')
 end
 
--- Toggle files on Desktop hidden
-hs.hotkey.bind({"cmd", "ctrl"}, "H", "Show/Hide Files on Desktop", function()
-    if hadHidden == nil then
-        os.execute("chflags hidden ~/Desktop/*")
-        hadHidden = 1
-        hs.alert.show(" ⚑ Set hidden")
-    else
-        os.execute("chflags nohidden ~/Desktop/*")
-        hadHidden = nil
-        hs.alert.show(" ⚐ Set unhidden")
-    end
-end)
--- In case reboot or hammerspoon relaunch
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "H", "Force Show Files on Desktop ", function()
-    os.execute("chflags nohidden ~/Desktop/*")
-    hadHidden = nil
-    hs.alert.show(" ⚐ Set unhidden")
+hs.hotkey.bind({"cmd", "shift", "ctrl"}, "R", "Reload Configuration", function()
+    hs.reload()
 end)
 
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L", function()
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L","Lock Screen", function()
     hs.caffeinate.lockScreen()
 end)
 
-darkblue = {red=24/255,blue=195/255,green=145/255,alpha=1}
 function show_time()
     if not time_draw then
         local mainScreen = hs.screen.mainScreen()
@@ -99,9 +62,11 @@ function showavailableHotkey()
         hotkeybg:setFillColor({red=0,blue=0,green=0,alpha=0.5})
         hotkeybg:setRoundedRectRadii(10,10)
         hotkeybg:setLevel(hs.drawing.windowLevels.modalPanel)
+        hotkeybg:setBehavior(hs.drawing.windowBehaviors.stationary)
         local hktextrect = hs.geometry.rect(hkbgrect.x+40,hkbgrect.y+30,hkbgrect.w-80,hkbgrect.h-60)
         hotkeytext = hs.drawing.text(hktextrect,"")
         hotkeytext:setLevel(hs.drawing.windowLevels.modalPanel)
+        hotkeytext:setBehavior(hs.drawing.windowBehaviors.stationary)
         hotkeytext:setClickCallback(nil,function() hotkeytext:delete() hotkeytext=nil hotkeybg:delete() hotkeybg=nil end)
         hotkey_filtered = {}
         for i=1,#hotkey_list do
@@ -144,12 +109,12 @@ function modal_stat(modal, color)
         modal_bg:setStroke(false)
         modal_bg:setFillColor(black)
         modal_bg:setRoundedRectRadii(2,2)
-        modal_bg:setLevel(hs.drawing.windowLevels.modalPanel)
-        modal_bg:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
+        modal_bg:setLevel(hs.drawing.windowLevels.status)
+        modal_bg:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
         local styledText = hs.styledtext.new("init...",{font={size=14.0,color=white},paragraphStyle={alignment="center"}})
         modal_show = hs.drawing.text(modal_text_rect,styledText)
-        modal_show:setLevel(hs.drawing.windowLevels.modalPanel)
-        modal_show:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
+        modal_show:setLevel(hs.drawing.windowLevels.status)
+        modal_show:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
     end
     modal_bg:show()
     modal_bg:setFillColor(color)
@@ -176,7 +141,6 @@ function check_idle()
         end
     end
 end
-
 
 function resize_win(direction)
     local win = hs.window.focusedWindow()
@@ -218,29 +182,6 @@ hs.hotkey.bind({"cmd", "alt"}, "right", "Righthalf of Screen", function() resize
 hs.hotkey.bind({"cmd", "alt"}, "up", "Fullscreen", function() resize_win('fullscreen') end)
 hs.hotkey.bind({"cmd", "alt"}, "down", "Resize & Center", function() resize_win('fcenter') end)
 hs.hotkey.bind({"cmd", "alt"}, "return", "Center Window", function() resize_win('center') end)
-
-
--- caffeine = hs.menubar.new()
--- function setCaffeineDisplay(state)
-    -- local result
-    -- if state then
-        -- result = caffeine:setTitle("♨︎")
-    -- else
-        -- result = caffeine:setTitle("♺")
-    -- end
--- end
-
--- function caffeineClicked()
-    -- setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
--- end
-
--- if caffeine then
-    -- caffeine:setClickCallback(caffeineClicked)
-    -- setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
--- end
-
--- hs.hotkey.bind({"cmd", "ctrl", "alt"}, "L", function() caffeineClicked() end)
-
 
 if not module_list then
     module_list = {
