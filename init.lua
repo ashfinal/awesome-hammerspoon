@@ -27,13 +27,15 @@ if privateconf ~= nil then
     require('private/awesomeconfig')
 end
 
-hs.hotkey.bind({"cmd", "shift", "ctrl"}, "R", "Reload Configuration", function()
-    hs.reload()
-end)
+hsreload_keys = hsreload_keys or {{"cmd", "shift", "ctrl"}, "R"}
+if string.len(hsreload_keys[2]) > 0 then
+    hs.hotkey.bind(hsreload_keys[1], hsreload_keys[2], "Reload Configuration", function() hs.reload() end)
+end
 
-hs.hotkey.bind({"cmd", "ctrl", "shift"}, "L","Lock Screen", function()
-    hs.caffeinate.lockScreen()
-end)
+lockscreen_keys = lockscreen_keys or {{"cmd", "shift", "ctrl"}, "L"}
+if string.len(lockscreen_keys[2]) > 0 then
+    hs.hotkey.bind(lockscreen_keys[1], lockscreen_keys[2],"Lock Screen", function() hs.caffeinate.lockScreen() end)
+end
 
 function show_time()
     if not time_draw then
@@ -85,6 +87,7 @@ function showavailableHotkey()
                 hkstr = hkstr .. hotkey_filtered[i-1].msg .. '\n' .. hotkey_filtered[i].msg .. '\n'
             end
         end
+        if math.fmod(#hotkey_filtered,2) == 1 then hkstr = hkstr .. hotkey_filtered[#hotkey_filtered].msg end
         local hkstr_styled = hs.styledtext.new(hkstr, {font={name="Courier-Bold",size=16}, color=white, paragraphStyle={lineSpacing=12.0,lineBreak='truncateMiddle'}})
         hotkeytext:setStyledText(hkstr_styled)
         hotkeybg:show()
@@ -177,11 +180,26 @@ function resize_win(direction)
     end
 end
 
-hs.hotkey.bind({"cmd", "alt"}, "left", "Lefthalf of Screen", function() resize_win('halfleft') end)
-hs.hotkey.bind({"cmd", "alt"}, "right", "Righthalf of Screen", function() resize_win('halfright') end)
-hs.hotkey.bind({"cmd", "alt"}, "up", "Fullscreen", function() resize_win('fullscreen') end)
-hs.hotkey.bind({"cmd", "alt"}, "down", "Resize & Center", function() resize_win('fcenter') end)
-hs.hotkey.bind({"cmd", "alt"}, "return", "Center Window", function() resize_win('center') end)
+resizeextra_lefthalf_keys = resizeextra_lefthalf_keys or {{"cmd", "alt"}, "left"}
+if string.len(resizeextra_lefthalf_keys[2]) > 0 then
+    hs.hotkey.bind(resizeextra_lefthalf_keys[1], resizeextra_lefthalf_keys[2], "Lefthalf of Screen", function() resize_win('halfleft') end)
+end
+resizeextra_righthalf_keys = resizeextra_righthalf_keys or {{"cmd", "alt"}, "right"}
+if string.len(resizeextra_righthalf_keys[2]) > 0 then
+    hs.hotkey.bind(resizeextra_righthalf_keys[1], resizeextra_righthalf_keys[2], "Righthalf of Screen", function() resize_win('halfright') end)
+end
+resizeextra_fullscreen_keys = resizeextra_fullscreen_keys or {{"cmd", "alt"}, "up"}
+if string.len(resizeextra_fullscreen_keys[2]) > 0 then
+    hs.hotkey.bind(resizeextra_fullscreen_keys[1], resizeextra_fullscreen_keys[2], "Fullscreen", function() resize_win('fullscreen') end)
+end
+resizeextra_fcenter_keys = resizeextra_fcenter_keys or {{"cmd", "alt"}, "down"}
+if string.len(resizeextra_fcenter_keys[2]) > 0 then
+    hs.hotkey.bind(resizeextra_fcenter_keys[1], resizeextra_fcenter_keys[2], "Resize & Center", function() resize_win('fcenter') end)
+end
+resizeextra_center_keys = resizeextra_center_keys or {{"cmd", "alt"}, "return"}
+if string.len(resizeextra_center_keys[2]) > 0 then
+    hs.hotkey.bind(resizeextra_center_keys[1], resizeextra_center_keys[2], "Center Window", function() resize_win('center') end)
+end
 
 if not module_list then
     module_list = {

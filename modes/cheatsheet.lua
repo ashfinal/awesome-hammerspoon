@@ -222,6 +222,5 @@ function cheatsheetM:exited()
     end
     if myView ~= nil then myView:delete() myView=nil end
 end
-cheatsheetM:bind('alt', 'S', function() cheatsheetM:exit() end)
 cheatsheetM:bind('', 'escape', function() cheatsheetM:exit() end)
 cheatsheetM:bind('', 'Q', function() cheatsheetM:exit() end)
