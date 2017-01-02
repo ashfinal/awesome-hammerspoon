@@ -11,32 +11,35 @@ end
 -- task_calendar = hs.styledtext.ansi(hs.execute("/usr/local/opt/task/bin/task calendar"):gsub("-",""),{font={name="Courier",size=16},color=red})
 
 function drawToday()
-    -- How to get yearweek of someday
-    -- 1+tolastdayof1stweek+7*(yearweek-1)=yday
-    -- tolastdayof1stweek=7-weekdayof1stday
-    -- then
-    -- yearweek=(yday-1-tolastdayof1stweek)/7+1
+    -- daycountof1stweek = 8-weekdayof1stday
+    -- daycountof1stweek+7*(yearweek-1) = yday
+    -- yearweek = (yday-daycountof1stweek)/7+1
 
     local currentyear = os.date("%Y")
     local currentmonth = os.date("%m")
     local today = math.tointeger(os.date("%d"))
-    local weekdayof1stday = os.date("*t",os.time{year=currentyear,month=1,day=1,hour      =0}).wday
-    local tolastdayof1stweek = 7-weekdayof1stday
+    local weekdayof1stday = os.date("*t",os.time{year=currentyear,month=1,day=1,hour=0}).wday
+    local daycountof1stweek = 8-weekdayof1stday
     local todayyday = os.date("*t").yday
-    if todayyday-1-tolastdayof1stweek<0 then
+    if todayyday<=daycountof1stweek then
         todayyearweek = 1
     else
-        todayyearweek = math.ceil((todayyday-1-tolastdayof1stweek)/7)+1
+        todayyearweek = math.ceil((todayyday-daycountof1stweek)/7)+1
     end
     local firstdayofcurrentmonth = os.time{year=currentyear, month=currentmonth, day=1, hour=0}
     local lastdayoflastmonth = os.date("*t", firstdayofcurrentmonth-24*60*60)
     local lastdayyday = lastdayoflastmonth.yday
-    if lastdayyday-1-tolastdayof1stweek<0 then
+    if lastdayyday<=daycountof1stweek then
         lastdayyearweek = 1
     else
-        lastdayyearweek = math.ceil((lastdayyday-1-tolastdayof1stweek)/7)+1
+        lastdayyearweek = math.ceil((lastdayyday-daycountof1stweek)/7)+1
     end
-    local rowofcurrentmonth = todayyearweek-lastdayyearweek+1
+
+    if todayyearweek < lastdayyearweek then
+        rowofcurrentmonth = 1
+    else
+        rowofcurrentmonth = todayyearweek - lastdayyearweek + 1
+    end
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
