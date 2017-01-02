@@ -134,17 +134,6 @@ function exit_others(except)
     end
 end
 
-function check_idle()
-    if modal_text == 'DOCK MODE' then
-        if idle_to_which == "netspeed" and netspeedM then
-            netspeedM:enter()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        end
-    end
-end
-
 function resize_win(direction)
     local win = hs.window.focusedWindow()
     if win then
