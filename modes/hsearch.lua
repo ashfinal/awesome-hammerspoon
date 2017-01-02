@@ -1,7 +1,6 @@
 hsearch_loaded = true
 if youdaokeyfrom == nil then youdaokeyfrom = 'hsearch' end
 if youdaoapikey == nil then youdaoapikey = '1199732752' end
-if usesuggest == nil then usesuggest = true end
 
 function safariTabinfoRequest()
     local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
@@ -180,7 +179,7 @@ function launchChooser()
                 end
             end)
             search_chooser:searchSubText(false)
-            outputtype = 'other'
+            outputtype = 'pasteboard'
         else
             if usesuggest == true then
                 choosertimer = hs.timer.delayed.new(0.3,function()
