@@ -64,6 +64,8 @@ resizeM = hs.hotkey.modal.new()
 table.insert(modal_list, resizeM)
 function resizeM:entered()
     modal_stat('resize',firebrick)
+    resize_current_winnum = 1
+    resize_win_list = hs.window.visibleWindows()
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
@@ -109,10 +111,20 @@ resizeM:bind('shift', 'H', 'Move Leftward', function() resize_win('mleft') end, 
 resizeM:bind('shift', 'L', 'Move Rightward', function() resize_win('mright') end, nil, function() resize_win('mright') end)
 resizeM:bind('shift', 'J', 'Move Downward', function() resize_win('mdown') end, nil, function() resize_win('mdown') end)
 resizeM:bind('shift', 'K', 'Move Upward', function() resize_win('mup') end, nil, function() resize_win('mup') end)
-resizeM:bind('cmd', 'H', 'Focus Westward', function() hs.window.filter.focusWest() end, nil, function() hs.window.filter.focusWest() end)
-resizeM:bind('cmd', 'L', 'Focus Eastward', function() hs.window.filter.focusEast() end, nil, function() hs.window.filter.focusEast() end)
-resizeM:bind('cmd', 'J', 'Focus Southward', function() hs.window.filter.focusSouth() end, nil, function() hs.window.filter.focusSouth() end)
-resizeM:bind('cmd', 'K', 'Focus Northward', function() hs.window.filter.focusNorth() end, nil, function() hs.window.filter.focusNorth() end)
+resizeM:bind('cmd', 'H', 'Focus Westward', function() cycle_wins_pre() end, nil, function() cycle_wins_pre() end)
+resizeM:bind('cmd', 'L', 'Focus Eastward', function() cycle_wins_next() end, nil, function() cycle_wins_next() end)
+
+function cycle_wins_next()
+    resize_win_list[resize_current_winnum]:focus()
+    resize_current_winnum = resize_current_winnum + 1
+    if resize_current_winnum > #resize_win_list then resize_current_winnum = 1 end
+end
+
+function cycle_wins_pre()
+    resize_win_list[resize_current_winnum]:focus()
+    resize_current_winnum = resize_current_winnum - 1
+    if resize_current_winnum < 1 then resize_current_winnum = #resize_win_list end
+end
 
 appM = hs.hotkey.modal.new()
 table.insert(modal_list, appM)
