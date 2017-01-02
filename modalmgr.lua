@@ -8,10 +8,18 @@ function modalmgr:entered()
         if launch_resizeM == true then resizeM:enter() end
     end
     if idle_to_which == nil then idle_to_which = "netspeed" end
-    if idle_to_which ~= "never" then
-        idletimer = hs.timer.doEvery(5,check_idle)
+    if idle_to_which == "netspeed" then
+        idletimer = hs.timer.doEvery(5,function()
+            if modal_text == 'DOCK MODE' and netspeedM then
+                netspeedM:enter()
+            end
+        end)
+    elseif idle_to_which == "hide" then
+        modal_show:hide()
+        modal_bg:hide()
     end
 end
+
 function modalmgr:exited()
     exit_others(nil)
     dock_launched = nil
