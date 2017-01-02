@@ -81,7 +81,7 @@
     </thead>
     <tbody><tr>
             <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>A</kbd></td>
-            <td style="text-align:left;">Enter app mode</td>
+            <td style="text-align:left;">Enter <code>app</code> mode</td>
         </tr>
         <tr>
             <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>C</kbd></td>
@@ -117,7 +117,7 @@
         </tr>
         <tr>
             <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>Z</kbd></td>
-            <td style="text-align:left;">Open Hammerspoon console</td>
+            <td style="text-align:left;">Toggle Hammerspoon console</td>
         </tr>
         <tr>
             <td style="text-align:left;"><kbd>⌥</kbd> + <kbd>⇥</kbd></td>
@@ -141,7 +141,7 @@
 
 <p>Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.</p>
 
-<p>Use <kbd>⌘</kbd> + <kbd>H/J/K/L</kbd> to cycle through active windows.</p>
+<p>Use <kbd>⌘</kbd> + <kbd>H/L</kbd> to cycle through active windows.</p>
 
 <p>Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to <strong>move</strong> windows around.</p>
 
@@ -150,8 +150,6 @@
 <p>Use <kbd>⌃</kbd> + <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.</p>
 
 <p>Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⌃</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.</p>
-
-<p>And of course, you can use system-wide <kbd>⌘</kbd> + <kbd>⇥</kbd> to switch between active applications.</p>
 
 </details>
 
@@ -374,84 +372,107 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 <tr>
  <th style="text-align:left;">Action</th>
  <th style="text-align:left;">Variable</th>
+ <th style="text-align:left;">Default value</th>
 </tr>
 </thead>
 <tbody><tr>
  <td style="text-align:left;">Reload Configuration</td>
  <td style="text-align:left;">hsreload_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;shift&quot;, &quot;ctrl&quot;}, &quot;R&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Toggle Modal Supervisor</td>
  <td style="text-align:left;">modalmgr_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;space&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Toggle Hammerspoon Console</td>
  <td style="text-align:left;">toggleconsole_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;Z&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Lock Screen</td>
  <td style="text-align:left;">lockscreen_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;shift&quot;, &quot;ctrl&quot;}, &quot;L&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter Application Mode</td>
  <td style="text-align:left;">appM_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;A&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter Clipboard Mode</td>
  <td style="text-align:left;">clipboardM_keys</td>
+ <td style="text-align:left;">{&quot;alt&quot;}, &quot;C&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Launch Hammer Search</td>
  <td style="text-align:left;">hsearch_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;G&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter Timer Mode</td>
  <td style="text-align:left;">timerM_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;T&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter Resize Mode</td>
  <td style="text-align:left;">resizeM_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;R&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter Cheatsheet Mode</td>
  <td style="text-align:left;">cheatsheetM_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;S&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Show Digital Clock</td>
  <td style="text-align:left;">showtime_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;T&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Enter View Mode</td>
  <td style="text-align:left;">viewM_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;V&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Show Window hints</td>
  <td style="text-align:left;">winhints_keys</td>
+ <td style="text-align:left;">{{&quot;alt&quot;}, &quot;tab&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Lefthalf of Screen</td>
  <td style="text-align:left;">resizeextra_lefthalf_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;alt&quot;}, &quot;left&quot;}</td>
 </tr>
 <tr>
  <td style="text-align:left;">Righthalf of Screen</td>
  <td style="text-align:left;">resizeextra_righthalf_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;alt&quot;}, &quot;right&quot;}</td>
+</tr>
 </tr>
 <tr>
  <td style="text-align:left;">Fullscreen</td>
  <td style="text-align:left;">resizeextra_fullscreen_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;alt&quot;}, &quot;up&quot;}</td>
+</tr>
 </tr>
 <tr>
  <td style="text-align:left;">Resize &amp; Center</td>
  <td style="text-align:left;">resizeextra_fcenter_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;alt&quot;}, &quot;down&quot;}</td>
+</tr>
 </tr>
 <tr>
  <td style="text-align:left;">Center Window</td>
  <td style="text-align:left;">resizeextra_center_keys</td>
+ <td style="text-align:left;">{{&quot;cmd&quot;, &quot;alt&quot;}, &quot;return&quot;}</td>
+</tr>
 </tr>
 </tbody></table>
 
-<p>For example, to modify <code>Reload Configuration</code> key binding:</p>
-<pre><code class="language-lua">hsreload_keys = {{&quot;cmd&quot;, &quot;shift&quot;, &quot;ctrl&quot;}, &quot;F&quot;}
+<p>For example, to modify <code>Toggle Modal Supervisor</code> key binding:</p>
+<pre><code class="language-lua">modalmgr_keys = {{&quot;cmd&quot;, &quot;shift&quot;, &quot;ctrl&quot;}, &quot;F&quot;}
 </code></pre>
 <p>To completely remove <code>Lock Screen</code> key binding:</p>
 <pre><code class="language-lua">lockscreen_keys = {{}, &quot;&quot;}
@@ -472,7 +493,7 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
      aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;
 
      -- Make mode block idle to netspeed or just hide.
-     idle_to_which = &quot;never/netspeed/hide&quot;
+     idle_to_which = &quot;netspeed/hide/never&quot;
 
      -- When enter `app` mode show or hide applauncher tips automatically.
      show_applauncher_tips = true/false
