@@ -145,7 +145,7 @@ function launchChooser()
         if suggesttext then suggesttext:hide() end
         if meanlike then meanlike:delete() end
         if switcher then switcher:delete() end
-        if choosertimer then choosertimer:stop() choosertimer=nil end
+        if choosertimer then choosertimer=nil end
         if chosen ~= nil then
             if outputtype == "safari" then
                 local defaultbrowser = hs.urlevent.getDefaultHandler('http')

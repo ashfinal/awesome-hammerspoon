@@ -1,4 +1,5 @@
 hs.hotkey.alertDuration=0
+hs.hints.showTitleThresh = 0
 hs.window.animationDuration = 0
 
 white = hs.drawing.color.white
