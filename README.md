@@ -169,7 +169,6 @@
     {shortcut = &#39;o&#39;,appname = &#39;LibreOffice&#39;},
     {shortcut = &#39;r&#39;,appname = &#39;Firefox&#39;},
 }
-
 </code></pre>
 
 <p><strong>UPDATE:</strong> Now you can press <kbd>⇥</kbd> to show key bindings, also available in <code>resize</code>, <code>view</code>, <code>timer</code> mode.</p>
@@ -485,25 +484,23 @@ youdaoapikey = &#39;1199732752&#39;  -- API key
 
 <p>These options should be put into <code>~/.hammerspoon/private/awesomeconfig.lua</code> file.<br/>
 
-<pre><code class="language-lua">
-     -- You may want to use your own aria2 webclient.
-     aria2URL = &quot;http://www.myaria2.com/&quot;
+<pre><code class="language-lua">-- You may want to use your own aria2 webclient.
+aria2URL = &quot;http://www.myaria2.com/&quot;
 
-     -- Local files also are supported, like this:
-     aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;
+-- Local files also are supported, like this:
+aria2URL = &quot;file:///Users/ashfinal/Downloads/glutton/index.html&quot;
 
-     -- Make mode block idle to netspeed or just hide.
-     idle_to_which = &quot;netspeed/hide/never&quot;
+-- Make mode block idle to netspeed or just hide.
+idle_to_which = &quot;netspeed/hide/never&quot;
 
-     -- When enter `app` mode show or hide applauncher tips automatically.
-     show_applauncher_tips = true/false
+-- When enter `app` mode show or hide applauncher tips automatically.
+show_applauncher_tips = true/false
 
-     -- Put analogclock to somewhere by defining center point.
-     aclockcenter = {x=200,y=200}
+-- Put analogclock to somewhere by defining center point.
+aclockcenter = {x=200,y=200}
 
-     -- Put calendar to somewhere by defining topleft point.
-     caltopleft = {200,200}
-     ```
+-- Put calendar to somewhere by defining topleft point.
+caltopleft = {200,200}
 </code></pre></li>
 
 </ol>

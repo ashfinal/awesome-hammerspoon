@@ -35,15 +35,15 @@ function drawToday()
         lastdayyearweek = math.ceil((lastdayyday-daycountof1stweek)/7)+1
     end
 
-    if todayyearweek < lastdayyearweek then
+    if lastdayyearweek >= 53 then
         rowofcurrentmonth = 1
     else
         rowofcurrentmonth = todayyearweek - lastdayyearweek + 1
     end
-    local columnofcurrentmonth = os.date("*t").wday
+    columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
-    local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
+    local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+2),splitw/7,splith/7)
     if not todaycover then
         todaycover = hs.drawing.rectangle(todaycoverrect)
         todaycover:setStroke(false)
