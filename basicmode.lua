@@ -16,6 +16,10 @@ function viewM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
@@ -77,6 +81,10 @@ function resizeM:exited()
     if dock_launched then
         modal_stat('dock',black)
     else
+        modal_bg:hide()
+        modal_show:hide()
+    end
+    if idle_to_which == "hide" then
         modal_bg:hide()
         modal_show:hide()
     end
@@ -143,6 +151,10 @@ function appM:exited()
     if dock_launched then
         modal_stat('dock',black)
     else
+        modal_bg:hide()
+        modal_show:hide()
+    end
+    if idle_to_which == "hide" then
         modal_bg:hide()
         modal_show:hide()
     end

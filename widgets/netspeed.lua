@@ -46,5 +46,9 @@ function netspeedM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
     if nettimer ~= nil then nettimer:stop() end
 end

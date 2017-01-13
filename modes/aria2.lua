@@ -26,6 +26,10 @@ function downloadM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
     if aria2GUI ~= nil then aria2GUI:hide() end
 end
 downloadM:bind('', 'escape', function() downloadM:exit() end)
