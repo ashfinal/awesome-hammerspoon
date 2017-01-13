@@ -220,6 +220,10 @@ function cheatsheetM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
     if myView ~= nil then myView:delete() myView=nil end
 end
 cheatsheetM:bind('', 'escape', function() cheatsheetM:exit() end)

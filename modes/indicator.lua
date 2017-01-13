@@ -74,6 +74,10 @@ function timerM:exited()
         modal_bg:hide()
         modal_show:hide()
     end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil

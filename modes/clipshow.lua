@@ -69,6 +69,18 @@ end
 clipboardM = hs.hotkey.modal.new()
 table.insert(modal_list, clipboardM)
 function clipboardM:entered() modal_stat('clipboard',purple) clipshow() end
-function clipboardM:exited() if dock_launched then modal_stat('dock',black) else modal_bg:hide() modal_show:hide() end clipshowclear() end
+function clipboardM:exited()
+    clipshowclear()
+    if dock_launched then
+        modal_stat('dock',black)
+    else
+        modal_bg:hide()
+        modal_show:hide()
+    end
+    if idle_to_which == "hide" then
+        modal_bg:hide()
+        modal_show:hide()
+    end
+end
 clipboardM:bind('', 'escape', function() clipboardM:exit() end)
 clipboardM:bind('', 'Q', function() clipboardM:exit() end)
