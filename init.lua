@@ -195,11 +195,10 @@ if not module_list then
     module_list = {
         "basicmode",
         "widgets/netspeed",
-        "widgets/calendar",
+        "widgets/hcalendar",
         "widgets/analogclock",
         "modes/indicator",
         "modes/clipshow",
-        "modes/cheatsheet",
         "modes/hsearch",
     }
 end
