@@ -49,7 +49,7 @@ As you may have noticed, there are two clean, nice-looking desktop widgets, anal
 
 ![widgets](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-deskwidgets.png)
 
-**UPDATE:** Add new widget `hcalendar`. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
+**UPDATE:** Add new widget `hcalendar` and make it default module. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
 
 ![hcal](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hcal.png)
 
@@ -186,6 +186,8 @@ Let the picture talk:
 
 ![cheatsheet](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-cheatsheet.png)
 
+*Default off. To add this module to your config, please refer to the `Customization` section.*
+
 </details>
 
 ### 8. Clipboard Show(clipboard mode) <kbd>⌥</kbd> + <kbd>C</kbd>
@@ -235,7 +237,7 @@ Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
 
 I use [glutton](https://github.com/NemoAlex/glutton)(a tiny webclient for aria2) to manage aria2's download queue. This mode creates an interface for glutton, so I can handle aria2 more convenient.
 
-Default off. To add this module to your config, please refer to the `Customization` section.
+*Default off. To add this module to your config, please refer to the `Customization` section.*
 
 *To speed up the display of webclient, by default when you press `⎋` the interface is hiden(instead destroyed). This may increase resource occupation. If you don't use `download` mode for a long time, when quitting use <kbd>⌃</kbd> + <kbd>⎋</kbd> to completely destory the webclient.*
 
@@ -291,11 +293,10 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
         module_list = {
             "basicmode",
             "widgets/netspeed",
-            "widgets/calendar",
+            "widgets/hcalendar",
             "widgets/analogclock",
             "modes/indicator",
             "modes/clipshow",
-            "modes/cheatsheet",
             "modes/hsearch",
         }
 
@@ -304,11 +305,10 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
         module_list = {
             "basicmode",
             "widgets/netspeed",
-            "widgets/calendar",
+            "widgets/hcalendar",
             "widgets/analogclock",
             "modes/indicator",
             "modes/clipshow",
-            "modes/cheatsheet",
             "private/mymodule",
         }
 
@@ -353,23 +353,25 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
     These options should be put into `~/.hammerspoon/private/awesomeconfig.lua` file.
 
-        -- You may want to use your own aria2 webclient.
-        aria2URL = "http://www.myaria2.com/"
+    ``` lua
+    -- You may want to use your own aria2 webclient.
+    aria2URL = "http://www.myaria2.com/"
 
-        -- Local files also are supported, like this:
-        aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
+    -- Local files also are supported, like this:
+    aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
 
-        -- Make mode block idle to netspeed or just hide.
-        idle_to_which = "netspeed/hide/never"
+    -- Make mode block idle to netspeed or just hide.
+    idle_to_which = "netspeed/hide/never"
 
-        -- When enter `app` mode show or hide applauncher tips automatically.
-        show_applauncher_tips = true/false
+    -- When enter `app` mode show or hide applauncher tips automatically.
+    show_applauncher_tips = true/false
 
-        -- Put analogclock to somewhere by defining center point.
-        aclockcenter = {x=200,y=200}
+    -- Put analogclock to somewhere by defining center point.
+    aclockcenter = {x=200,y=200}
 
-        -- Put calendar to somewhere by defining topleft point.
-        caltopleft = {200,200}
+    -- Put calendar to somewhere by defining topleft point.
+    caltopleft = {200,200}
+    ```
 
 </details>
 
