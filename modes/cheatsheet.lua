@@ -2,23 +2,30 @@
 --/ Cheatsheet Copycat /--
 ------------------------------------------------------------------------
 
+--commandEnum = {
+--        [0] = '⌘',
+--        [1] = '⇧ ⌘',
+--        [2] = '⌥ ⌘',
+--        [3] = '⌥ ⇧ ⌘',
+--        [4] = '⌃ ⌘',
+--        [5] = '⇧ ⌃ ⌘',
+--        [6] = '⌃ ⌥ ⌘',
+--        [7] = '',
+--        [8] = '⌦',
+--        [9] = '',
+--        [10] = '⌥',
+--        [11] = '⌥ ⇧',
+--        [12] = '⌃',
+--        [13] = '⌃ ⇧',
+--        [14] = '⌃ ⌥',
+--    }
 commandEnum = {
-        [0] = '⌘',
-        [1] = '⇧ ⌘',
-        [2] = '⌥ ⌘',
-        [3] = '⌥ ⇧ ⌘',
-        [4] = '⌃ ⌘',
-        [5] = '⇧ ⌃ ⌘',
-        [6] = '⌃ ⌥ ⌘',
-        [7] = '',
-        [8] = '⌦',
-        [9] = '',
-        [10] = '⌥',
-        [11] = '⌥ ⇧',
-        [12] = '⌃',
-        [13] = '⌃ ⇧',
-        [14] = '⌃ ⌥',
-    }
+    ['cmd'] = '⌘',
+    ['shift'] = '⇧',
+    ['alt'] = '⌥',
+    ['ctrl'] = '⌃',
+}
+
 
 function getAllMenuItemsTable(t)
     local menu = {}
@@ -57,9 +64,12 @@ function getAllMenuItems(t)
                     menu = menu.. getAllMenuItems(val['AXChildren'][1])
                     menu = menu.."</ul>"
                 elseif(val['AXRole'] =="AXMenuItem" and not val['AXChildren']) then
-                    if( val['AXMenuItemCmdModifiers'] ~='0' and val['AXMenuItemCmdChar'] ~='') then
-                        --print(val['AXMenuItemCmdModifiers'].." | "..val['AXTitle'].." | CmdChar: "..val['AXMenuItemCmdChar'])
-                        menu = menu.."<li><div class='cmdModifiers'>"..commandEnum[val['AXMenuItemCmdModifiers']].." "..val['AXMenuItemCmdChar'].."</div><div class='cmdtext'>".." "..val['AXTitle'].."</div></li>"
+                    if( val['AXMenuItemCmdChar'] ~= '') then
+                        CmdModifiers = ''
+                        for key, value in pairs(val['AXMenuItemCmdModifiers']) do
+                            CmdModifiers = CmdModifiers..commandEnum[value]
+                        end
+                        menu = menu.."<li><div class='cmdModifiers'>"..CmdModifiers.." "..val['AXMenuItemCmdChar'].."</div><div class='cmdtext'>".." "..val['AXTitle'].."</div></li>"
                     end
                 elseif(val['AXRole'] =="AXMenuItem" and type(val['AXChildren']) == "table") then
                     menu = menu..getAllMenuItems(val['AXChildren'][1])
