@@ -207,8 +207,9 @@ end
 myView = nil
 
 function showCheatsheet()
+    local frame = hs.geometry.rect(hs.screen.mainScreen():frame().topleft, "1080*600")
     if not myView then
-        myView = hs.webview.new({x = 100, y = 100, w = 1080, h = 600})
+        myView = hs.webview.new(frame)
         :windowStyle("utility")
         :closeOnEscape(true)
         :html(generateHtml())
