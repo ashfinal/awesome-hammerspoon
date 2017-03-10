@@ -121,6 +121,11 @@ resizeM:bind('shift', 'J', 'Move Downward', function() resize_win('mdown') end, 
 resizeM:bind('shift', 'K', 'Move Upward', function() resize_win('mup') end, nil, function() resize_win('mup') end)
 resizeM:bind('', '[', 'Focus Westward', function() cycle_wins_pre() end, nil, function() cycle_wins_pre() end)
 resizeM:bind('', ']', 'Focus Eastward', function() cycle_wins_next() end, nil, function() cycle_wins_next() end)
+resizeM:bind('', 'up', 'Move to monitor above', function() move_win('up') end, nil, nil)
+resizeM:bind('', 'down', 'Move to monitor below', function() move_win('down') end, nil, nil)
+resizeM:bind('', 'right', 'Move to monitor right', function() move_win('right') end, nil, nil)
+resizeM:bind('', 'left', 'Move to monitor left', function() move_win('left') end, nil, nil)
+resizeM:bind('', 'space', 'Move to next monitor', function() move_win('next') end, nil, nil)
 
 function cycle_wins_next()
     resize_win_list[resize_current_winnum]:focus()
