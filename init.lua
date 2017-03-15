@@ -135,6 +135,18 @@ function exit_others(except)
     end
 end
 
+function move_win(direction)
+    local win = hs.window.focusedWindow()
+    local screen = win:screen()
+    if win then
+        if direction == 'up' then win:moveOneScreenNorth() end
+        if direction == 'down' then win:moveOneScreenSouth() end
+        if direction == 'left' then win:moveOneScreenWest() end
+        if direction == 'right' then win:moveOneScreenEast() end
+        if direction == 'next' then win:moveToScreen(screen:next()) end
+    end
+end
+
 function resize_win(direction)
     local win = hs.window.focusedWindow()
     if win then
