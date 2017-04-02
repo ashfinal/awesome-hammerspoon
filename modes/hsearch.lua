@@ -1,8 +1,86 @@
 hsearch_loaded = true
 if youdaokeyfrom == nil then youdaokeyfrom = 'hsearch' end
 if youdaoapikey == nil then youdaoapikey = '1199732752' end
+chooserSourceTable = {}
+chooserSourceOverview = {}
 
-function safariTabinfoRequest()
+function switchSource()
+    function isInKeywords(value, tbl)
+        for i=1,#tbl do
+            if tbl[i].kw == value then
+                sourcetable_index = i
+                return true
+            end
+        end
+        return false
+    end
+    local querystr = search_chooser:query()
+    if string.len(querystr) > 0 then
+        local matchstr = string.match(querystr,"^%w+")
+        if matchstr == querystr then
+            if isInKeywords(querystr, chooserSourceTable) then
+                search_chooser:query('')
+                chooser_data = {}
+                search_chooser:choices(chooser_data)
+                search_chooser:queryChangedCallback()
+                chooserSourceTable[sourcetable_index].func()
+            else
+                chooser_data = {}
+                local source_desc = {text="No source found!", subText="Maybe misspelled the keyword?"}
+                table.insert(chooser_data, 1, source_desc)
+                local more_tips = {text="Want to add your own source?", subText="Feel free to read the code and open PRs. :)"}
+                table.insert(chooser_data, 2, more_tips)
+                search_chooser:choices(chooser_data)
+                search_chooser:queryChangedCallback()
+                outputtype = "other"
+            end
+        else
+            chooser_data = {}
+            local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
+            table.insert(chooser_data, 1, source_desc)
+            search_chooser:choices(chooser_data)
+            search_chooser:queryChangedCallback()
+            outputtype = "other"
+        end
+    else
+        chooser_data = chooserSourceOverview
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback()
+        outputtype = "other"
+    end
+end
+
+function launchChooser()
+    chooser_data = {}
+    if sourcetrigger == nil then
+        sourcetrigger = hs.hotkey.bind("","tab",nil,switchSource)
+    else
+        sourcetrigger:enable()
+    end
+    if search_chooser == nil then
+        search_chooser = hs.chooser.new(function(chosen)
+            sourcetrigger:disable()
+            if chosen ~= nil then
+                if outputtype == "safari" then
+                    hs.urlevent.openURLWithBundle(chosen.subText,"com.apple.Safari")
+                elseif outputtype == "pasteboard" then
+                    hs.pasteboard.setContents(chosen.text)
+                elseif outputtype == "keystroke" then
+                    hs.eventtap.keyStrokes(chosen.text)
+                end
+            end
+        end)
+    end
+    search_chooser:query('')
+    search_chooser:queryChangedCallback()
+    chooser_data = chooserSourceOverview
+    search_chooser:choices(chooser_data)
+    search_chooser:rows(9)
+    outputtype = 'other'
+    search_chooser:show()
+end
+
+function safariTabsRequest()
     local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
     if stat then
         chooser_data = hs.fnutils.imap(data, function(item)
@@ -11,15 +89,33 @@ function safariTabinfoRequest()
     end
 end
 
+function safariSource()
+    local safarisource_overview = {text="Type sa<tab> to search Safari Tabs."}
+    table.insert(chooserSourceOverview,safarisource_overview)
+    function safariFunc()
+        safariTabsRequest()
+        local source_desc = {text="Safari Tabs Search", subText="Search and select one item below to open in Safari."}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:searchSubText(true)
+        outputtype = 'safari'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "sa"
+    sourcepkg.func = safariFunc
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+safariSource()
+
 function youdaoInstantTrans(querystr)
-    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
+    youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
     if string.len(querystr) > 0 then
         local encoded_query = hs.http.encodeForQuery(querystr)
         local query_url = youdao_baseurl..encoded_query
 
         hs.http.asyncGet(query_url,nil,function(status,data)
             if status == 200 then
-                youdaostatus = true
                 if pcall(function() hs.json.decode(data) end) then
                     local decoded_data = hs.json.decode(data)
                     if decoded_data.errorCode == 0 then
@@ -38,207 +134,35 @@ function youdaoInstantTrans(querystr)
                             chooser_data = hs.fnutils.imap(dictpool, function(item)
                                 return {text = item}
                             end)
+                            search_chooser:choices(chooser_data)
+                            search_chooser:refreshChoicesCallback()
                         end
                     end
                 end
-            else
-                youdaostatus = false
             end
         end)
     else
-        oldquerystr = ""
         chooser_data = {}
-    end
-end
-
-function datamuseSuggest(querystr)
-    local datamuse_baseurl = 'http://api.datamuse.com'
-    if string.len(querystr) > 0 then
-        local encoded_query = hs.http.encodeForQuery(querystr)
-        local query_url = datamuse_baseurl..'/sug?s='..encoded_query..'&max=5'
-
-        hs.http.asyncGet(query_url,nil,function(stat,data)
-            if stat == 200 then
-                datamusestatus = true
-                if pcall(function() hs.json.decode(data) end) then
-                    local decoded_data = hs.json.decode(data)
-                    if #decoded_data > 0 then
-                        suggest_data = hs.fnutils.imap(decoded_data, function(item)
-                            return item.word
-                        end)
-                        suggeststr = table.concat(suggest_data,' ')
-                    end
-                end
-            else
-                datamusestatus = false
-            end
-        end)
-    else
-        suggeststr = ""
-    end
-end
-
-function drawSuggest(querystr)
-    if not suggestframe then
-        local chooserwin = hs.window'Chooser'
-        if chooserwin ~= nil then
-            local chooserframe = chooserwin:frame()
-            local framerect = hs.geometry.rect(chooserframe.x,chooserframe.y-50,chooserframe.w,50)
-            suggestframe = hs.drawing.rectangle(framerect)
-            local framebgcolor = {red=235/255,green=235/255,blue=235/255,alpha=0.90}
-            suggestframe:setFillColor(framebgcolor)
-            -- suggestframe:setFillGradient(framebgcolor,sugtextcolor,270)
-            suggestframe:setStroke(false)
-            local textrect = hs.geometry.rect(chooserframe.x+5,chooserframe.y-45,chooserframe.w,40)
-            suggesttext = hs.drawing.text(textrect,'')
-            -- suggesttext:setTextSize(20)
-            local sugtextcolor = {red=181/255,green=181/255,blue=181/255}
-            suggesttext:setTextColor(sugtextcolor)
-        end
-    else
-        if  suggeststr ~= "" and string.len(querystr) ~= 0 then
-            suggestframe:show()
-            suggesttext:show()
-            suggesttext:setText(suggeststr)
-        else
-            oldquerystr = ""
-            suggestframe:hide()
-            suggesttext:hide()
-        end
-    end
-end
-
-function thesaurusRequest()
-    local datamuse_baseurl = 'http://api.datamuse.com'
-    local querystr = string.gsub(search_chooser:query(),'%s+$','')
-    if string.len(querystr) > 0 then
-        local encoded_query = hs.http.encodeForQuery(querystr)
-        local query_url = datamuse_baseurl..'/words?ml='..encoded_query..'&max=20'
-
-        local stat, data = hs.http.get(query_url,nil)
-        if stat == 200 then
-            if pcall(function() hs.json.decode(data) end) then
-                local decoded_data = hs.json.decode(data)
-                if #decoded_data > 0 then
-                    chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                        return {text = item.word}
-                    end)
-                end
-            end
-        else
-            chooser_data={}
-        end
-    end
-    search_chooser:choices(chooser_data)
-end
-
-function launchChooser()
-    chooser_data = {}
-    suggeststr = ''
-    currentsource = 1
-    choosersourcetable = {}
-    switcher = nil
-    meanlike = nil
-    search_chooser = hs.chooser.new(function(chosen)
-        if suggestframe then suggestframe:hide() end
-        if suggesttext then suggesttext:hide() end
-        if meanlike then meanlike:delete() end
-        if switcher then switcher:delete() end
-        if choosertimer then choosertimer=nil end
-        if chosen ~= nil then
-            if outputtype == "safari" then
-                local defaultbrowser = hs.urlevent.getDefaultHandler('http')
-                hs.urlevent.openURLWithBundle(chosen.subText,defaultbrowser)
-            elseif outputtype == "pasteboard" then
-                hs.pasteboard.setContents(chosen.text)
-            end
-        end
-    end)
-    function dictSource()
-        oldquerystr = ""
-        if youdaokeyfrom ~= nil and youdaoapikey ~= nil then
-            choosertimer = hs.timer.delayed.new(0.3,function()
-                if datamusestatus then
-                    drawSuggest(trimmedstr)
-                    oldquerystr = trimmedstr
-                end
-                if youdaostatus then
-                    search_chooser:choices(chooser_data)
-                    oldquerystr = trimmedstr
-                end
-            end)
-            search_chooser:queryChangedCallback(function(str)
-                trimmedstr = string.gsub(str,'%s+$','')
-                if trimmedstr ~= oldquerystr then
-                    if usesuggest == true then
-                        datamuseSuggest(trimmedstr)
-                        drawSuggest(trimmedstr)
-                    end
-                    youdaoInstantTrans(trimmedstr)
-                    choosertimer:start()
-                end
-            end)
-            search_chooser:searchSubText(false)
-            outputtype = 'pasteboard'
-        else
-            if usesuggest == true then
-                choosertimer = hs.timer.delayed.new(0.3,function()
-                    if datamusestatus then
-                        drawSuggest(trimmedstr)
-                        oldquerystr = trimmedstr
-                    end
-                end)
-                search_chooser:queryChangedCallback(function(str)
-                    trimmedstr = string.gsub(str,'%s+$','')
-                    if trimmedstr ~= oldquerystr then
-                        print("oldquerystr="..oldquerystr.."\ntrimmedstr="..trimmedstr)
-                            datamuseSuggest(trimmedstr)
-                            drawSuggest(trimmedstr)
-                        choosertimer:start()
-                    end
-                end)
-            end
-            chooser_data = {
-                {
-                    text = "Please apply for your own youdao API key.",
-                    subText = "http://fanyi.youdao.com/openapi?path=data-mode"
-                },
-            }
-            search_chooser:choices(chooser_data)
-            outputtype = "safari"
-        end
-    end
-    dictSource()
-    search_chooser:rows(9)
-    search_chooser:show()
-
-    function safariSource()
-        search_chooser:queryChangedCallback()
-        safariTabinfoRequest()
+        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …"}
+        table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
-        search_chooser:searchSubText(true)
-        outputtype = 'safari'
     end
-
-    table.insert(choosersourcetable,dictSource)
-    table.insert(choosersourcetable,safariSource)
-
-    function switchSource()
-        currentsource = currentsource + 1
-        if currentsource > #choosersourcetable then
-            currentsource = 1
-        end
-        search_chooser:choices(function() chooser_data={} return chooser_data end)
-        search_chooser:query('')
-        if suggesttext then suggesttext:setText('') end
-        choosersourcetable[currentsource]()
-    end
-
-    switcher = hs.hotkey.bind('ctrl','tab',function() switchSource() end)
-
-    meanlike = hs.hotkey.bind('ctrl','d',function()
-        thesaurusRequest()
-        search_chooser:refreshChoicesCallback()
-        outputtype = 'pasteboard'
-    end)
 end
+
+function youdaoSource()
+    local youdaosource_overview = {text="Type yd<tab> to use Yaodao Dictionary."}
+    table.insert(chooserSourceOverview,youdaosource_overview)
+    function youdaoFunc()
+        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …"}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback(youdaoInstantTrans)
+        outputtype = 'pasteboard'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "yd"
+    sourcepkg.func = youdaoFunc
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+youdaoSource()
