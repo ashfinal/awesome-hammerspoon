@@ -67,6 +67,8 @@ function launchChooser()
                     hs.pasteboard.setContents(chosen.text)
                 elseif outputtype == "keystroke" then
                     hs.eventtap.keyStrokes(chosen.text)
+                elseif outputtype == "taskkill" then
+                    chosen.appID:kill9()
                 end
             end
         end)
@@ -166,3 +168,54 @@ function youdaoSource()
 end
 
 youdaoSource()
+
+--------------------------------------------------------------------------------
+-- Add a new source - kill processes
+-- First request processes info and store them into $chooser_data$
+
+function appsInfoRequest()
+    local appspool = hs.application.runningApplications()
+    for i=1,#appspool do
+        local appid = appspool[i]
+        local apptitle = appspool[i]:title() or "nil"
+        local apppid = appspool[i]:pid()
+        local appbundle = appspool[i]:bundleID() or "nil"
+        local apppath = appspool[i]:path() or "nil"
+        local appinfoitem = {text=apptitle.."#"..apppid.."  "..appbundle, subText=apppath, appID=appid}
+        table.insert(chooser_data,appinfoitem)
+    end
+end
+
+-- Then we wrap the worker into appkillSource
+
+function appKillSource()
+    -- Give some tips for this source
+    local appkillsource_overview = {text="Type kl<tab> to Kill running Process."}
+    table.insert(chooserSourceOverview,appkillsource_overview)
+    -- Run the function below when triggered.
+    function appkillFunc()
+        -- Request appsinfo
+        appsInfoRequest()
+        -- More tips
+        local source_desc = {text="Kill Processes", subText="Search and select some items to get them killed."}
+        table.insert(chooser_data, 1, source_desc)
+        -- Make $chooser_data$ appear in search_chooser
+        search_chooser:choices(chooser_data)
+        -- Run some code or do nothing while querystring changed
+        search_chooser:queryChangedCallback()
+        -- Do something when select one item in search_chooser
+        outputtype = 'taskkill'
+    end
+    local sourcepkg = {}
+    -- Give this source a trigger keyword
+    sourcepkg.kw = "kl"
+    sourcepkg.func = appkillFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+-- Run the function once, so search_chooser can actually see the new source
+appKillSource()
+
+-- New source - kill processes End here
+--------------------------------------------------------------------------------
