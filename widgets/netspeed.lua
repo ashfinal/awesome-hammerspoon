@@ -1,3 +1,4 @@
+netspeed_loaded = true
 function gain_after()
     in_seq2 = hs.execute(in_str)
     out_seq2 = hs.execute(out_str)
@@ -27,28 +28,15 @@ function data_diff()
 end
 
 function disp_netspeed()
-    ActiveInterface = hs.network.primaryInterfaces()
-    if ActiveInterface ~= false then
-        in_str = 'netstat -ibn | grep -e ' .. ActiveInterface .. ' -m 1 | awk \'{print $7}\''
-        out_str = 'netstat -ibn | grep -e ' .. ActiveInterface .. ' -m 1 | awk \'{print $10}\''
+    activeInterface = hs.network.primaryInterfaces()
+    if activeInterface ~= false then
+        in_str = 'netstat -ibn | grep -e ' .. activeInterface .. ' -m 1 | awk \'{print $7}\''
+        out_str = 'netstat -ibn | grep -e ' .. activeInterface .. ' -m 1 | awk \'{print $10}\''
         data_diff()
-        nettimer = hs.timer.doEvery(1,data_diff)
+        if nettimer ~= nil then
+            nettimer:start()
+        else
+            nettimer = hs.timer.doEvery(1,data_diff)
+        end
     end
-end
-
-netspeedM = hs.hotkey.modal.new()
-table.insert(modal_list, netspeedM)
-function netspeedM:entered() modal_stat('netspeed',black50) disp_netspeed() end
-function netspeedM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
-    end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
-    end
-    if nettimer ~= nil then nettimer:stop() end
 end
