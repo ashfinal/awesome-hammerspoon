@@ -40,3 +40,6 @@ function disp_netspeed()
         end
     end
 end
+
+if not launch_netspeed then launch_netspeed=true end
+if launch_netspeed == true then modal_stat('netspeed',black50) disp_netspeed() end
