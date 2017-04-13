@@ -145,9 +145,20 @@ function modal_stat(modal, color)
 end
 
 activeModals = {}
-function exit_others()
+function exit_others(excepts)
+    function isInExcepts(value,tbl)
+        for i=1,#tbl do
+           if tbl[i] == value then
+               return true
+           end
+        end
+        return false
+    end
+    if excepts == nil then excepts = {} end
     for i = 1, #activeModals do
-        activeModals[i].modal:exit()
+        if not isInExcepts(activeModals[i].id, excepts) then
+            activeModals[i].modal:exit()
+        end
     end
 end
 
