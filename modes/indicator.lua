@@ -24,7 +24,11 @@ function timer_indicator(timelen)
         else
             time_interval = 1
         end
-        indict_timer = hs.timer.doEvery(time_interval,updateused)
+        if indict_timer == nil then
+            indict_timer = hs.timer.doEvery(time_interval,updateused)
+        else
+            indict_timer:start()
+        end
         used_slice = 0
     else
         indict_timer:stop()

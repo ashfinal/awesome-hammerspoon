@@ -82,7 +82,11 @@ function showCalendar()
         caldraw:show()
 
         drawToday()
-        caltimer = hs.timer.doEvery(1800,function() updateCal() end)
+        if caltimer == nil then
+            caltimer = hs.timer.doEvery(1800,function() updateCal() end)
+        else
+            caltimer:start()
+        end
     else
         caltimer:stop()
         caltimer=nil

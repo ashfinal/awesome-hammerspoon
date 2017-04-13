@@ -133,5 +133,9 @@ end
 if not launch_hcalendar then launch_hcalendar=true end
 if launch_hcalendar == true then
     showHCalendar()
-    hcaltimer = hs.timer.doEvery(1800, function() showHCalendar() end)
+    if hcaltimer == nil then
+        hcaltimer = hs.timer.doEvery(1800, function() showHCalendar() end)
+    else
+        hcaltimer:start()
+    end
 end

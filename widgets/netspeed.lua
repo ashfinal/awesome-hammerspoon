@@ -7,7 +7,11 @@ end
 function data_diff()
     in_seq1 = hs.execute(in_str)
     out_seq1 = hs.execute(out_str)
-    gainagain = hs.timer.doAfter(1,function() in_seq2 = hs.execute(in_str) out_seq2 = hs.execute(out_str) end)
+    if gainagain == nil then
+        gainagain = hs.timer.doAfter(1,function() in_seq2 = hs.execute(in_str) out_seq2 = hs.execute(out_str) end)
+    else
+        gainagain:start()
+    end
 
     if out_seq2 ~= nil then
         in_diff = in_seq1 - in_seq2
@@ -33,10 +37,10 @@ function disp_netspeed()
         in_str = 'netstat -ibn | grep -e ' .. activeInterface .. ' -m 1 | awk \'{print $7}\''
         out_str = 'netstat -ibn | grep -e ' .. activeInterface .. ' -m 1 | awk \'{print $10}\''
         data_diff()
-        if nettimer ~= nil then
-            nettimer:start()
-        else
+        if nettimer == nil then
             nettimer = hs.timer.doEvery(1,data_diff)
+        else
+            nettimer:start()
         end
     end
 end
