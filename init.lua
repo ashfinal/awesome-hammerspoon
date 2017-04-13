@@ -38,6 +38,13 @@ if string.len(lockscreen_keys[2]) > 0 then
     hs.hotkey.bind(lockscreen_keys[1], lockscreen_keys[2],"Lock Screen", function() hs.caffeinate.lockScreen() end)
 end
 
+if modalmgr == nil then
+    showtime_lkeys = showtime_lkeys or {{"cmd", "shift", "ctrl"}, "T"}
+    if string.len(showtime_lkeys[2]) > 0 then
+        hs.hotkey.bind(showtime_lkeys[1], showtime_lkeys[2], 'Show Digital Clock', function() show_time() end)
+    end
+end
+
 function show_time()
     if not time_draw then
         local mainScreen = hs.screen.mainScreen()
@@ -52,6 +59,11 @@ function show_time()
         time_draw:delete()
         time_draw=nil
     end
+end
+
+showhotkey_keys = showhotkey_keys or {{"cmd", "shift", "ctrl"}, "space"}
+if string.len(showhotkey_keys[2]) > 0 then
+    hs.hotkey.bind(showhotkey_keys[1], showhotkey_keys[2], "Toggle Hotkeys Cheatsheet", function() showavailableHotkey() end)
 end
 
 function showavailableHotkey()
