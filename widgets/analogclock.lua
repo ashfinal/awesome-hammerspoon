@@ -89,7 +89,11 @@ function showAnalogClock()
         hourhand3:setLevel(hs.drawing.windowLevels.desktopIcon)
         hourhand3:show()
 
-        clocktimer = hs.timer.doEvery(1,function() updateClock() end)
+        if clocktimer == nil then
+            clocktimer = hs.timer.doEvery(1,function() updateClock() end)
+        else
+            clocktimer:start()
+        end
     else
         clocktimer:stop()
         clocktimer=nil
