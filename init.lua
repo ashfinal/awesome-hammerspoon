@@ -127,11 +127,10 @@ function modal_stat(modal, color)
     modal_show:setText(modal_text)
 end
 
-function exit_others(except)
-    for i = 1, #modal_list do
-        if modal_list[i] ~= except then
-            modal_list[i]:exit()
-        end
+activeModals = {}
+function exit_others()
+    for i = 1, #activeModals do
+        activeModals[i].modal:exit()
     end
 end
 

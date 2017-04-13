@@ -17,18 +17,38 @@ function aria2ctl()
 end
 
 downloadM = hs.hotkey.modal.new()
-table.insert(modal_list, downloadM)
-function downloadM:entered() modal_stat('download',osx_green) aria2ctl() end
-function downloadM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+local modalpkg = {}
+modalpkg.id = "downloadM"
+modalpkg.modal = downloadM
+table.insert(modal_list, modalpkg)
+
+function downloadM:entered()
+    modal_stat('download',osx_green)
+    for i=1,#modal_list do
+        if modal_list[i].id == "downloadM" then
+            table.insert(activeModals, modal_list[i])
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    aria2ctl()
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
+end
+
+function downloadM:exited()
+    for i=1,#activeModals do
+        if activeModals[i].id == "downloadM" then
+            table.remove(activeModals, i)
+        end
+    end
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if aria2GUI ~= nil then aria2GUI:hide() end
 end

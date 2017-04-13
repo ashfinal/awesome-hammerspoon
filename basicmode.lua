@@ -1,24 +1,41 @@
 viewM = hs.hotkey.modal.new()
-table.insert(modal_list, viewM)
+local modalpkg = {}
+modalpkg.id = "viewM"
+modalpkg.modal = viewM
+table.insert(modal_list, modalpkg)
+
 function viewM:entered()
     modal_stat('view',royalblue)
+    for i=1,#modal_list do
+        if modal_list[i].id == "viewM" then
+            table.insert(activeModals, modal_list[i])
+        end
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
         hotkeybg:delete()
         hotkeybg=nil
     end
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
+
 function viewM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+    for i=1,#activeModals do
+        if activeModals[i].id == "viewM" then
+            table.remove(activeModals, i)
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if hotkeytext then
         hotkeytext:delete()
@@ -27,6 +44,7 @@ function viewM:exited()
         hotkeybg=nil
     end
 end
+
 viewM:bind('', 'escape', function() viewM:exit() end)
 viewM:bind('', 'Q', function() viewM:exit() end)
 viewM:bind('', 'tab', function() showavailableHotkey() end)
@@ -65,28 +83,45 @@ function clickWithMouse(opts)
 end
 
 resizeM = hs.hotkey.modal.new()
-table.insert(modal_list, resizeM)
+local modalpkg = {}
+modalpkg.id = "resizeM"
+modalpkg.modal = resizeM
+table.insert(modal_list, modalpkg)
+
 function resizeM:entered()
     modal_stat('resize',firebrick)
     resize_current_winnum = 1
     resize_win_list = hs.window.visibleWindows()
+    for i=1,#modal_list do
+        if modal_list[i].id == "resizeM" then
+            table.insert(activeModals, modal_list[i])
+        end
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
         hotkeybg:delete()
         hotkeybg=nil
     end
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
+
 function resizeM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+    for i=1,#activeModals do
+        if activeModals[i].id == "resizeM" then
+            table.remove(activeModals, i)
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if hotkeytext then
         hotkeytext:delete()
@@ -95,6 +130,7 @@ function resizeM:exited()
         hotkeybg=nil
     end
 end
+
 resizeM:bind('', 'escape', function() resizeM:exit() end)
 resizeM:bind('', 'Q', function() resizeM:exit() end)
 resizeM:bind('', 'tab', function() showavailableHotkey() end)
@@ -140,9 +176,18 @@ function cycle_wins_pre()
 end
 
 appM = hs.hotkey.modal.new()
-table.insert(modal_list, appM)
+local modalpkg = {}
+modalpkg.id = "appM"
+modalpkg.modal = appM
+table.insert(modal_list, modalpkg)
+
 function appM:entered()
     modal_stat('app',osx_yellow)
+    for i=1,#modal_list do
+        if modal_list[i].id == "appM" then
+            table.insert(activeModals, modal_list[i])
+        end
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
@@ -151,17 +196,25 @@ function appM:entered()
     end
     if not show_applauncher_tips then show_applauncher_tips = true end
     if show_applauncher_tips == true then showavailableHotkey() end
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
+
 function appM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+    for i=1,#activeModals do
+        if activeModals[i].id == "appM" then
+            table.remove(activeModals, i)
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if hotkeytext then
         hotkeytext:delete()
@@ -170,6 +223,7 @@ function appM:exited()
         hotkeybg=nil
     end
 end
+
 appM:bind('', 'escape', function() appM:exit() end)
 appM:bind('', 'Q', function() appM:exit() end)
 appM:bind('', 'tab', function() showavailableHotkey() end)

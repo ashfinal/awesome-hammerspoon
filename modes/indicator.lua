@@ -57,26 +57,43 @@ function updateused()
 end
 
 timerM = hs.hotkey.modal.new()
-table.insert(modal_list, timerM)
+local modalpkg = {}
+modalpkg.id = "timerM"
+modalpkg.modal = timerM
+table.insert(modal_list, modalpkg)
+
 function timerM:entered()
     modal_stat('timer',tomato)
+    for i=1,#modal_list do
+        if modal_list[i].id == "timerM" then
+            table.insert(activeModals, modal_list[i])
+        end
+    end
     if hotkeytext then
         hotkeytext:delete()
         hotkeytext=nil
         hotkeybg:delete()
         hotkeybg=nil
     end
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
+
 function timerM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+    for i=1,#activeModals do
+        if activeModals[i].id == "timerM" then
+            table.remove(activeModals, i)
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if hotkeytext then
         hotkeytext:delete()
@@ -85,6 +102,7 @@ function timerM:exited()
         hotkeybg=nil
     end
 end
+
 timerM:bind('', 'escape', function() timerM:exit() end)
 timerM:bind('', 'Q', function() timerM:exit() end)
 timerM:bind('', 'tab', function() showavailableHotkey() end)

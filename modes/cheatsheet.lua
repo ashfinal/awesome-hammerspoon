@@ -222,20 +222,41 @@ function showCheatsheet()
 end
 
 cheatsheetM = hs.hotkey.modal.new()
-table.insert(modal_list, cheatsheetM)
-function cheatsheetM:entered() modal_stat('cheatsheet',sandybrown) showCheatsheet() end
-function cheatsheetM:exited()
-    if dock_launched then
-        modal_stat('dock',black)
-    else
-        modal_bg:hide()
-        modal_show:hide()
+local modalpkg = {}
+modalpkg.id = "cheatsheetM"
+modalpkg.modal = cheatsheetM
+table.insert(modal_list, modalpkg)
+
+function cheatsheetM:entered()
+    modal_stat('cheatsheet',sandybrown)
+    for i=1,#modal_list do
+        if modal_list[i].id == "cheatsheetM" then
+            table.insert(activeModals, modal_list[i])
+        end
     end
-    if idle_to_which == "hide" then
-        modal_bg:hide()
-        modal_show:hide()
+    showCheatsheet()
+    if nettimer~=nil and nettimer:running() then nettimer:stop() end
+end
+
+function cheatsheetM:exited()
+    for i=1,#activeModals do
+        if activeModals[i].id == "cheatsheetM" then
+            table.remove(activeModals, i)
+        end
+    end
+    if dock_launched then
+        if idle_to_which == "netspeed" then
+            modal_stat('netspeed',black50)
+            disp_netspeed()
+        elseif idle_to_which == "hide" then
+            modal_show:hide()
+            modal_bg:hide()
+        elseif idle_to_which == "never" then
+            modal_stat('dock',black)
+        end
     end
     if myView ~= nil then myView:delete() myView=nil end
 end
+
 cheatsheetM:bind('', 'escape', function() cheatsheetM:exit() end)
 cheatsheetM:bind('', 'Q', function() cheatsheetM:exit() end)
