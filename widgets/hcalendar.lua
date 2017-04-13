@@ -130,5 +130,8 @@ function showHCalendar()
     todaymidlinedraw:show()
 end
 
-showHCalendar()
-hcaltimer = hs.timer.doEvery(1800, function() showHCalendar() end)
+if not launch_hcalendar then launch_hcalendar=true end
+if launch_hcalendar == true then
+    showHCalendar()
+    hcaltimer = hs.timer.doEvery(1800, function() showHCalendar() end)
+end
