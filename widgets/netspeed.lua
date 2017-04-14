@@ -42,6 +42,9 @@ function disp_netspeed()
         else
             nettimer:start()
         end
+    else
+        modal_show:hide()
+        modal_bg:hide()
     end
 end
 
