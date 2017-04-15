@@ -2,77 +2,38 @@
 --/ Cheatsheet Copycat /--
 ------------------------------------------------------------------------
 
---commandEnum = {
---        [0] = '⌘',
---        [1] = '⇧ ⌘',
---        [2] = '⌥ ⌘',
---        [3] = '⌥ ⇧ ⌘',
---        [4] = '⌃ ⌘',
---        [5] = '⇧ ⌃ ⌘',
---        [6] = '⌃ ⌥ ⌘',
---        [7] = '',
---        [8] = '⌦',
---        [9] = '',
---        [10] = '⌥',
---        [11] = '⌥ ⇧',
---        [12] = '⌃',
---        [13] = '⌃ ⇧',
---        [14] = '⌃ ⌥',
---    }
+hs.application.menuGlyphs[148]="fn fn"
+
 commandEnum = {
-    ['cmd'] = '⌘',
-    ['shift'] = '⇧',
-    ['alt'] = '⌥',
-    ['ctrl'] = '⌃',
+    cmd = '⌘',
+    shift = '⇧',
+    alt = '⌥',
+    ctrl = '⌃',
 }
-
-
-function getAllMenuItemsTable(t)
-    local menu = {}
-    for pos,val in pairs(t) do
-        if(type(val)=="table") then
-            if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") then
-                menu[pos] = {}
-                menu[pos]['AXTitle'] = val['AXTitle']
-                menu[pos][1] = getAllMenuItems(val['AXChildren'][1])
-            elseif(val['AXRole'] =="AXMenuItem" and not val['AXChildren']) then
-                if( val['AXMenuItemCmdModifiers'] ~='0' and val['AXMenuItemCmdChar'] ~='') then
-                    menu[pos] = {}
-                    menu[pos]['AXTitle'] = val['AXTitle']
-                    menu[pos]['AXMenuItemCmdChar'] = val['AXMenuItemCmdChar']
-                    menu[pos]['AXMenuItemCmdModifiers'] = val['AXMenuItemCmdModifiers']
-                end
-            elseif(val['AXRole'] =="AXMenuItem" and type(val['AXChildren']) == "table") then
-                menu[pos] = {}
-                menu[pos][1] = getAllMenuItems(val['AXChildren'][1])
-            end
-        end
-    end
-    return menu
-end
-
 
 function getAllMenuItems(t)
     local menu = ""
         for pos,val in pairs(t) do
-            if(type(val)=="table") then
-                -- do not include help menu for now until I find best way to remove menubar items with no shortcuts in them
-                if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") and val['AXTitle'] ~="Help" then
+            if type(val)=="table" then
+                -- TODO: Remove menubar items with no shortcuts in them
+                if val.AXRole =="AXMenuBarItem" and type(val.AXChildren) == "table" then
                     menu = menu.."<ul class='col col"..pos.."'>"
-                    --print("---------------| "..val['AXTitle'].." |---------------")
-                    menu = menu.."<li class='title'><strong>"..val['AXTitle'].."</strong></li>"
-                    menu = menu.. getAllMenuItems(val['AXChildren'][1])
+                    menu = menu.."<li class='title'><strong>"..val.AXTitle.."</strong></li>"
+                    menu = menu.. getAllMenuItems(val.AXChildren[1])
                     menu = menu.."</ul>"
-                elseif(val['AXRole'] =="AXMenuItem" and not val['AXChildren']) then
-                    if( val['AXMenuItemCmdChar'] ~= '') then
-                        CmdModifiers = ''
-                        for key, value in pairs(val['AXMenuItemCmdModifiers']) do
+                elseif val.AXRole =="AXMenuItem" and not val.AXChildren then
+                    if not (val.AXMenuItemCmdChar == '' and val.AXMenuItemCmdGlyph == '') then
+                        local CmdModifiers = ''
+                        for key, value in pairs(val.AXMenuItemCmdModifiers) do
                             CmdModifiers = CmdModifiers..commandEnum[value]
                         end
-                        menu = menu.."<li><div class='cmdModifiers'>"..CmdModifiers.." "..val['AXMenuItemCmdChar'].."</div><div class='cmdtext'>".." "..val['AXTitle'].."</div></li>"
+                        local CmdChar = val.AXMenuItemCmdChar
+                        local CmdGlyph = hs.application.menuGlyphs[val.AXMenuItemCmdGlyph] or ''
+                        local CmdKeys = CmdChar..CmdGlyph
+                        menu = menu.."<li><div class='cmdModifiers'>"..CmdModifiers.." "..CmdKeys.."</div><div class='cmdtext'>".." "..val.AXTitle.."</div></li>"
                     end
-                elseif(val['AXRole'] =="AXMenuItem" and type(val['AXChildren']) == "table") then
-                    menu = menu..getAllMenuItems(val['AXChildren'][1])
+                elseif val.AXRole == "AXMenuItem" and type(val.AXChildren) == "table" then
+                    menu = menu..getAllMenuItems(val.AXChildren[1])
                 end
 
             end
@@ -81,10 +42,9 @@ function getAllMenuItems(t)
 end
 
 function generateHtml()
-    --local focusedApp= hs.window.frontmostWindow():application()
     local focusedApp = hs.application.frontmostApplication()
     local appTitle = focusedApp:title()
-    local allMenuItems = focusedApp:getMenuItems();
+    local allMenuItems = focusedApp:getMenuItems()
     local myMenuItems = getAllMenuItems(allMenuItems)
 
     local html = [[
@@ -202,23 +162,28 @@ function generateHtml()
     return html
 end
 
-
-
-myView = nil
-
 function showCheatsheet()
-    local frame = hs.geometry.rect(hs.screen.mainScreen():frame().topleft, "1080*600")
-    if not myView then
-        myView = hs.webview.new(frame)
+    if not cheatsheet_view then
+        local screen_rect = hs.screen.mainScreen():fullFrame()
+        local cheatsheet_rect = {
+            x = (screen_rect.w-1080)/2,
+            y = (screen_rect.h-600)/2,
+            w = 1080,
+            h = 600,
+        }
+        cheatsheet_view = hs.webview.new(cheatsheet_rect)
+        :windowTitle("CheatSheets")
         :windowStyle("utility")
-        :closeOnEscape(true)
-        :html(generateHtml())
         :allowGestures(true)
         :allowNewWindows(false)
-        :windowTitle("CheatSheets")
         :level(hs.drawing.windowLevels.modalPanel)
-        :show()
+    else
+        cheatsheet_view:show()
     end
+    if cstimer ~= nil and cstimer:running() then
+        cstimer:stop()
+    end
+    cheatsheet_view:html(generateHtml())
 end
 
 cheatsheetM = hs.hotkey.modal.new()
@@ -255,7 +220,19 @@ function cheatsheetM:exited()
             modal_stat('dock',black)
         end
     end
-    if myView ~= nil then myView:delete() myView=nil end
+    if cheatsheet_view ~= nil then
+        cheatsheet_view:hide()
+        if cstimer == nil then
+            cstimer = hs.timer.doAfter(10*60, function()
+                if cheatsheet_view ~= nil then
+                    cheatsheet_view:delete()
+                    cheatsheet_view = nil
+                end
+            end)
+        else
+            cstimer:start()
+        end
+    end
 end
 
 cheatsheetM:bind('', 'escape', function() cheatsheetM:exit() end)
