@@ -193,31 +193,18 @@ modalpkg.modal = cheatsheetM
 table.insert(modal_list, modalpkg)
 
 function cheatsheetM:entered()
-    modal_stat('cheatsheet',sandybrown)
     for i=1,#modal_list do
         if modal_list[i].id == "cheatsheetM" then
             table.insert(activeModals, modal_list[i])
         end
     end
     showCheatsheet()
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
 function cheatsheetM:exited()
     for i=1,#activeModals do
         if activeModals[i].id == "cheatsheetM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     if cheatsheet_view ~= nil then
