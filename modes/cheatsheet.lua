@@ -177,12 +177,11 @@ function showCheatsheet()
         :allowGestures(true)
         :allowNewWindows(false)
         :level(hs.drawing.windowLevels.modalPanel)
-    else
-        cheatsheet_view:show()
     end
     if cstimer ~= nil and cstimer:running() then
         cstimer:stop()
     end
+    cheatsheet_view:show()
     cheatsheet_view:html(generateHtml())
 end
 
