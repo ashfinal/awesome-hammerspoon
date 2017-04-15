@@ -111,7 +111,7 @@ end
 safariSource()
 
 function youdaoInstantTrans(querystr)
-    youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
+    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
     if string.len(querystr) > 0 then
         local encoded_query = hs.http.encodeForQuery(querystr)
         local query_url = youdao_baseurl..encoded_query
@@ -218,4 +218,58 @@ end
 appKillSource()
 
 -- New source - kill processes End here
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+-- New source - Datamuse thesaurus
+
+function thesaurusRequest(querystr)
+    local datamuse_baseurl = 'http://api.datamuse.com'
+    if string.len(querystr) > 0 then
+        local encoded_query = hs.http.encodeForQuery(querystr)
+        local query_url = datamuse_baseurl..'/words?ml='..encoded_query..'&max=20'
+
+        hs.http.asyncGet(query_url,nil,function(status,data)
+            if status == 200 then
+                if pcall(function() hs.json.decode(data) end) then
+                    local decoded_data = hs.json.decode(data)
+                    if #decoded_data > 0 then
+                        chooser_data = hs.fnutils.imap(decoded_data, function(item)
+                            return {text = item.word}
+                        end)
+                        search_chooser:choices(chooser_data)
+                        search_chooser:refreshChoicesCallback()
+                    end
+                end
+            end
+        end)
+    else
+        chooser_data = {}
+        local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …"}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+    end
+end
+
+function thesaurusSource()
+    local thesaurus_overview = {text="Type th<tab> to use Datamuse Thesaurus."}
+    table.insert(chooserSourceOverview,thesaurus_overview)
+    function thesaurusFunc()
+        local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …"}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback(thesaurusRequest)
+        outputtype = 'keystroke'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "th"
+    sourcepkg.func = thesaurusFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+thesaurusSource()
+
+-- New source - Datamuse Thesaurus End here
 --------------------------------------------------------------------------------
