@@ -69,6 +69,9 @@ function launchChooser()
                     hs.eventtap.keyStrokes(chosen.text)
                 elseif outputtype == "taskkill" then
                     chosen.appID:kill9()
+                elseif outputtype == "menuclick" then
+                    hs_belongto_app:activate()
+                    hs_belongto_app:selectMenuItem(chosen.itemID)
                 end
             end
         end)
@@ -272,4 +275,68 @@ end
 thesaurusSource()
 
 -- New source - Datamuse Thesaurus End here
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- New source - Menuitems Search
+
+function table.clone(org)
+    return {table.unpack(org)}
+end
+
+function getMenuChain(t)
+    for pos,val in pairs(t) do
+        if type(val) == "table" then
+            if val.AXRole =="AXMenuBarItem" and type(val.AXChildren) == "table" then
+                currententry = {val.AXTitle}
+                getMenuChain(val.AXChildren[1])
+            elseif val.AXRole == "AXMenuItem" and not val.AXChildren then
+                if val.AXTitle ~= "" then
+                    local upperlevel = table.clone(currententry)
+                    table.insert(upperlevel,val.AXTitle)
+                    table.insert(hs_menuchain,upperlevel)
+                end
+            elseif val.AXRole == "AXMenuItem" and type(val.AXChildren) == "table" then
+                table.insert(currententry,val.AXTitle)
+                getMenuChain(val.AXChildren[1])
+            end
+        end
+    end
+end
+
+function MenuitemsRequest()
+    local frontmost_win = hs.window.orderedWindows()[1]
+    hs_belongto_app = frontmost_win:application()
+    local all_menuitems = hs_belongto_app:getMenuItems()
+    hs_menuchain = nil
+    hs_menuchain = {}
+    getMenuChain(all_menuitems)
+    for idx,val in pairs(hs_menuchain) do
+        local menuitem = {text=val[#val],subText=table.concat(val," | "),itemID=val}
+        table.insert(chooser_data,menuitem)
+    end
+end
+
+function MenuitemsSource()
+    local menuitems_overview = {text="Type me<tab> to Search/Click the Menuitems."}
+    table.insert(chooserSourceOverview,menuitems_overview)
+    function menuitemsFunc()
+        MenuitemsRequest()
+        local source_desc = {text="Menuitems Search", subText="Search and select some menuitem to get it clicked."}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback()
+        search_chooser:searchSubText(true)
+        outputtype = 'menuclick'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "me"
+    sourcepkg.func = menuitemsFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+MenuitemsSource()
+
+-- New source - Menuitems Search End here
 --------------------------------------------------------------------------------
