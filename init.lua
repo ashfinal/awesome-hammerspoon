@@ -79,7 +79,12 @@ function showavailableHotkey()
         local hkbgrect = hs.geometry.rect(mainRes.w/5,mainRes.h/5,mainRes.w/5*3,mainRes.h/5*3)
         hotkeybg = hs.drawing.rectangle(hkbgrect)
         -- hotkeybg:setStroke(false)
-        hotkeybg:setFillColor({red=0,blue=0,green=0,alpha=0.5})
+        if not hotkey_tips_bg then hotkey_tips_bg = "light" end
+        if hotkey_tips_bg == "light" then
+            hotkeybg:setFillColor({red=238,blue=238,green=238,alpha=0.95})
+        elseif hotkey_tips_bg == "dark" then
+            hotkeybg:setFillColor({red=0,blue=0,green=0,alpha=0.95})
+        end
         hotkeybg:setRoundedRectRadii(10,10)
         hotkeybg:setLevel(hs.drawing.windowLevels.modalPanel)
         hotkeybg:setBehavior(hs.drawing.windowBehaviors.stationary)
@@ -106,7 +111,7 @@ function showavailableHotkey()
             end
         end
         if math.fmod(#hotkey_filtered,2) == 1 then hkstr = hkstr .. hotkey_filtered[#hotkey_filtered].msg end
-        local hkstr_styled = hs.styledtext.new(hkstr, {font={name="Courier-Bold",size=16}, color=white, paragraphStyle={lineSpacing=12.0,lineBreak='truncateMiddle'}})
+        local hkstr_styled = hs.styledtext.new(hkstr, {font={name="Courier-Bold",size=16}, color=dodgerblue, paragraphStyle={lineSpacing=12.0,lineBreak='truncateMiddle'}, shadow={offset={h=0,w=0},blurRadius=0.5,color=darkblue}})
         hotkeytext:setStyledText(hkstr_styled)
         hotkeybg:show()
         hotkeytext:show()
