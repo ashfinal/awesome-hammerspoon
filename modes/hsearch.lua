@@ -66,6 +66,7 @@ function launchChooser()
                 elseif outputtype == "pasteboard" then
                     hs.pasteboard.setContents(chosen.text)
                 elseif outputtype == "keystroke" then
+                    hs.window.orderedWindows()[1]:focus()
                     hs.eventtap.keyStrokes(chosen.text)
                 elseif outputtype == "taskkill" then
                     chosen.appID:kill9()

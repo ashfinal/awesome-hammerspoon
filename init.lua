@@ -252,3 +252,5 @@ for i=1,#module_list do
 end
 
 if #modal_list > 0 then require("modalmgr") end
+
+globalGC = hs.timer.doEvery(180, collectgarbage)
