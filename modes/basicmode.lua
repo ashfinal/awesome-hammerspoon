@@ -103,6 +103,8 @@ function resizeM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
+    if not show_resize_tips then show_resize_tips = true end
+    if show_resize_tips == true then showavailableHotkey() end
     if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
@@ -182,7 +184,6 @@ modalpkg.modal = appM
 table.insert(modal_list, modalpkg)
 
 function appM:entered()
-    modal_stat('app',osx_yellow)
     for i=1,#modal_list do
         if modal_list[i].id == "appM" then
             table.insert(activeModals, modal_list[i])
@@ -196,24 +197,12 @@ function appM:entered()
     end
     if not show_applauncher_tips then show_applauncher_tips = true end
     if show_applauncher_tips == true then showavailableHotkey() end
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
 function appM:exited()
     for i=1,#activeModals do
         if activeModals[i].id == "appM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     if hotkeytext then
