@@ -67,7 +67,6 @@ modalpkg.modal = timerM
 table.insert(modal_list, modalpkg)
 
 function timerM:entered()
-    modal_stat('timer',tomato)
     for i=1,#modal_list do
         if modal_list[i].id == "timerM" then
             table.insert(activeModals, modal_list[i])
@@ -79,24 +78,14 @@ function timerM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
+    if not show_timer_tips then show_timer_tips = true end
+    if show_timer_tips == true then showavailableHotkey() end
 end
 
 function timerM:exited()
     for i=1,#activeModals do
         if activeModals[i].id == "timerM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     if hotkeytext then
