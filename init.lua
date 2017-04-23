@@ -81,7 +81,7 @@ function showavailableHotkey()
         -- hotkeybg:setStroke(false)
         if not hotkey_tips_bg then hotkey_tips_bg = "light" end
         if hotkey_tips_bg == "light" then
-            hotkeybg:setFillColor({red=238,blue=238,green=238,alpha=0.95})
+            hotkeybg:setFillColor({red=238/255,blue=238/255,green=238/255,alpha=0.95})
         elseif hotkey_tips_bg == "dark" then
             hotkeybg:setFillColor({red=0,blue=0,green=0,alpha=0.95})
         end
