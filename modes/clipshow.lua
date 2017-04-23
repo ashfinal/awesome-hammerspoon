@@ -73,31 +73,18 @@ modalpkg.modal = clipboardM
 table.insert(modal_list, modalpkg)
 
 function clipboardM:entered()
-    modal_stat('clipboard',purple)
     for i=1,#modal_list do
         if modal_list[i].id == "clipboardM" then
             table.insert(activeModals, modal_list[i])
         end
     end
     clipshow()
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
 function clipboardM:exited()
     for i=1,#activeModals do
         if activeModals[i].id == "clipboardM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     clipshowclear()
