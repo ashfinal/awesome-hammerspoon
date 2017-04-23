@@ -288,18 +288,20 @@ end
 function getMenuChain(t)
     for pos,val in pairs(t) do
         if type(val) == "table" then
-            if val.AXRole =="AXMenuBarItem" and type(val.AXChildren) == "table" then
-                currententry = {val.AXTitle}
+            if type(val.AXChildren) == "table" then
+                hs_currentlevel = hs_currentlevel + 1
+                hs_currententry[hs_currentlevel] = val.AXTitle
                 getMenuChain(val.AXChildren[1])
+                hs_currentlevel = hs_currentlevel - 1
+                for i=hs_currentlevel+1,#hs_currententry do
+                    table.remove(hs_currententry,i)
+                end
             elseif val.AXRole == "AXMenuItem" and not val.AXChildren then
                 if val.AXTitle ~= "" then
-                    local upperlevel = table.clone(currententry)
+                    local upperlevel = table.clone(hs_currententry)
                     table.insert(upperlevel,val.AXTitle)
                     table.insert(hs_menuchain,upperlevel)
                 end
-            elseif val.AXRole == "AXMenuItem" and type(val.AXChildren) == "table" then
-                table.insert(currententry,val.AXTitle)
-                getMenuChain(val.AXChildren[1])
             end
         end
     end
@@ -309,8 +311,9 @@ function MenuitemsRequest()
     local frontmost_win = hs.window.orderedWindows()[1]
     hs_belongto_app = frontmost_win:application()
     local all_menuitems = hs_belongto_app:getMenuItems()
-    hs_menuchain = nil
     hs_menuchain = {}
+    hs_currententry = {}
+    hs_currentlevel = 0
     getMenuChain(all_menuitems)
     for idx,val in pairs(hs_menuchain) do
         local menuitem = {text=val[#val],subText=table.concat(val," | "),itemID=val}
