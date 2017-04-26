@@ -73,6 +73,11 @@ function launchChooser()
                 elseif outputtype == "menuclick" then
                     hs_belongto_app:activate()
                     hs_belongto_app:selectMenuItem(chosen.itemID)
+                elseif outputtype == "browser" then
+                    if chosen.url then
+                        local defaultbrowser = hs.urlevent.getDefaultHandler('http')
+                        hs.urlevent.openURLWithBundle(chosen.url,defaultbrowser)
+                    end
                 end
             end
         end)
@@ -99,10 +104,14 @@ function safariSource()
     local safarisource_overview = {text="Type sa<tab> to search Safari Tabs."}
     table.insert(chooserSourceOverview,safarisource_overview)
     function safariFunc()
+        local source_desc = {text="Requesting data, please wait a while …"}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
         safariTabsRequest()
         local source_desc = {text="Safari Tabs Search", subText="Search and select one item below to open in Safari."}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback()
         search_chooser:searchSubText(true)
         outputtype = 'safari'
     end
@@ -322,7 +331,7 @@ function MenuitemsRequest()
 end
 
 function MenuitemsSource()
-    local menuitems_overview = {text="Type me<tab> to Search/Click the Menuitems."}
+    local menuitems_overview = {text="Type me<tab> to Search Menuitems."}
     table.insert(chooserSourceOverview,menuitems_overview)
     function menuitemsFunc()
         MenuitemsRequest()
@@ -343,4 +352,49 @@ end
 MenuitemsSource()
 
 -- New source - Menuitems Search End here
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- New source - v2ex Posts
+
+function v2exRequest()
+    local query_url = 'https://www.v2ex.com/api/topics/latest.json'
+    local stat, body = hs.http.asyncGet(query_url,nil,function(status,data)
+        if status == 200 then
+            if pcall(function() hs.json.decode(data) end) then
+                local decoded_data = hs.json.decode(data)
+                if #decoded_data > 0 then
+                    chooser_data = hs.fnutils.imap(decoded_data, function(item)
+                        return {text=item.title, subText=item.content, url=item.url}
+                    end)
+                    local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …"}
+                    table.insert(chooser_data, 1, source_desc)
+                    search_chooser:choices(chooser_data)
+                    search_chooser:refreshChoicesCallback()
+                end
+            end
+        end
+    end)
+end
+
+function v2exSource()
+    local v2ex_overview = {text="Type v2<tab> for v2ex latest posts."}
+    table.insert(chooserSourceOverview,v2ex_overview)
+    function v2exFunc()
+        local source_desc = {text="Requesting data, please wait a while …"}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        v2exRequest()
+        search_chooser:queryChangedCallback()
+        outputtype = 'browser'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "v2"
+    sourcepkg.func = v2exFunc
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+v2exSource()
+
+-- New source - v2ex Posts End here
 --------------------------------------------------------------------------------
