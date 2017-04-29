@@ -240,6 +240,7 @@ if not module_list then
         "widgets/netspeed",
         "widgets/hcalendar",
         "widgets/analogclock",
+        "widgets/aria2",
         "modes/basicmode",
         "modes/indicator",
         "modes/clipshow",
