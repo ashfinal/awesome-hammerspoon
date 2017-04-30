@@ -228,7 +228,7 @@ function aria2_DrawCanvas()
                 aria2_drawer._default.trackMouseDown = true
             else
                 for i=2,#aria2_drawer do
-                    aria2_drawer:removeElement(1)
+                    aria2_drawer:removeElement(2)
                 end
                 local mainScreen = hs.screen.mainScreen()
                 local mainRes = mainScreen:fullFrame()
