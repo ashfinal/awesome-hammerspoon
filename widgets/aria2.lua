@@ -221,11 +221,13 @@ function aria2_DrawCanvas()
                 local mainScreen = hs.screen.mainScreen()
                 local mainRes = mainScreen:fullFrame()
                 aria2_drawer = hs.canvas.new({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-52,w=400,h=50*#aria2_canvas_holder})
+                aria2_drawer[1] = {type="rectangle",fillColor=white}
+                aria2_drawer[1].fillColor.alpha = 0.8
                 aria2_drawer:level(hs.canvas.windowLevels.tornOffMenu)
                 aria2_drawer:clickActivating(false)
                 aria2_drawer._default.trackMouseDown = true
             else
-                for i=1,#aria2_drawer do
+                for i=2,#aria2_drawer do
                     aria2_drawer:removeElement(1)
                 end
                 local mainScreen = hs.screen.mainScreen()
@@ -234,7 +236,7 @@ function aria2_DrawCanvas()
             end
             aria2_drawer:show()
             for idx,val in pairs(aria2_canvas_holder) do
-                aria2_drawer[idx]={type="canvas",canvas=val.canvas,frame={x="0%",y=tostring(1/#aria2_canvas_holder*(idx-1)),w="100%",h=tostring(1/#aria2_canvas_holder)}}
+                aria2_drawer[idx+1]={type="canvas",canvas=val.canvas,frame={x="0%",y=tostring(1/#aria2_canvas_holder*(idx-1)),w="100%",h=tostring(1/#aria2_canvas_holder)}}
             end
             -- TODO: Figure out why this is needed
             aria2_drawer:mouseCallback(function(canvas,event,id,x,y)
