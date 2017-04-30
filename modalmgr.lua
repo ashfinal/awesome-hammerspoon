@@ -1,28 +1,12 @@
 modalmgr_keys = modalmgr_keys or {{"alt"}, "space"}
 modalmgr = hs.hotkey.modal.new(modalmgr_keys[1], modalmgr_keys[2], 'Toggle Modal Supervisor')
-function modalmgr:entered()
-    dock_launched = true
-    modal_stat('dock',black)
-    if netspeed_loaded == true then
-        if idle_to_which == nil then idle_to_which = "netspeed" end
-    else
-        idle_to_which = "hide"
-    end
-    if idle_to_which == "netspeed" then
-        modal_stat('netspeed',black50)
-        disp_netspeed()
-    elseif idle_to_which == "hide" then
-        modal_show:hide()
-        modal_bg:hide()
-    elseif idle_to_which == "never" then
-        modal_stat('dock',black)
-    end
-end
+
+-- function modalmgr:entered()
+    -- modal_stat(white,1)
+-- end
 
 function modalmgr:exited()
-    dock_launched = nil
-    modal_bg:hide()
-    modal_show:hide()
+    modal_tray:hide()
     exit_others()
     if hotkeytext then
         hotkeytext:delete()
@@ -30,7 +14,6 @@ function modalmgr:exited()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 modalmgr:bind(modalmgr_keys[1], modalmgr_keys[2], "Toggle Modal Supervisor", function() modalmgr:exit() end)
 
@@ -46,10 +29,10 @@ if clipboardM then
         modalmgr:bind(clipboardM_keys[1], clipboardM_keys[2], 'Enter Clipboard Mode', function() exit_others() clipboardM:enter() end)
     end
 end
-if downloadM then
-    downloadM_keys = downloadM_keys or {"alt", "D"}
-    if string.len(downloadM_keys[2]) > 0 then
-        modalmgr:bind('alt', 'D', 'Enter Download Mode', function() exit_others() downloadM:enter() end)
+if aria2_loaded then
+    aria2_keys = aria2_keys or {"alt", "D"}
+    if string.len(aria2_keys[2]) > 0 then
+        modalmgr:bind('alt', 'D', 'Launch aria2 Frontend', function() aria2_Init() end)
     end
 end
 if hsearch_loaded then

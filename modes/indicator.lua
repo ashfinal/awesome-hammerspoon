@@ -67,6 +67,7 @@ modalpkg.modal = timerM
 table.insert(modal_list, modalpkg)
 
 function timerM:entered()
+    modal_stat(purple,0.7)
     for i=1,#modal_list do
         if modal_list[i].id == "timerM" then
             table.insert(activeModals, modal_list[i])
@@ -83,6 +84,7 @@ function timerM:entered()
 end
 
 function timerM:exited()
+    modal_tray:hide()
     for i=1,#activeModals do
         if activeModals[i].id == "timerM" then
             table.remove(activeModals, i)

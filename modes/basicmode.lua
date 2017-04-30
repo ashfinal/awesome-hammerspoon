@@ -5,7 +5,7 @@ modalpkg.modal = viewM
 table.insert(modal_list, modalpkg)
 
 function viewM:entered()
-    modal_stat('view',royalblue)
+    modal_stat(royalblue,0.7)
     for i=1,#modal_list do
         if modal_list[i].id == "viewM" then
             table.insert(activeModals, modal_list[i])
@@ -17,24 +17,13 @@ function viewM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
 function viewM:exited()
+    modal_tray:hide()
     for i=1,#activeModals do
         if activeModals[i].id == "viewM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     if hotkeytext then
@@ -89,7 +78,7 @@ modalpkg.modal = resizeM
 table.insert(modal_list, modalpkg)
 
 function resizeM:entered()
-    modal_stat('resize',firebrick)
+    modal_stat(firebrick,0.7)
     resize_current_winnum = 1
     resize_win_list = hs.window.visibleWindows()
     for i=1,#modal_list do
@@ -105,24 +94,13 @@ function resizeM:entered()
     end
     if not show_resize_tips then show_resize_tips = true end
     if show_resize_tips == true then showavailableHotkey() end
-    if nettimer~=nil and nettimer:running() then nettimer:stop() end
 end
 
 function resizeM:exited()
+    modal_tray:hide()
     for i=1,#activeModals do
         if activeModals[i].id == "resizeM" then
             table.remove(activeModals, i)
-        end
-    end
-    if dock_launched then
-        if idle_to_which == "netspeed" then
-            modal_stat('netspeed',black50)
-            disp_netspeed()
-        elseif idle_to_which == "hide" then
-            modal_show:hide()
-            modal_bg:hide()
-        elseif idle_to_which == "never" then
-            modal_stat('dock',black)
         end
     end
     if hotkeytext then

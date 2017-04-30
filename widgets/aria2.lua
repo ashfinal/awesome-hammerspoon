@@ -1,8 +1,8 @@
-gray = {red=246/255,blue=246/255,green=246/255,alpha=0.3}
-aria2_host = "http://localhost:6800/jsonrpc"
-aria2_token = "token"
-aria2_show_items_max = 5
-aria2_refresh_interval = 1
+aria2_loaded = true
+if not aria2_host then aria2_host = "http://localhost:6800/jsonrpc" end
+if not aria2_token then aria2_token = "token" end
+if not aria2_show_items_max then aria2_show_items_max = 5 end
+if not aria2_refresh_interval then aria2_refresh_interval = 1 end
 
 local function pathToName(path)
     local tmptbl = {}
@@ -222,6 +222,7 @@ function aria2_DrawCanvas()
                 local mainRes = mainScreen:fullFrame()
                 aria2_drawer = hs.canvas.new({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
                 aria2_drawer:level(hs.canvas.windowLevels.tornOffMenu)
+                aria2_drawer:clickActivating(false)
                 aria2_drawer._default.trackMouseDown = true
             else
                 for i=1,#aria2_drawer do
@@ -231,6 +232,7 @@ function aria2_DrawCanvas()
                 local mainRes = mainScreen:fullFrame()
                 aria2_drawer:frame({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
             end
+            aria2_drawer:show()
             for idx,val in pairs(aria2_canvas_holder) do
                 aria2_drawer[idx]={type="canvas",canvas=val.canvas,frame={x="0%",y=tostring(1/#aria2_canvas_holder*(idx-1)),w="100%",h=tostring(1/#aria2_canvas_holder)}}
             end
@@ -404,63 +406,71 @@ function aria2_IntervalRequest()
     end)
 end
 
-aria2_DrawCanvas()
-aria2_timer = hs.timer.doEvery(aria2_refresh_interval,aria2_IntervalRequest)
+function aria2_DrawToolbar()
+    if not aria2_toolbar then
+        local mainScreen = hs.screen.mainScreen()
+        local mainRes = mainScreen:fullFrame()
+        aria2_toolbar = hs.canvas.new({x=mainRes.w-165,y=mainRes.h-50,w=120,h=24})
+        aria2_toolbar:level(hs.canvas.windowLevels.tornOffMenu)
+        aria2_toolbar:clickActivating(false)
+        aria2_toolbar[1] = {action="fill",type="rectangle",fillColor=lightseagreen,roundedRectRadii={xRadius=3,yRadius=3}}
+        aria2_toolbar[1].fillColor.alpha=0.3
+        aria2_toolbar[2] = {type="text",text="➲",frame={x=0,y=0,w=tostring(1/4),h="100%"},textSize=20,textAlignment="center"}
+        aria2_toolbar[3] = {type="text",text="❒",frame={x=tostring(1/4),y=0,w=tostring(1/4),h="100%"},textSize=20,textAlignment="center"}
+        aria2_toolbar[4] = {type="text",text="♻︎",frame={x=tostring(2/4),y=0,w=tostring(1/4),h="100%"},textSize=20,textAlignment="center"}
+        aria2_toolbar[5] = {type="text",text="✖︎",frame={x=tostring(3/4),y=0,w=tostring(1/4),h="100%"},textSize=20,textAlignment="center"}
+        aria2_toolbar._default.trackMouseDown = true
 
--- status, data = hs.osascript.applescript('set filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|*.meta4)" of type {"torrent", "metafile", "meta4"}\nreturn POSIX path of filechooser')
+        aria2_toolbar:mouseCallback(function(canvas,event,id,x,y)
+            if event == "mouseDown" and id == 2 then
+                local strfromclip = hs.pasteboard.readString()
+                local single_url_or_batch_urls = splitByLine(strfromclip)
+                aria2_NewTask("addUri",single_url_or_batch_urls)
+            elseif event == "mouseDown" and id == 3 then
+                status, data = hs.osascript.applescript('set filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|*.meta4)" of type {"torrent", "metafile", "meta4"}\nreturn POSIX path of filechooser')
+                if status then
+                    local function extensionoffile(path)
+                        local tmptbl = {}
+                        for w in string.gmatch(path,"[^%.]+") do table.insert(tmptbl,w) end
+                        return tmptbl[#tmptbl]
+                    end
+                    if extensionoffile(data) == "torrent" then
+                        aria2_NewTask("addTorrent",data)
+                    elseif extensionoffile(data) == ".metafile" or extensionoffile(data) == ".meta4" then
+                        aria2_NewTask("addMetalink",data)
+                    end
+                end
+            elseif event == "mouseDown" and id == 4 then
+                aria2_Commands("purgeDownloadResult")
+            elseif event == "mouseDown" and id == 5 then
+                aria2_toolbar:hide()
+                aria2_drawer:hide()
+            end
+        end)
+    end
+    aria2_toolbar:show()
+end
 
-local mainScreen = hs.screen.mainScreen()
-local mainRes = mainScreen:fullFrame()
-aria2_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-48,w=20,h=20}):show()
-aria2_tray:level(hs.canvas.windowLevels.tornOffMenu)
-aria2_tray[1] = {action="fill",type="circle",fillColor=white}
-aria2_tray[1].fillColor.alpha=0.7
-aria2_tray[2] = {action="fill",type="circle",fillColor=lightseagreen,radius="40%"}
-aria2_tray[2].fillColor.alpha=0.3
-aria2_tray._default.trackMouseDown = true
-
-aria2_tray:mouseCallback(function(canvas,event,id,x,y)
-    if canvas==aria2_tray and event=="mouseDown" then
-        if aria2_toolbar:isShowing() then
-            aria2_toolbar:hide()
-            aria2_drawer:hide()
+function aria2_Init()
+    local init_req = {
+        id = hs.hash.SHA1(os.time()),
+        jsonrpc = "2.0",
+        method = "aria2.getVersion",
+        params = { "token:"..aria2_token }
+    }
+    hs.http.asyncPost(aria2_host,hs.json.encode(init_req),nil,function(status,data)
+        if status == 200 then
+            aria2_DrawToolbar()
+            aria2_DrawCanvas()
+            if aria2_timer ~= nil then
+                aria2_timer:start()
+                aria2_timer:setNextTrigger(aria2_refresh_interval)
+            else
+                aria2_timer = hs.timer.doEvery(aria2_refresh_interval,aria2_IntervalRequest)
+            end
         else
-            aria2_toolbar:show()
-            aria2_drawer:show()
+            hs.notify.new({title="aria2 not ready.", informativeText="Please check your configuration."}):send()
         end
-    end
-end)
+    end)
+end
 
-aria2_toolbar = hs.canvas.new({x=mainRes.w-150,y=mainRes.h-50,w=90,h=24})
-aria2_toolbar:level(hs.canvas.windowLevels.tornOffMenu)
-aria2_toolbar[1] = {action="fill",type="rectangle",fillColor=lightseagreen,roundedRectRadii={xRadius=3,yRadius=3}}
-aria2_toolbar[1].fillColor.alpha=0.3
-aria2_toolbar[2] = {type="text",text="➲",frame={x=0,y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
-aria2_toolbar[3] = {type="text",text="❒",frame={x=tostring(1/3),y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
-aria2_toolbar[4] = {type="text",text="♻︎",frame={x=tostring(2/3),y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
-aria2_toolbar._default.trackMouseDown = true
-
-aria2_toolbar:mouseCallback(function(canvas,event,id,x,y)
-    print(canvas,event,id,x,y)
-    if event == "mouseDown" and id == 2 then
-        local strfromclip = hs.pasteboard.readString()
-        local single_url_or_batch_urls = splitByLine(strfromclip)
-        aria2_NewTask("addUri",single_url_or_batch_urls)
-    elseif event == "mouseDown" and id == 3 then
-        status, data = hs.osascript.applescript('set filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|*.meta4)" of type {"torrent", "metafile", "meta4"}\nreturn POSIX path of filechooser')
-        if status then
-            local function extensionoffile(path)
-                local tmptbl = {}
-                for w in string.gmatch(path,"[^%.]+") do table.insert(tmptbl,w) end
-                return tmptbl[#tmptbl]
-            end
-            if extensionoffile(data) == "torrent" then
-                aria2_NewTask("addTorrent",data)
-            elseif extensionoffile(data) == ".metafile" or extensionoffile(data) == ".meta4" then
-                aria2_NewTask("addMetalink",data)
-            end
-        end
-    elseif event == "mouseDown" and id == 4 then
-        aria2_Commands("purgeDownloadResult")
-    end
-end)
