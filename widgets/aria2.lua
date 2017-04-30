@@ -220,7 +220,7 @@ function aria2_DrawCanvas()
             if aria2_drawer == nil then
                 local mainScreen = hs.screen.mainScreen()
                 local mainRes = mainScreen:fullFrame()
-                aria2_drawer = hs.canvas.new({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
+                aria2_drawer = hs.canvas.new({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-52,w=400,h=50*#aria2_canvas_holder})
                 aria2_drawer:level(hs.canvas.windowLevels.tornOffMenu)
                 aria2_drawer:clickActivating(false)
                 aria2_drawer._default.trackMouseDown = true
@@ -230,7 +230,7 @@ function aria2_DrawCanvas()
                 end
                 local mainScreen = hs.screen.mainScreen()
                 local mainRes = mainScreen:fullFrame()
-                aria2_drawer:frame({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
+                aria2_drawer:frame({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-52,w=400,h=50*#aria2_canvas_holder})
             end
             aria2_drawer:show()
             for idx,val in pairs(aria2_canvas_holder) do
@@ -410,7 +410,7 @@ function aria2_DrawToolbar()
     if not aria2_toolbar then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        aria2_toolbar = hs.canvas.new({x=mainRes.w-165,y=mainRes.h-50,w=120,h=24})
+        aria2_toolbar = hs.canvas.new({x=mainRes.w-165,y=mainRes.h-42,w=120,h=24})
         aria2_toolbar:level(hs.canvas.windowLevels.tornOffMenu)
         aria2_toolbar:clickActivating(false)
         aria2_toolbar[1] = {action="fill",type="rectangle",fillColor=lightseagreen,roundedRectRadii={xRadius=3,yRadius=3}}

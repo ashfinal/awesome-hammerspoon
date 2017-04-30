@@ -130,7 +130,7 @@ function modal_stat(color,alpha)
     if not modal_tray then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        modal_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-48,w=20,h=20})
+        modal_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-40,w=20,h=20})
         modal_tray[1] = {action="fill",type="circle",fillColor=white}
         modal_tray[1].fillColor.alpha=0.7
         modal_tray[2] = {action="fill",type="circle",fillColor=white,radius="40%"}
