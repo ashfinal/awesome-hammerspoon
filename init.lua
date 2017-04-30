@@ -18,6 +18,7 @@ royalblue = hs.drawing.color.x11.royalblue
 sandybrown = hs.drawing.color.x11.sandybrown
 black50 = {red=0,blue=0,green=0,alpha=0.5}
 darkblue = {red=24/255,blue=195/255,green=145/255,alpha=1}
+gray = {red=246/255,blue=246/255,green=246/255,alpha=0.3}
 
 privatepath = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private')
 if privatepath == nil then
@@ -87,11 +88,11 @@ function showavailableHotkey()
         end
         hotkeybg:setRoundedRectRadii(10,10)
         hotkeybg:setLevel(hs.drawing.windowLevels.modalPanel)
-        hotkeybg:setBehavior(hs.drawing.windowBehaviors.stationary)
+        hotkeybg:behavior(hs.drawing.windowBehaviors.stationary)
         local hktextrect = hs.geometry.rect(hkbgrect.x+40,hkbgrect.y+30,hkbgrect.w-80,hkbgrect.h-60)
         hotkeytext = hs.drawing.text(hktextrect,"")
         hotkeytext:setLevel(hs.drawing.windowLevels.modalPanel)
-        hotkeytext:setBehavior(hs.drawing.windowBehaviors.stationary)
+        hotkeytext:behavior(hs.drawing.windowBehaviors.stationary)
         hotkeytext:setClickCallback(nil,function() hotkeytext:delete() hotkeytext=nil hotkeybg:delete() hotkeybg=nil end)
         hotkey_filtered = {}
         for i=1,#hotkey_list do
@@ -125,28 +126,22 @@ end
 
 modal_list = {}
 
-function modal_stat(modal, color)
-    if not modal_show then
+function modal_stat(color,alpha)
+    if not modal_tray then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        local modal_bg_rect = hs.geometry.rect(mainRes.w-170,mainRes.h-24,170,19)
-        local modal_text_rect = hs.geometry.rect(mainRes.w-170,mainRes.h-24,170,19)
-        modal_bg = hs.drawing.rectangle(modal_bg_rect)
-        modal_bg:setStroke(false)
-        modal_bg:setFillColor(black)
-        modal_bg:setRoundedRectRadii(2,2)
-        modal_bg:setLevel(hs.drawing.windowLevels.status)
-        modal_bg:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
-        local styledText = hs.styledtext.new("init...",{font={size=14.0,color=white},paragraphStyle={alignment="center"}})
-        modal_show = hs.drawing.text(modal_text_rect,styledText)
-        modal_show:setLevel(hs.drawing.windowLevels.status)
-        modal_show:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces+hs.drawing.windowBehaviors.stationary)
+        modal_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-48,w=20,h=20})
+        modal_tray[1] = {action="fill",type="circle",fillColor=white}
+        modal_tray[1].fillColor.alpha=0.7
+        modal_tray[2] = {action="fill",type="circle",fillColor=white,radius="40%"}
+        modal_tray:level(hs.canvas.windowLevels.status)
+        modal_tray:clickActivating(false)
+        modal_tray:behavior(hs.canvas.windowBehaviors.canJoinAllSpaces + hs.canvas.windowBehaviors.stationary)
+        modal_tray._default.trackMouseDown = true
     end
-    modal_bg:show()
-    modal_bg:setFillColor(color)
-    modal_show:show()
-    modal_text = string.upper(modal .. ' mode')
-    modal_show:setText(modal_text)
+    modal_tray:show()
+    modal_tray[2].fillColor = color
+    modal_tray[2].fillColor.alpha = alpha
 end
 
 activeModals = {}
