@@ -79,7 +79,7 @@ function timerM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if not show_timer_tips then show_timer_tips = true end
+    if show_timer_tips == nil then show_timer_tips = true end
     if show_timer_tips == true then showavailableHotkey() end
 end
 

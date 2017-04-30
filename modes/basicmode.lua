@@ -92,7 +92,7 @@ function resizeM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if not show_resize_tips then show_resize_tips = true end
+    if show_resize_tips == nil then show_resize_tips = true end
     if show_resize_tips == true then showavailableHotkey() end
 end
 
@@ -173,7 +173,7 @@ function appM:entered()
         hotkeybg:delete()
         hotkeybg=nil
     end
-    if not show_applauncher_tips then show_applauncher_tips = true end
+    if show_applauncher_tips == nil then show_applauncher_tips = true end
     if show_applauncher_tips == true then showavailableHotkey() end
 end
 
