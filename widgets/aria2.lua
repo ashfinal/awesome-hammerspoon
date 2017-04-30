@@ -218,13 +218,18 @@ function aria2_DrawCanvas()
                 end
             end
             if aria2_drawer == nil then
-                aria2_drawer = hs.canvas.new({x=0,y=0,w=400,h=50*#aria2_canvas_holder}):show()
+                local mainScreen = hs.screen.mainScreen()
+                local mainRes = mainScreen:fullFrame()
+                aria2_drawer = hs.canvas.new({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
+                aria2_drawer:level(hs.canvas.windowLevels.tornOffMenu)
                 aria2_drawer._default.trackMouseDown = true
             else
                 for i=1,#aria2_drawer do
                     aria2_drawer:removeElement(1)
                 end
-                aria2_drawer:size({w=400,h=50*#aria2_canvas_holder})
+                local mainScreen = hs.screen.mainScreen()
+                local mainRes = mainScreen:fullFrame()
+                aria2_drawer:frame({x=mainRes.w-400,y=mainRes.h-50*#aria2_canvas_holder-60,w=400,h=50*#aria2_canvas_holder})
             end
             for idx,val in pairs(aria2_canvas_holder) do
                 aria2_drawer[idx]={type="canvas",canvas=val.canvas,frame={x="0%",y=tostring(1/#aria2_canvas_holder*(idx-1)),w="100%",h=tostring(1/#aria2_canvas_holder)}}
@@ -402,4 +407,60 @@ end
 aria2_DrawCanvas()
 aria2_timer = hs.timer.doEvery(aria2_refresh_interval,aria2_IntervalRequest)
 
--- status, data = hs.osascript.applescript('tell application "Finder"\nset filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|meta4)" of type {"torrent", "metafile", "meta4"}\nset selectedfile to {POSIX path of filechooser,name extension of filechooser}\nreturn selectedfile\nend tell')
+-- status, data = hs.osascript.applescript('set filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|*.meta4)" of type {"torrent", "metafile", "meta4"}\nreturn POSIX path of filechooser')
+
+local mainScreen = hs.screen.mainScreen()
+local mainRes = mainScreen:fullFrame()
+aria2_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-48,w=20,h=20}):show()
+aria2_tray:level(hs.canvas.windowLevels.tornOffMenu)
+aria2_tray[1] = {action="fill",type="circle",fillColor=white}
+aria2_tray[1].fillColor.alpha=0.7
+aria2_tray[2] = {action="fill",type="circle",fillColor=lightseagreen,radius="40%"}
+aria2_tray[2].fillColor.alpha=0.3
+aria2_tray._default.trackMouseDown = true
+
+aria2_tray:mouseCallback(function(canvas,event,id,x,y)
+    if canvas==aria2_tray and event=="mouseDown" then
+        if aria2_toolbar:isShowing() then
+            aria2_toolbar:hide()
+            aria2_drawer:hide()
+        else
+            aria2_toolbar:show()
+            aria2_drawer:show()
+        end
+    end
+end)
+
+aria2_toolbar = hs.canvas.new({x=mainRes.w-150,y=mainRes.h-50,w=90,h=24})
+aria2_toolbar:level(hs.canvas.windowLevels.tornOffMenu)
+aria2_toolbar[1] = {action="fill",type="rectangle",fillColor=lightseagreen,roundedRectRadii={xRadius=3,yRadius=3}}
+aria2_toolbar[1].fillColor.alpha=0.3
+aria2_toolbar[2] = {type="text",text="➲",frame={x=0,y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
+aria2_toolbar[3] = {type="text",text="❒",frame={x=tostring(1/3),y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
+aria2_toolbar[4] = {type="text",text="♻︎",frame={x=tostring(2/3),y=0,w=tostring(1/3),h="100%"},textSize=20,textAlignment="center"}
+aria2_toolbar._default.trackMouseDown = true
+
+aria2_toolbar:mouseCallback(function(canvas,event,id,x,y)
+    print(canvas,event,id,x,y)
+    if event == "mouseDown" and id == 2 then
+        local strfromclip = hs.pasteboard.readString()
+        local single_url_or_batch_urls = splitByLine(strfromclip)
+        aria2_NewTask("addUri",single_url_or_batch_urls)
+    elseif event == "mouseDown" and id == 3 then
+        status, data = hs.osascript.applescript('set filechooser to choose file with prompt "Select BT file(*.torrent) or Metafile(*.metafile|*.meta4)" of type {"torrent", "metafile", "meta4"}\nreturn POSIX path of filechooser')
+        if status then
+            local function extensionoffile(path)
+                local tmptbl = {}
+                for w in string.gmatch(path,"[^%.]+") do table.insert(tmptbl,w) end
+                return tmptbl[#tmptbl]
+            end
+            if extensionoffile(data) == "torrent" then
+                aria2_NewTask("addTorrent",data)
+            elseif extensionoffile(data) == ".metafile" or extensionoffile(data) == ".meta4" then
+                aria2_NewTask("addMetalink",data)
+            end
+        end
+    elseif event == "mouseDown" and id == 4 then
+        aria2_Commands("purgeDownloadResult")
+    end
+end)
