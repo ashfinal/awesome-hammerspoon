@@ -2,7 +2,7 @@
 
 ![modes](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-modes.png)
 
-Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, dictionary translation, cheatsheets... etc.
+Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, Alfred-like search, aria2 GUI, dictionary translation, cheatsheets... etc.
 
 ## Get started
 
@@ -32,8 +32,6 @@ And this means a lot.
 
 * Easy to extend, you can create your own modals if you like. For example, `Finder` mode, in which you press <kbd>T</kbd> to open Terminal here, press <kbd>S</kbd> to send files to predefined path, press <kbd>C</kbd> to upload images to cloud storage.
 
-**NOTICE:** After your work you'd better quit current mode back to normal. Or, you carefully pick your key bindings to avoid conflict with other hotkeys.
-
 </details>
 
 ## How to use?
@@ -55,22 +53,22 @@ As you may have noticed, there are two clean, nice-looking desktop widgets, anal
 
 </details>
 
-### 2. Mode Block
+### 2. More Widgets and Modes
 
 <details>
 <summary>More details</summary>
 
-There is also a small gray block in the bottom right corner, maybe displaying current netspeed. Well, it's actually **mode block**. Want to know in which mode you are? Give it a glance. When Hammerspoon starts, or there's no work to do, it shows `DOCK MODE` in black background. But alway displaying the black block is a little boring, so we use it for netspeed monitor if there's no activity for 5 secs.
+There is actually more besides these. Now you can press <kbd>⌥</kbd> + <kbd>R</kbd> to enter `resize` mode, or press <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode …and start to explore.
 
-**Mode block** holds the entrance to other modes, you can use <kbd>⌥</kbd> + <kbd>space</kbd> to toggle its display. Then use <kbd>⌥</kbd> + <kbd>R</kbd> to enter `resize` mode, or use <kbd>⌥</kbd> + <kbd>A</kbd> to enter `app` mode... etc.
+In order to make one single keystroke work in two scenes, you may want to know in which scene you are now. If you enter certain scene (and forget to exit, and wonder why your regular typing doesn't work as expected), see if there is a small circle in the bottom right corner, which indicates different scenes with different color. If that's the fact, then you realize you need to press <kbd>⎋</kbd>, exit current scene, dismiss the circle, and get back to your work.
 
 Key bindings available:
 
 | Key bindings                | Movement                   |
-|-----------------------------|----------------------------|
+| --------------------------- | -------------------------- |
 | <kbd>⌥</kbd> + <kbd>A</kbd> | Enter `app` mode           |
 | <kbd>⌥</kbd> + <kbd>C</kbd> | Enter `clipboard` mode     |
-| <kbd>⌥</kbd> + <kbd>D</kbd> | Enter `download` mode      |
+| <kbd>⌥</kbd> + <kbd>D</kbd> | Launch aria2 GUI .         |
 | <kbd>⌥</kbd> + <kbd>G</kbd> | Launch hammer search       |
 | <kbd>⌥</kbd> + <kbd>I</kbd> | Enter `timer` mode         |
 | <kbd>⌥</kbd> + <kbd>R</kbd> | Enter `resize` mode        |
@@ -80,7 +78,7 @@ Key bindings available:
 | <kbd>⌥</kbd> + <kbd>Z</kbd> | Toggle Hammerspoon console |
 | <kbd>⌥</kbd> + <kbd>⇥</kbd> | Show window hints          |
 
-*In most modes, you can use <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back to DOCK mode. And switch from one mode to another directly.*
+*In most modes, you can use <kbd>Q</kbd>, or <kbd>⎋</kbd> to quit back. And switch from one mode to another directly.*
 
 </details>
 
@@ -101,7 +99,7 @@ Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to **move** windows around.
 
 Use <kbd>⇧</kbd> + <kbd>Y/U/I/O</kbd> to **resize** windows.
 
-Use <kbd>=</kbd>, <kbd>-</kbd> to expand/shrink the window size.
+Use <kbd>=</kbd>, <kbd>-</kbd> to **expand**/**shrink** the window size.
 
 Use <kbd>F</kbd> to put windows to fullscreen, use <kbd>C</kbd> to put windows to center of screen, use <kbd>⇧</kbd> + <kbd>C</kbd> to resize windows to predefined size and center them.
 
@@ -124,24 +122,20 @@ If you want to define your own hotkeys, please create `~/.hammerspoon/private/aw
         {shortcut = 'r',appname = 'Firefox'},
     }
 
-**UPDATE:** Now you can press <kbd>⇥</kbd> to show key bindings, also available in `resize`, `view`, `timer` mode.
+**UPDATE:** Now you can press <kbd>⇥</kbd> to toggle key bindings, also available in `resize`, `view`, `timer` mode.
 
 ![tips](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-tips.png)
 
 </details>
 
-### 5. Hammer Search(search mode) <kbd>⌥</kbd> + <kbd>G</kbd>
+### 5. Hammer Search <kbd>⌥</kbd> + <kbd>G</kbd>
 
 <details>
 <summary>More details</summary>
 
-Now you can search Safari tabs and online dictionary(use <kbd>⌃</kbd> + <kbd>⇥</kbd> to switch between them).
+Now you can do lots of things with Hammerspoon search: search Safari tabs, dictionary translation, kill active application, English thesaurus, get latest posts from v2ex … etc. And feel free to add your own source!
 
 ![hsearch](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hsearch.gif)
-
-Dictionary search supports `word suggestion`(see the above gif) and English thesaurus(use <kbd>⌃</kbd> + <kbd>D</kbd> to request). And did you notice that the translation is instant?
-
-*Due to the uncertainty of asynchronous request, usually you need to append a space to end of the word to fully translate it.*
 
 **NOTICE:** If you heavily rely on instant translation(youdao dict), please consider applying for your own API key at here:
 
@@ -154,7 +148,25 @@ Then add them to `~/.hammerspoon/private/awesomeconfig.lua`:
 
 </details>
 
-### 6. Timer Indicator(timer mode) <kbd>⌥</kbd> + <kbd>I</kbd>
+### 6. Aria2 GUI <kbd>⌥</kbd> + <kbd>D</kbd>
+
+<details>
+<summary>More details</summary>
+
+This is a "native" frontend for aria2 (an ultra fast download utility in case you don't know).
+
+![hsearch](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-aria2.png)
+
+You need to run aria2 with RPC enabled before using this. Config aria2 host and token in `~/.hammerspoon/private/awesomeconfig.lua`, then you're ready to go.
+
+    aria2_host = "http://localhost:6800/jsonrpc" -- default host
+    aria2_token = "token" -- YOUR OWN TOKEN
+
+Add new task (regular URL or BTfile or Metafile) from aria2 "toolbar", click certain task item to pause/resume the download, or open completed files. While holding down `⌘` key, you click certain item, that will stop the download, or remove the completed/error task. It will notify you if there is any completed download or any error, even aria2 window is closed. And you can batch add tasks from your pasteboard, one URL per line.
+
+</details>
+
+### 7. Timer Indicator(timer mode) <kbd>⌥</kbd> + <kbd>I</kbd>
 
 <details>
 <summary>More details</summary>
@@ -175,7 +187,7 @@ Press <kbd>9</kbd> to set a 90-mins timer.
 
 </details>
 
-### 7. Cheatsheet(cheatsheet mode) <kbd>⌥</kbd> + <kbd>S</kbd>
+### 8. Cheatsheet(cheatsheet mode) <kbd>⌥</kbd> + <kbd>S</kbd>
 
 <details>
 <summary>More details</summary>
@@ -186,22 +198,20 @@ Let the picture talk:
 
 ![cheatsheet](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-cheatsheet.png)
 
-*Default off. To add this module to your config, please refer to the `Customization` section.*
-
 </details>
 
-### 8. Clipboard Show(clipboard mode) <kbd>⌥</kbd> + <kbd>C</kbd>
+### 9. Clipboard Show <kbd>⌥</kbd> + <kbd>C</kbd>
 
 <details>
 <summary>More details</summary>
 
 It shows the content of your clipboard. If text or image type then display it with proper size, if hyperlink type then use default browser to open it. Click the display block it will destory itself.
 
-I usually use this to display QR image for cellphone's faster scanning, or display some text for better reading.
+I usually use this to display QR image for cellphone's faster scanning, or display some text for better reading. And I never need to do this below: focus the default browser, click the address bar, paste the URL and press Enter to go.
 
 </details>
 
-### 9. Other Stuff
+### 10. Other Stuff
 
 <details>
 <summary>Tmux-styled Clock <kbd>⌥</kbd> + <kbd>T</kbd></summary>
@@ -233,13 +243,9 @@ Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
 </details>
 
 <details>
-<summary>Download Mode(aria2 frontend) <kbd>⌥</kbd> + <kbd>D</kbd></summary>
+<summary>Netspeed Monitor</summary>
 
-I use [glutton](https://github.com/NemoAlex/glutton)(a tiny webclient for aria2) to manage aria2's download queue. This mode creates an interface for glutton, so I can handle aria2 more convenient.
-
-*Default off. To add this module to your config, please refer to the `Customization` section.*
-
-*To speed up the display of webclient, by default when you press `⎋` the interface is hiden(instead destroyed). This may increase resource occupation. If you don't use `download` mode for a long time, when quitting use <kbd>⌃</kbd> + <kbd>⎋</kbd> to completely destory the webclient.*
+Watch your netspeed sitting on the menubar. Support macos's darkmode.
 
 </details>
 
@@ -291,10 +297,11 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     default modules:
 
         module_list = {
-            "basicmode",
             "widgets/netspeed",
             "widgets/hcalendar",
             "widgets/analogclock",
+            "widgets/aria2",
+            "modes/basicmode",
             "modes/indicator",
             "modes/clipshow",
             "modes/hsearch",
@@ -303,10 +310,11 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     For example, remove `hsearch` module, add your own module `mymodule`:
 
         module_list = {
-            "basicmode",
             "widgets/netspeed",
             "widgets/hcalendar",
             "widgets/analogclock",
+            "widgets/aria2",
+            "modes/basicmode",
             "modes/indicator",
             "modes/clipshow",
             "private/mymodule",
@@ -317,13 +325,14 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     Available key binding variables:
 
     | Action                     | Variable                    | Default value                   |
-    |----------------------------|-----------------------------|---------------------------------|
+    | -------------------------- | --------------------------- | ------------------------------- |
     | Reload Configuration       | hsreload_keys               | {{"cmd", "shift", "ctrl"}, "R"} |
     | Toggle Modal Supervisor    | modalmgr_keys               | {{"alt"}, "space"}              |
     | Toggle Hammerspoon Console | toggleconsole_keys          | {{"alt"}, "Z"}                  |
     | Lock Screen                | lockscreen_keys             | {{"cmd", "shift", "ctrl"}, "L"} |
     | Enter Application Mode     | appM_keys                   | {{"alt"}, "A"}                  |
     | Enter Clipboard Mode       | clipboardM_keys             | {"alt"}, "C"}                   |
+    | Launch Aria2 GUI .         | aria2_keys .                | {"alt"}, "D"}                   |
     | Launch Hammer Search       | hsearch_keys                | {{"alt"}, "G"}                  |
     | Enter Timer Mode           | timerM_keys                 | {{"alt"}, "T"}                  |
     | Enter Resize Mode          | resizeM_keys                | {{"alt"}, "R"}                  |
@@ -354,17 +363,15 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     These options should be put into `~/.hammerspoon/private/awesomeconfig.lua` file.
 
     ``` lua
-    -- You may want to use your own aria2 webclient.
-    aria2URL = "http://www.myaria2.com/"
+    aria2_refresh_interval = 1 -- How often the frontend should request data from the host
+    aria2_show_items_max = 5 -- How many items the frontend should show
 
-    -- Local files also are supported, like this:
-    aria2URL = "file:///Users/ashfinal/Downloads/glutton/index.html"
-
-    -- Make mode block idle to netspeed or just hide.
-    idle_to_which = "netspeed/hide/never"
-
-    -- When enter `app` mode show or hide applauncher tips automatically.
+    -- When enter `resize/app/timer` mode show or hide applauncher tips automatically.
+    show_resize_tips = true/false
     show_applauncher_tips = true/false
+    show_timer_tips = true/false
+
+    hotkey_tips_bg = "light"/"dark" -- Make the hotkey tips' background light or dark
 
     -- Put analogclock to somewhere by defining center point.
     aclockcenter = {x=200,y=200}
