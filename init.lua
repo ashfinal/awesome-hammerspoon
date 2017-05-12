@@ -186,29 +186,115 @@ function resize_win(direction)
         local max = screen:fullFrame()
         local stepw = max.w/30
         local steph = max.h/30
-        if direction == "right" then localf.w = localf.w+stepw end
-        if direction == "left" then localf.w = localf.w-stepw end
-        if direction == "up" then localf.h = localf.h-steph end
-        if direction == "down" then localf.h = localf.h+steph end
-        if direction == "halfright" then localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h end
-        if direction == "halfleft" then localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h end
-        if direction == "halfup" then localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h/2 end
-        if direction == "halfdown" then localf.x = 0 localf.y = max.h/2 localf.w = max.w localf.h = max.h/2 end
-        if direction == "cornerNE" then localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2 end
-        if direction == "cornerSE" then localf.x = max.w/2 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2 end
-        if direction == "cornerNW" then localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2 end
-        if direction == "cornerSW" then localf.x = 0 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2 end
-        if direction == "center" then localf.x = (max.w-localf.w)/2 localf.y = (max.h-localf.h)/2 end
-        if direction == "fcenter" then localf.x = stepw*5 localf.y = steph*5 localf.w = stepw*20 localf.h = steph*20 end
-        if direction == "fullscreen" then localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h end
-        if direction == "shrink" then localf.x = localf.x+stepw localf.y = localf.y+steph localf.w = localf.w-(stepw*2) localf.h = localf.h-(steph*2) end
-        if direction == "expand" then localf.x = localf.x-stepw localf.y = localf.y-steph localf.w = localf.w+(stepw*2) localf.h = localf.h+(steph*2) end
-        if direction == "mright" then localf.x = localf.x+stepw end
-        if direction == "mleft" then localf.x = localf.x-stepw end
-        if direction == "mup" then localf.y = localf.y-steph end
-        if direction == "mdown" then localf.y = localf.y+steph end
-        local absolutef = screen:localToAbsolute(localf)
-        win:setFrameInScreenBounds(absolutef)
+        if direction == "right" then
+            localf.w = localf.w+stepw
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "left" then
+            localf.w = localf.w-stepw
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "up" then
+            localf.h = localf.h-steph
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "down" then
+            localf.h = localf.h+steph
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "halfright" then
+            localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "halfleft" then
+            localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "halfup" then
+            localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "halfdown" then
+            localf.x = 0 localf.y = max.h/2 localf.w = max.w localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "cornerNE" then
+            localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "cornerSE" then
+            localf.x = max.w/2 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "cornerNW" then
+            localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "cornerSW" then
+            localf.x = 0 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "center" then
+            localf.x = (max.w-localf.w)/2 localf.y = (max.h-localf.h)/2
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "fcenter" then
+            localf.x = stepw*5 localf.y = steph*5 localf.w = stepw*20 localf.h = steph*20
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "fullscreen" then
+            localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "shrink" then
+            localf.x = localf.x+stepw localf.y = localf.y+steph localf.w = localf.w-(stepw*2) localf.h = localf.h-(steph*2)
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "expand" then
+            localf.x = localf.x-stepw localf.y = localf.y-steph localf.w = localf.w+(stepw*2) localf.h = localf.h+(steph*2)
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "mright" then
+            localf.x = localf.x+stepw
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "mleft" then
+            localf.x = localf.x-stepw
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "mup" then
+            localf.y = localf.y-steph
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "mdown" then
+            localf.y = localf.y+steph
+            local absolutef = screen:localToAbsolute(localf)
+            win:setFrameInScreenBounds(absolutef)
+        end
+        if direction == "ccursor" then
+            localf.x = localf.x+localf.w/2 localf.y = localf.y+localf.h/2
+            hs.mouse.setRelativePosition({x=localf.x,y=localf.y},screen)
+        end
     else
         hs.alert.show("No focused window!")
     end
