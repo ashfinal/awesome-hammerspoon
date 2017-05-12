@@ -2,14 +2,15 @@ function clipshow()
     if clipDrawn == nil then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
+        local localMainRes = mainScreen:absoluteToLocal(mainRes)
         clipType = hs.pasteboard.typesAvailable()
         if clipType.image == true then
             local imagedata = hs.pasteboard.readImage()
             local imagesize = imagedata:size()
             if imagesize.w < 480 and imagesize.h < 480 then
-                centerimgframe = hs.geometry.rect((mainRes.w-480)/2,(mainRes.h-480)/2,480,480)
+              centerimgframe = hs.geometry.rect(mainScreen:localToAbsolute((localMainRes.w-480)/2,(localMainRes.h-480)/2,480,480))
             else
-                centerimgframe = hs.geometry.rect((mainRes.w-imagesize.w)/2,(mainRes.h-imagesize.h)/2,imagesize.w,imagesize.h)
+              centerimgframe = hs.geometry.rect(mainScreen:localToAbsolute((localMainRes.w-imagesize.w)/2,(localMainRes.h-imagesize.h)/2,imagesize.w,imagesize.h))
             end
             imageshow = hs.drawing.image(centerimgframe,imagedata)
             imageshow:setLevel(hs.drawing.windowLevels.modalPanel)
@@ -31,7 +32,7 @@ function clipshow()
                 hs.urlevent.openURLWithBundle(textdata,defaultbrowser)
                 clipboardM:exit()
             else
-                local bgframe = hs.geometry.rect(0,mainRes.h/5,mainRes.w,mainRes.h/5*3)
+              local bgframe = mainScreen:localToAbsolute(hs.geometry.rect(localMainRes.x,localMainRes.h/5,localMainRes.w,localMainRes.h/5*3))
                 clipbackground = hs.drawing.rectangle(bgframe)
                 clipbackground:setLevel(hs.drawing.windowLevels.modalPanel)
                 clipbackground:setBehavior(hs.drawing.windowBehaviors.stationary)
