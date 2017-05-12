@@ -51,13 +51,13 @@ function switchSource()
 end
 
 function launchChooser()
-    chooser_data = {}
     if sourcetrigger == nil then
         sourcetrigger = hs.hotkey.bind("","tab",nil,switchSource)
     else
         sourcetrigger:enable()
     end
     if search_chooser == nil then
+        chooser_data = {}
         search_chooser = hs.chooser.new(function(chosen)
             sourcetrigger:disable()
             if chosen ~= nil then
@@ -81,13 +81,13 @@ function launchChooser()
                 end
             end
         end)
+        search_chooser:query('')
+        search_chooser:queryChangedCallback()
+        chooser_data = chooserSourceOverview
+        search_chooser:choices(chooser_data)
+        search_chooser:rows(9)
+        outputtype = 'other'
     end
-    search_chooser:query('')
-    search_chooser:queryChangedCallback()
-    chooser_data = chooserSourceOverview
-    search_chooser:choices(chooser_data)
-    search_chooser:rows(9)
-    outputtype = 'other'
     search_chooser:show()
 end
 
