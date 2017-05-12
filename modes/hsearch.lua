@@ -95,20 +95,20 @@ function safariTabsRequest()
     local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
     if stat then
         chooser_data = hs.fnutils.imap(data, function(item)
-            return {text = item[1],subText = item[2]}
+            return {text = item[1],subText = item[2], image=hs.image.imageFromPath("./resources/safari.png")}
         end)
     end
 end
 
 function safariSource()
-    local safarisource_overview = {text="Type sa<tab> to search Safari Tabs."}
+    local safarisource_overview = {text="Type sa<tab> to search Safari Tabs.", image=hs.image.imageFromPath("./resources/safari.png")}
     table.insert(chooserSourceOverview,safarisource_overview)
     function safariFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         safariTabsRequest()
-        local source_desc = {text="Safari Tabs Search", subText="Search and select one item below to open in Safari."}
+        local source_desc = {text="Safari Tabs Search", subText="Search and select one item below to open in Safari.", image=hs.image.imageFromPath("./resources/safari.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
@@ -147,7 +147,7 @@ function youdaoInstantTrans(querystr)
                         dictpool = hs.fnutils.concat(basictrans,webtrans)
                         if #dictpool > 0 then
                             chooser_data = hs.fnutils.imap(dictpool, function(item)
-                                return {text = item}
+                                return {text = item, image=hs.image.imageFromPath("./resources/youdao.png")}
                             end)
                             search_chooser:choices(chooser_data)
                             search_chooser:refreshChoicesCallback()
@@ -158,17 +158,17 @@ function youdaoInstantTrans(querystr)
         end)
     else
         chooser_data = {}
-        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …"}
+        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath("./resources/youdao.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
     end
 end
 
 function youdaoSource()
-    local youdaosource_overview = {text="Type yd<tab> to use Yaodao Dictionary."}
+    local youdaosource_overview = {text="Type yd<tab> to use Yaodao Dictionary.", image=hs.image.imageFromPath("./resources/youdao.png")}
     table.insert(chooserSourceOverview,youdaosource_overview)
     function youdaoFunc()
-        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …"}
+        local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath("./resources/youdao.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(youdaoInstantTrans)
@@ -195,6 +195,11 @@ function appsInfoRequest()
         local appbundle = appspool[i]:bundleID() or "nil"
         local apppath = appspool[i]:path() or "nil"
         local appinfoitem = {text=apptitle.."#"..apppid.."  "..appbundle, subText=apppath, appID=appid}
+        if appbundle ~= "nil" then
+            appinfoitem.image = hs.image.imageFromAppBundle(appbundle)
+        else
+            appinfoitem.image = hs.image.imageFromPath("./resources/taskkill.png")
+        end
         table.insert(chooser_data,appinfoitem)
     end
 end
@@ -203,14 +208,14 @@ end
 
 function appKillSource()
     -- Give some tips for this source
-    local appkillsource_overview = {text="Type kl<tab> to Kill running Process."}
+    local appkillsource_overview = {text="Type kl<tab> to Kill running Process.", image=hs.image.imageFromPath("./resources/taskkill.png")}
     table.insert(chooserSourceOverview,appkillsource_overview)
     -- Run the function below when triggered.
     function appkillFunc()
         -- Request appsinfo
         appsInfoRequest()
         -- More tips
-        local source_desc = {text="Kill Processes", subText="Search and select some items to get them killed."}
+        local source_desc = {text="Kill Processes", subText="Search and select some items to get them killed.", image=hs.image.imageFromPath("./resources/taskkill.png")}
         table.insert(chooser_data, 1, source_desc)
         -- Make $chooser_data$ appear in search_chooser
         search_chooser:choices(chooser_data)
@@ -249,7 +254,7 @@ function thesaurusRequest(querystr)
                     local decoded_data = hs.json.decode(data)
                     if #decoded_data > 0 then
                         chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                            return {text = item.word}
+                            return {text = item.word, image=hs.image.imageFromPath("./resources/thesaurus.png")}
                         end)
                         search_chooser:choices(chooser_data)
                         search_chooser:refreshChoicesCallback()
@@ -259,17 +264,17 @@ function thesaurusRequest(querystr)
         end)
     else
         chooser_data = {}
-        local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …"}
+        local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath("./resources/thesaurus.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
     end
 end
 
 function thesaurusSource()
-    local thesaurus_overview = {text="Type th<tab> to use Datamuse Thesaurus."}
+  local thesaurus_overview = {text="Type th<tab> to use Datamuse Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
     table.insert(chooserSourceOverview,thesaurus_overview)
     function thesaurusFunc()
-        local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …"}
+      local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath("./resources/thesaurus.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(thesaurusRequest)
@@ -325,17 +330,17 @@ function MenuitemsRequest()
     hs_currentlevel = 0
     getMenuChain(all_menuitems)
     for idx,val in pairs(hs_menuchain) do
-        local menuitem = {text=val[#val],subText=table.concat(val," | "),itemID=val}
+        local menuitem = {text=val[#val],subText=table.concat(val," | "),itemID=val, image=hs.image.imageFromAppBundle(hs_belongto_app:bundleID())}
         table.insert(chooser_data,menuitem)
     end
 end
 
 function MenuitemsSource()
-    local menuitems_overview = {text="Type me<tab> to Search Menuitems."}
+    local menuitems_overview = {text="Type me<tab> to Search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
     table.insert(chooserSourceOverview,menuitems_overview)
     function menuitemsFunc()
         MenuitemsRequest()
-        local source_desc = {text="Menuitems Search", subText="Search and select some menuitem to get it clicked."}
+        local source_desc = {text="Menuitems Search", subText="Search and select some menuitem to get it clicked.", image=hs.image.imageFromPath("./resources/menus.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
@@ -365,9 +370,9 @@ function v2exRequest()
                 local decoded_data = hs.json.decode(data)
                 if #decoded_data > 0 then
                     chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                        return {text=item.title, subText=item.content, url=item.url}
+                        return {text=item.title, subText=item.content, url=item.url, image=hs.image.imageFromPath("./resources/v2ex.png")}
                     end)
-                    local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …"}
+                    local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …", image=hs.image.imageFromPath("./resources/v2ex.png")}
                     table.insert(chooser_data, 1, source_desc)
                     search_chooser:choices(chooser_data)
                     search_chooser:refreshChoicesCallback()
@@ -378,7 +383,7 @@ function v2exRequest()
 end
 
 function v2exSource()
-    local v2ex_overview = {text="Type v2<tab> for v2ex latest posts."}
+    local v2ex_overview = {text="Type v2<tab> for v2ex latest posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
     table.insert(chooserSourceOverview,v2ex_overview)
     function v2exFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
