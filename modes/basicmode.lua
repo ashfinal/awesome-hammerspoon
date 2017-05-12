@@ -135,6 +135,7 @@ resizeM:bind('shift', 'H', 'Move Leftward', function() resize_win('mleft') end, 
 resizeM:bind('shift', 'L', 'Move Rightward', function() resize_win('mright') end, nil, function() resize_win('mright') end)
 resizeM:bind('shift', 'J', 'Move Downward', function() resize_win('mdown') end, nil, function() resize_win('mdown') end)
 resizeM:bind('shift', 'K', 'Move Upward', function() resize_win('mup') end, nil, function() resize_win('mup') end)
+resizeM:bind('', '`', 'Center Cursor', function() resize_win('ccursor') end, nil, nil)
 resizeM:bind('', '[', 'Focus Westward', function() cycle_wins_pre() end, nil, function() cycle_wins_pre() end)
 resizeM:bind('', ']', 'Focus Eastward', function() cycle_wins_next() end, nil, function() cycle_wins_next() end)
 resizeM:bind('', 'up', 'Move to monitor above', function() move_win('up') end, nil, nil)
