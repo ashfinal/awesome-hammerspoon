@@ -179,31 +179,33 @@ function resize_win(direction)
     if win then
         local f = win:frame()
         local screen = win:screen()
+        local localf = screen:absoluteToLocal(f)
         local max = screen:fullFrame()
         local stepw = max.w/30
         local steph = max.h/30
-        if direction == "right" then f.w = f.w+stepw end
-        if direction == "left" then f.w = f.w-stepw end
-        if direction == "up" then f.h = f.h-steph end
-        if direction == "down" then f.h = f.h+steph end
-        if direction == "halfright" then f.x = max.w/2 f.y = 0 f.w = max.w/2 f.h = max.h end
-        if direction == "halfleft" then f.x = 0 f.y = 0 f.w = max.w/2 f.h = max.h end
-        if direction == "halfup" then f.x = 0 f.y = 0 f.w = max.w f.h = max.h/2 end
-        if direction == "halfdown" then f.x = 0 f.y = max.h/2 f.w = max.w f.h = max.h/2 end
-        if direction == "cornerNE" then f.x = max.w/2 f.y = 0 f.w = max.w/2 f.h = max.h/2 end
-        if direction == "cornerSE" then f.x = max.w/2 f.y = max.h/2 f.w = max.w/2 f.h = max.h/2 end
-        if direction == "cornerNW" then f.x = 0 f.y = 0 f.w = max.w/2 f.h = max.h/2 end
-        if direction == "cornerSW" then f.x = 0 f.y = max.h/2 f.w = max.w/2 f.h = max.h/2 end
-        if direction == "center" then f.x = (max.w-f.w)/2 f.y = (max.h-f.h)/2 end
-        if direction == "fcenter" then f.x = stepw*5 f.y = steph*5 f.w = stepw*20 f.h = steph*20 end
-        if direction == "fullscreen" then f = max end
-        if direction == "shrink" then f.x = f.x+stepw f.y = f.y+steph f.w = f.w-(stepw*2) f.h = f.h-(steph*2) end
-        if direction == "expand" then f.x = f.x-stepw f.y = f.y-steph f.w = f.w+(stepw*2) f.h = f.h+(steph*2) end
-        if direction == "mright" then f.x = f.x+stepw end
-        if direction == "mleft" then f.x = f.x-stepw end
-        if direction == "mup" then f.y = f.y-steph end
-        if direction == "mdown" then f.y = f.y+steph end
-        win:setFrame(f)
+        if direction == "right" then localf.w = localf.w+stepw end
+        if direction == "left" then localf.w = localf.w-stepw end
+        if direction == "up" then localf.h = localf.h-steph end
+        if direction == "down" then localf.h = localf.h+steph end
+        if direction == "halfright" then localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h end
+        if direction == "halfleft" then localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h end
+        if direction == "halfup" then localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h/2 end
+        if direction == "halfdown" then localf.x = 0 localf.y = max.h/2 localf.w = max.w localf.h = max.h/2 end
+        if direction == "cornerNE" then localf.x = max.w/2 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2 end
+        if direction == "cornerSE" then localf.x = max.w/2 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2 end
+        if direction == "cornerNW" then localf.x = 0 localf.y = 0 localf.w = max.w/2 localf.h = max.h/2 end
+        if direction == "cornerSW" then localf.x = 0 localf.y = max.h/2 localf.w = max.w/2 localf.h = max.h/2 end
+        if direction == "center" then localf.x = (max.w-localf.w)/2 localf.y = (max.h-localf.h)/2 end
+        if direction == "fcenter" then localf.x = stepw*5 localf.y = steph*5 localf.w = stepw*20 localf.h = steph*20 end
+        if direction == "fullscreen" then localf.x = 0 localf.y = 0 localf.w = max.w localf.h = max.h end
+        if direction == "shrink" then localf.x = localf.x+stepw localf.y = localf.y+steph localf.w = localf.w-(stepw*2) localf.h = localf.h-(steph*2) end
+        if direction == "expand" then localf.x = localf.x-stepw localf.y = localf.y-steph localf.w = localf.w+(stepw*2) localf.h = localf.h+(steph*2) end
+        if direction == "mright" then localf.x = localf.x+stepw end
+        if direction == "mleft" then localf.x = localf.x-stepw end
+        if direction == "mup" then localf.y = localf.y-steph end
+        if direction == "mdown" then localf.y = localf.y+steph end
+        local absolutef = screen:localToAbsolute(localf)
+        win:setFrameInScreenBounds(absolutef)
     else
         hs.alert.show("No focused window!")
     end
