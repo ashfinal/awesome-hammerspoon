@@ -32,7 +32,10 @@ end
 if aria2_loaded then
     aria2_keys = aria2_keys or {"alt", "D"}
     if string.len(aria2_keys[2]) > 0 then
-        modalmgr:bind('alt', 'D', 'Launch aria2 Frontend', function() aria2_Init() end)
+        modalmgr:bind('alt', 'D', 'Launch aria2 Frontend', function()
+            if aria2_drawer then aria2_drawer:delete() aria2_drawer = nil end
+            aria2_Init()
+        end)
     end
 end
 if hsearch_loaded then

@@ -42,9 +42,10 @@ end
 function updateused()
     local mainScreen = hs.screen.mainScreen()
     local mainRes = mainScreen:fullFrame()
-    local timeslice = mainRes.w/(60*totaltime/time_interval)
+    local localMainRes = mainScreen:absoluteToLocal(mainRes)
+    local timeslice = localMainRes.w/(60*totaltime/time_interval)
     used_slice = used_slice + timeslice*time_interval
-    if used_slice > mainRes.w then
+    if used_slice > localMainRes.w then
         indict_timer:stop()
         indicator_used:delete()
         indicator_used=nil
@@ -52,9 +53,9 @@ function updateused()
         indicator_left=nil
         hs.notify.new({title="Time("..totaltime.." mins) is up!", informativeText="Now is "..os.date("%X")}):send()
     else
-        left_slice = mainRes.w - used_slice
-        local used_rect = hs.geometry.rect(0,mainRes.h-5,used_slice,5)
-        local left_rect = hs.geometry.rect(used_slice,mainRes.h-5,left_slice,5)
+        left_slice = localMainRes.w - used_slice
+        local used_rect = mainScreen:localToAbsolute(hs.geometry.rect(localMainRes.x,localMainRes.h-5,used_slice,5))
+        local left_rect = mainScreen:localToAbsolute(hs.geometry.rect(localMainRes.x+used_slice,localMainRes.h-5,left_slice,5))
         indicator_used:setFrame(used_rect)
         indicator_left:setFrame(left_rect)
     end

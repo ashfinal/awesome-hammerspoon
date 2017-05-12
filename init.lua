@@ -50,8 +50,9 @@ function show_time()
     if time_draw == nil then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
+        local localMainRes = mainScreen:absoluteToLocal(mainRes)
         local time_str = hs.styledtext.new(os.date("%H:%M"),{font={name="Impact",size=120},color=darkblue,paragraphStyle={alignment="center"}})
-        local timeframe = hs.geometry.rect((mainRes.w-300)/2,(mainRes.h-200)/2,300,150)
+        local timeframe = hs.geometry.rect(mainScreen:localToAbsolute((localMainRes.w-300)/2,(localMainRes.h-200)/2,300,150))
         time_draw = hs.drawing.text(timeframe,time_str)
         time_draw:setLevel(hs.drawing.windowLevels.overlay)
         time_draw:show()
@@ -77,7 +78,8 @@ function showavailableHotkey()
         local hotkey_list=hs.hotkey.getHotkeys()
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        local hkbgrect = hs.geometry.rect(mainRes.w/5,mainRes.h/5,mainRes.w/5*3,mainRes.h/5*3)
+        local localMainRes = mainScreen:absoluteToLocal(mainRes)
+        local hkbgrect = hs.geometry.rect(mainScreen:localToAbsolute(localMainRes.w/5,localMainRes.h/5,localMainRes.w/5*3,localMainRes.h/5*3))
         hotkeybg = hs.drawing.rectangle(hkbgrect)
         -- hotkeybg:setStroke(false)
         if not hotkey_tips_bg then hotkey_tips_bg = "light" end
@@ -130,7 +132,8 @@ function modal_stat(color,alpha)
     if not modal_tray then
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        modal_tray = hs.canvas.new({x=mainRes.w-40,y=mainRes.h-40,w=20,h=20})
+        local localMainRes = mainScreen:absoluteToLocal(mainRes)
+        modal_tray = hs.canvas.new(mainScreen:localToAbsolute({x=localMainRes.w-40,y=localMainRes.h-40,w=20,h=20}))
         modal_tray[1] = {action="fill",type="circle",fillColor=white}
         modal_tray[1].fillColor.alpha=0.7
         modal_tray[2] = {action="fill",type="circle",fillColor=white,radius="40%"}
@@ -252,3 +255,14 @@ end
 if #modal_list > 0 then require("modalmgr") end
 
 globalGC = hs.timer.doEvery(180, collectgarbage)
+globalScreenWatcher = hs.screen.watcher.newWithActiveScreen(function(activeChanged)
+    if activeChanged then
+        exit_others()
+        clipshowclear()
+        if modal_tray then modal_tray:delete() modal_tray = nil end
+        if hotkeytext then hotkeytext:delete() hotkeytext = nil end
+        if hotkeybg then hotkeybg:delete() hotkeybg = nil end
+        if time_draw then time_draw:delete() time_draw = nil end
+        if cheatsheet_view then cheatsheet_view:delete() cheatsheet_view = nil end
+    end
+end):start()

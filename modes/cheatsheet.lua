@@ -164,13 +164,15 @@ end
 
 function showCheatsheet()
     if not cheatsheet_view then
-        local screen_rect = hs.screen.mainScreen():fullFrame()
-        local cheatsheet_rect = {
-            x = (screen_rect.w-1080)/2,
-            y = (screen_rect.h-600)/2,
-            w = 1080,
-            h = 600,
-        }
+        local mainScreen = hs.screen.mainScreen()
+        local mainRes = mainScreen:fullFrame()
+        local localMainRes = mainScreen:absoluteToLocal(mainRes)
+        local cheatsheet_rect = mainScreen:localToAbsolute({
+              x = (localMainRes.w-1080)/2,
+              y = (localMainRes.h-600)/2,
+              w = 1080,
+              h = 600,
+        })
         cheatsheet_view = hs.webview.new(cheatsheet_rect)
         :windowTitle("CheatSheets")
         :windowStyle("utility")
