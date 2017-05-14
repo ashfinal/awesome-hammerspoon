@@ -271,7 +271,7 @@ function thesaurusRequest(querystr)
 end
 
 function thesaurusSource()
-  local thesaurus_overview = {text="Type th<tab> to use Datamuse Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
+  local thesaurus_overview = {text="Type th<tab> to find English Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
     table.insert(chooserSourceOverview,thesaurus_overview)
     function thesaurusFunc()
       local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath("./resources/thesaurus.png")}
@@ -336,7 +336,7 @@ function MenuitemsRequest()
 end
 
 function MenuitemsSource()
-    local menuitems_overview = {text="Type me<tab> to Search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
+    local menuitems_overview = {text="Type me<tab> to search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
     table.insert(chooserSourceOverview,menuitems_overview)
     function menuitemsFunc()
         MenuitemsRequest()
@@ -370,7 +370,16 @@ function v2exRequest()
                 local decoded_data = hs.json.decode(data)
                 if #decoded_data > 0 then
                     chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                        return {text=item.title, subText=item.content, url=item.url, image=hs.image.imageFromPath("./resources/v2ex.png")}
+                        local sub_content = string.gsub(item.content,"\r\n"," ")
+                        local function trim_content()
+                            if utf8.len(sub_content) > 40 then
+                                return string.sub(sub_content,1,utf8.offset(sub_content,40)-1)
+                            else
+                                return sub_content
+                            end
+                        end
+                        local final_content = trim_content()
+                        return {text=item.title, subText=final_content, url=item.url, image=hs.image.imageFromPath("./resources/v2ex.png")}
                     end)
                     local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …", image=hs.image.imageFromPath("./resources/v2ex.png")}
                     table.insert(chooser_data, 1, source_desc)
@@ -383,7 +392,7 @@ function v2exRequest()
 end
 
 function v2exSource()
-    local v2ex_overview = {text="Type v2<tab> for v2ex latest posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
+    local v2ex_overview = {text="Type v2<tab> to fetch v2ex Posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
     table.insert(chooserSourceOverview,v2ex_overview)
     function v2exFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
@@ -391,6 +400,7 @@ function v2exSource()
         search_chooser:choices(chooser_data)
         v2exRequest()
         search_chooser:queryChangedCallback()
+        search_chooser:searchSubText(true)
         outputtype = 'browser'
     end
     local sourcepkg = {}
