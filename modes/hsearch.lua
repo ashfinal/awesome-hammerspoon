@@ -74,7 +74,7 @@ function launchChooser()
                     hs.window.orderedWindows()[1]:focus()
                     hs.eventtap.keyStrokes(chosen.typingText)
                 elseif chosen.outputType == "taskkill" then
-                    chosen.pid:kill9()
+                    os.execute("kill -9 "..chosen.pid)
                 elseif chosen.outputType == "menuclick" then
                     hs_belongto_app:activate()
                     hs_belongto_app:selectMenuItem(chosen.menuitem)
@@ -183,20 +183,47 @@ youdaoSource()
 -- Add a new source - kill processes
 -- First request processes info and store them into $chooser_data$
 
-function appsInfoRequest()
-    local appspool = hs.application.runningApplications()
-    for i=1,#appspool do
-        local appid = appspool[i]
-        local apptitle = appspool[i]:title() or "nil"
-        local apppid = appspool[i]:pid()
-        local appbundle = appspool[i]:bundleID() or "nil"
-        local apppath = appspool[i]:path() or "nil"
-        local appinfoitem = {text=apptitle.."#"..apppid.."  "..appbundle, subText=apppath, outputType="taskkill", pid=appid}
-        if appbundle ~= "nil" then
-            appinfoitem.image = hs.image.imageFromAppBundle(appbundle)
-        else
-            appinfoitem.image = hs.image.imageFromPath("./resources/taskkill.png")
+local function splitByLine(str)
+    local tailtrimmedstr = string.gsub(str,"%s+$","")
+    local tmptbl = {}
+    for w in string.gmatch(tailtrimmedstr,"[^\n]+") do table.insert(tmptbl,w) end
+    if #tmptbl == 1 then
+        local trimmedstr = string.gsub(tmptbl[1],"%s","")
+        return trimmedstr
+    else
+        local tmptbl2 = {}
+        for _,val in pairs(tmptbl) do
+            local trimmedstr = string.gsub(val,"%s","")
+            table.insert(tmptbl2,trimmedstr)
         end
+        return tmptbl2
+    end
+end
+
+function appsInfoRequest()
+    local taskname_tbl = splitByLine(hs.execute("ps -ero ucomm"))
+    local pid_tbl = splitByLine(hs.execute("ps -ero pid"))
+    local comm_tbl = splitByLine(hs.execute("ps -ero command"))
+    for i=2,#taskname_tbl do
+        local taskname = taskname_tbl[i]
+        local pid = tonumber(pid_tbl[i])
+        local comm = comm_tbl[i]
+        local appbundle = hs.application.applicationForPID(pid)
+        local function getBundleID()
+            if appbundle then
+                return appbundle:bundleID()
+            end
+        end
+        local bundleid = getBundleID() or "nil"
+        local function getAppImage()
+            if bundleid ~= "nil" then
+                return hs.image.imageFromAppBundle(bundleid)
+            else
+                return hs.image.iconForFileType("public.unix-executable")
+            end
+        end
+        local appimage = getAppImage()
+        local appinfoitem = {text=taskname.."#"..pid.."  "..bundleid, subText=comm, image=appimage, outputType="taskkill", pid=pid}
         table.insert(chooser_data,appinfoitem)
     end
 end
