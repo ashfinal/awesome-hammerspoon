@@ -413,3 +413,56 @@ v2exSource()
 
 -- New source - v2ex Posts End here
 --------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- New source - Emoji Source
+
+function emojiRequest(querystr)
+    local emoji_baseurl = 'https://emoji.getdango.com'
+    if string.len(querystr) > 0 then
+        local encoded_query = hs.http.encodeForQuery(querystr)
+        local query_url = emoji_baseurl..'/api/emoji?q='..encoded_query
+
+        hs.http.asyncGet(query_url,nil,function(status,data)
+            if status == 200 then
+                if pcall(function() hs.json.decode(data) end) then
+                    local decoded_data = hs.json.decode(data)
+                    if decoded_data.results and #decoded_data.results > 0 then
+                        chooser_data = hs.fnutils.imap(decoded_data.results, function(item)
+                            return {text = item.text, image=hs.image.imageFromPath("./resources/emoji.png")}
+                        end)
+                        search_chooser:choices(chooser_data)
+                        search_chooser:refreshChoicesCallback()
+                    end
+                end
+            end
+        end)
+    else
+        chooser_data = {}
+        local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+    end
+end
+
+function emojiSource()
+  local emoji_overview = {text="Type mo<tab> to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png")}
+    table.insert(chooserSourceOverview,emoji_overview)
+    function emojiFunc()
+      local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback(emojiRequest)
+        outputtype = 'keystroke'
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "mo"
+    sourcepkg.func = emojiFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+emojiSource()
+
+-- New source - Emoji Source End here
+--------------------------------------------------------------------------------
