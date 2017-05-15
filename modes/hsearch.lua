@@ -32,6 +32,7 @@ function switchSource()
                 table.insert(chooser_data, 2, more_tips)
                 search_chooser:choices(chooser_data)
                 search_chooser:queryChangedCallback()
+                hs.eventtap.keyStroke({"cmd"}, "a")
             end
         else
             chooser_data = {}
@@ -39,6 +40,7 @@ function switchSource()
             table.insert(chooser_data, 1, source_desc)
             search_chooser:choices(chooser_data)
             search_chooser:queryChangedCallback()
+            hs.eventtap.keyStroke({"cmd"}, "a")
         end
     else
         if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
@@ -90,36 +92,48 @@ function launchChooser()
     search_chooser:show()
 end
 
-function safariTabsRequest()
-    local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
-    if stat then
-        chooser_data = hs.fnutils.imap(data, function(item)
-            return {text = item[1],subText = item[2], image=hs.image.imageFromPath("./resources/safari.png"), outputType = "safari", url=item[2]}
-        end)
+function browserTabsRequest()
+    local safari_running = hs.application'com.apple.Safari'
+    if safari_running then
+        local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
+        if stat then
+            chooser_data = hs.fnutils.imap(data, function(item)
+                return {text=item[1], subText=item[2], image=hs.image.imageFromPath("./resources/safari.png"), outputType="safari", url=item[2]}
+            end)
+        end
+    end
+    local chrome_running = hs.application'com.google.Chrome'
+    if chrome_running then
+        local stat, data= hs.osascript.applescript('tell application "Google Chrome"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
+        if stat then
+            for idx,val in pairs(data) do
+                table.insert(chooser_data, {text=val[1], subText=val[2], image=hs.image.imageFromPath("/Applications/Google Chrome.app/Contents/Resources/document.icns"), outputType="chrome", url=val[2]})
+            end
+        end
     end
 end
 
-function safariSource()
-    local safarisource_overview = {text="Type sa<tab> to search Safari Tabs.", image=hs.image.imageFromPath("./resources/safari.png")}
-    table.insert(chooserSourceOverview,safarisource_overview)
-    function safariFunc()
+function browserSource()
+    local browsersource_overview = {text="Type ta<tab> to search Safari/Chrome Tabs.", image=hs.image.imageFromPath("./resources/tabs.png")}
+    table.insert(chooserSourceOverview,browsersource_overview)
+    function browserFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
-        safariTabsRequest()
-        local source_desc = {text="Safari Tabs Search", subText="Search and select one item below to open in Safari.", image=hs.image.imageFromPath("./resources/safari.png")}
+        browserTabsRequest()
+        local source_desc = {text="Browser Tabs Search", subText="Search and select one item to open in corresponding browser.", image=hs.image.imageFromPath("./resources/tabs.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
         search_chooser:searchSubText(true)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "sa"
-    sourcepkg.func = safariFunc
+    sourcepkg.kw = "ta"
+    sourcepkg.func = browserFunc
     table.insert(chooserSourceTable,sourcepkg)
 end
 
-safariSource()
+browserSource()
 
 function youdaoInstantTrans(querystr)
     local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom='..youdaokeyfrom..'&key='..youdaoapikey..'&type=data&doctype=json&version=1.1&q='
