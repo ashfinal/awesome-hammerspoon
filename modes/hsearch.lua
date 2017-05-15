@@ -32,7 +32,6 @@ function switchSource()
                 table.insert(chooser_data, 2, more_tips)
                 search_chooser:choices(chooser_data)
                 search_chooser:queryChangedCallback()
-                outputtype = "other"
             end
         else
             chooser_data = {}
@@ -40,14 +39,12 @@ function switchSource()
             table.insert(chooser_data, 1, source_desc)
             search_chooser:choices(chooser_data)
             search_chooser:queryChangedCallback()
-            outputtype = "other"
         end
     else
         if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
         chooser_data = chooserSourceOverview
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
-        outputtype = "other"
     end
 end
 
@@ -62,23 +59,25 @@ function launchChooser()
         search_chooser = hs.chooser.new(function(chosen)
             sourcetrigger:disable()
             if chosen ~= nil then
-                if outputtype == "safari" then
-                    hs.urlevent.openURLWithBundle(chosen.subText,"com.apple.Safari")
-                elseif outputtype == "pasteboard" then
-                    hs.pasteboard.setContents(chosen.text)
-                elseif outputtype == "keystroke" then
+                if chosen.outputType == "safari" then
+                    hs.urlevent.openURLWithBundle(chosen.url,"com.apple.Safari")
+                elseif chosen.outputType == "chrome" then
+                    hs.urlevent.openURLWithBundle(chosen.url,"com.google.Chrome")
+                elseif chosen.outputType == "firefox" then
+                    hs.urlevent.openURLWithBundle(chosen.url,"org.mozilla.firefox")
+                elseif chosen.outputType == "browser" then
+                    local defaultbrowser = hs.urlevent.getDefaultHandler('http')
+                    hs.urlevent.openURLWithBundle(chosen.url,defaultbrowser)
+                elseif chosen.outputType == "clipboard" then
+                    hs.pasteboard.setContents(chosen.clipText)
+                elseif chosen.outputType == "keystrokes" then
                     hs.window.orderedWindows()[1]:focus()
-                    hs.eventtap.keyStrokes(chosen.text)
-                elseif outputtype == "taskkill" then
-                    chosen.appID:kill9()
-                elseif outputtype == "menuclick" then
+                    hs.eventtap.keyStrokes(chosen.typingText)
+                elseif chosen.outputType == "taskkill" then
+                    chosen.pid:kill9()
+                elseif chosen.outputType == "menuclick" then
                     hs_belongto_app:activate()
-                    hs_belongto_app:selectMenuItem(chosen.itemID)
-                elseif outputtype == "browser" then
-                    if chosen.url then
-                        local defaultbrowser = hs.urlevent.getDefaultHandler('http')
-                        hs.urlevent.openURLWithBundle(chosen.url,defaultbrowser)
-                    end
+                    hs_belongto_app:selectMenuItem(chosen.menuitem)
                 end
             end
         end)
@@ -87,7 +86,6 @@ function launchChooser()
         chooser_data = chooserSourceOverview
         search_chooser:choices(chooser_data)
         search_chooser:rows(9)
-        outputtype = 'other'
     end
     search_chooser:show()
 end
@@ -96,7 +94,7 @@ function safariTabsRequest()
     local stat, data= hs.osascript.applescript('tell application "Safari"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
     if stat then
         chooser_data = hs.fnutils.imap(data, function(item)
-            return {text = item[1],subText = item[2], image=hs.image.imageFromPath("./resources/safari.png")}
+            return {text = item[1],subText = item[2], image=hs.image.imageFromPath("./resources/safari.png"), outputType = "safari", url=item[2]}
         end)
     end
 end
@@ -114,7 +112,6 @@ function safariSource()
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
         search_chooser:searchSubText(true)
-        outputtype = 'safari'
     end
     local sourcepkg = {}
     sourcepkg.kw = "sa"
@@ -148,7 +145,7 @@ function youdaoInstantTrans(querystr)
                         dictpool = hs.fnutils.concat(basictrans,webtrans)
                         if #dictpool > 0 then
                             chooser_data = hs.fnutils.imap(dictpool, function(item)
-                                return {text = item, image=hs.image.imageFromPath("./resources/youdao.png")}
+                                return {text=item, image=hs.image.imageFromPath("./resources/youdao.png"), outputType="clipboard", clipText=item}
                             end)
                             search_chooser:choices(chooser_data)
                             search_chooser:refreshChoicesCallback()
@@ -173,7 +170,6 @@ function youdaoSource()
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(youdaoInstantTrans)
-        outputtype = 'pasteboard'
     end
     local sourcepkg = {}
     sourcepkg.kw = "yd"
@@ -195,7 +191,7 @@ function appsInfoRequest()
         local apppid = appspool[i]:pid()
         local appbundle = appspool[i]:bundleID() or "nil"
         local apppath = appspool[i]:path() or "nil"
-        local appinfoitem = {text=apptitle.."#"..apppid.."  "..appbundle, subText=apppath, appID=appid}
+        local appinfoitem = {text=apptitle.."#"..apppid.."  "..appbundle, subText=apppath, outputType="taskkill", pid=appid}
         if appbundle ~= "nil" then
             appinfoitem.image = hs.image.imageFromAppBundle(appbundle)
         else
@@ -223,7 +219,6 @@ function appKillSource()
         -- Run some code or do nothing while querystring changed
         search_chooser:queryChangedCallback()
         -- Do something when select one item in search_chooser
-        outputtype = 'taskkill'
     end
     local sourcepkg = {}
     -- Give this source a trigger keyword
@@ -255,7 +250,7 @@ function thesaurusRequest(querystr)
                     local decoded_data = hs.json.decode(data)
                     if #decoded_data > 0 then
                         chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                            return {text = item.word, image=hs.image.imageFromPath("./resources/thesaurus.png")}
+                            return {text = item.word, image=hs.image.imageFromPath("./resources/thesaurus.png"), outputType="keystrokes", typingText=item.word}
                         end)
                         search_chooser:choices(chooser_data)
                         search_chooser:refreshChoicesCallback()
@@ -279,7 +274,6 @@ function thesaurusSource()
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(thesaurusRequest)
-        outputtype = 'keystroke'
     end
     local sourcepkg = {}
     sourcepkg.kw = "th"
@@ -331,7 +325,7 @@ function MenuitemsRequest()
     hs_currentlevel = 0
     getMenuChain(all_menuitems)
     for idx,val in pairs(hs_menuchain) do
-        local menuitem = {text=val[#val],subText=table.concat(val," | "),itemID=val, image=hs.image.imageFromAppBundle(hs_belongto_app:bundleID())}
+      local menuitem = {text=val[#val], subText=table.concat(val," | "), image=hs.image.imageFromAppBundle(hs_belongto_app:bundleID()), outputType="menuclick", menuitem=val}
         table.insert(chooser_data,menuitem)
     end
 end
@@ -346,7 +340,6 @@ function MenuitemsSource()
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
         search_chooser:searchSubText(true)
-        outputtype = 'menuclick'
     end
     local sourcepkg = {}
     sourcepkg.kw = "me"
@@ -380,7 +373,7 @@ function v2exRequest()
                             end
                         end
                         local final_content = trim_content()
-                        return {text=item.title, subText=final_content, url=item.url, image=hs.image.imageFromPath("./resources/v2ex.png")}
+                        return {text=item.title, subText=final_content, image=hs.image.imageFromPath("./resources/v2ex.png"), outputType="browser", url=item.url}
                     end)
                     local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …", image=hs.image.imageFromPath("./resources/v2ex.png")}
                     table.insert(chooser_data, 1, source_desc)
@@ -402,7 +395,6 @@ function v2exSource()
         v2exRequest()
         search_chooser:queryChangedCallback()
         search_chooser:searchSubText(true)
-        outputtype = 'browser'
     end
     local sourcepkg = {}
     sourcepkg.kw = "v2"
@@ -445,7 +437,7 @@ function emojiRequest(querystr)
                             end
                             local emoji_description = getEmojiDesc()
                             local formatted_desc = string.gsub(emoji_description,"|||||||||||||||","")
-                            return {text = formatted_desc, image=hs_emoji_canvas:imageFromCanvas(), subText="Hex Code: "..hexcode}
+                            return {text = formatted_desc, image=hs_emoji_canvas:imageFromCanvas(), subText="Hex Code: "..hexcode, outputType="keystrokes", typingText=item.text}
                         end)
                         search_chooser:choices(chooser_data)
                         search_chooser:refreshChoicesCallback()
@@ -469,7 +461,6 @@ function emojiSource()
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(emojiRequest)
-        outputtype = 'keystroke'
     end
     local sourcepkg = {}
     sourcepkg.kw = "mo"
