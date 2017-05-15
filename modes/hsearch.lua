@@ -514,3 +514,81 @@ emojiSource()
 
 -- New source - Emoji Source End here
 --------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- New source - Time Source
+
+function timeRequest()
+    hs_time_commands = {
+        '+"%Y-%m-%d"',
+        '+"%H:%M:%S %p"',
+        '+"%A, %B %d, %Y"',
+        '+"%Y-%m-%d %H:%M:%S %p"',
+        '+"%a, %b %d, %y"',
+        '+"%m/%d/%y %H:%M %p"',
+        '',
+        '-u',
+    }
+    chooser_data = hs.fnutils.imap(hs_time_commands, function(item)
+        local exec_result = hs.execute("date "..item)
+        return {text=exec_result, subText="date "..item, image=hs.image.imageFromPath("./resources/time.png"), outputType="keystrokes", typingText=exec_result}
+    end)
+end
+
+local function splitBySpace(str)
+    local tmptbl = {}
+    for w in string.gmatch(str,"[+-]?%d+[ymdwHMS]") do table.insert(tmptbl,w) end
+    return tmptbl
+end
+
+function timeDeltaRequest(querystr)
+    if string.len(querystr) > 0 then
+        local valid_inputs = splitBySpace(querystr)
+        if #valid_inputs > 0 then
+            local addv_before = hs.fnutils.imap(valid_inputs, function(item)
+                return "-v"..item
+            end)
+            local vv_var = table.concat(addv_before," ")
+            for idx,val in pairs(hs_time_commands) do
+                local new_exec_command = "date "..vv_var.." "..val
+                local new_exec_result = hs.execute(new_exec_command)
+                chooser_data[idx+1].text = new_exec_result
+                chooser_data[idx+1].subText = new_exec_command
+                chooser_data[idx+1].typingText = new_exec_result
+                search_chooser:choices(chooser_data)
+            end
+        else
+            timeRequest()
+            local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+            table.insert(chooser_data, 1, source_desc)
+            search_chooser:choices(chooser_data)
+        end
+    else
+        timeRequest()
+        local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+    end
+end
+
+function timeSource()
+    local time_overview = {text="Type ti<tab> to format or query Time.", image=hs.image.imageFromPath("./resources/time.png")}
+    table.insert(chooserSourceOverview,time_overview)
+    function timeFunc()
+        timeRequest()
+        local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+        table.insert(chooser_data, 1, source_desc)
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback(timeDeltaRequest)
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "ti"
+    sourcepkg.func = timeFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+timeSource()
+
+-- New source - Time Source End here
+--------------------------------------------------------------------------------
