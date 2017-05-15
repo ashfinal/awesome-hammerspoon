@@ -8,38 +8,13 @@ if not caltopleft then
     caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
 end
 
--- task_calendar = hs.styledtext.ansi(hs.execute("/usr/local/opt/task/bin/task calendar"):gsub("-",""),{font={name="Courier",size=16},color=red})
-
 function drawToday()
-    -- daycountof1stweek = 8-weekdayof1stday
-    -- daycountof1stweek+7*(yearweek-1) = yday
-    -- yearweek = (yday-daycountof1stweek)/7+1
-
-    local currentyear = os.date("%Y")
-    local currentmonth = os.date("%m")
-    local today = math.tointeger(os.date("%d"))
-    local weekdayof1stday = os.date("*t",os.time{year=currentyear,month=1,day=1,hour=0}).wday
-    local daycountof1stweek = 8-weekdayof1stday
-    local todayyday = os.date("*t").yday
-    if todayyday<=daycountof1stweek then
-        todayyearweek = 1
-    else
-        todayyearweek = math.ceil((todayyday-daycountof1stweek)/7)+1
-    end
-    local firstdayofcurrentmonth = os.time{year=currentyear, month=currentmonth, day=1, hour=0}
-    local lastdayoflastmonth = os.date("*t", firstdayofcurrentmonth-24*60*60)
-    local lastdayyday = lastdayoflastmonth.yday
-    if lastdayyday<=daycountof1stweek then
-        lastdayyearweek = 1
-    else
-        lastdayyearweek = math.ceil((lastdayyday-daycountof1stweek)/7)+1
-    end
-
-    if lastdayyearweek >= 53 then
-        lastdayyearweek = 0
-    end
-    rowofcurrentmonth = todayyearweek - lastdayyearweek
-    columnofcurrentmonth = os.date("*t").wday
+    local currentmonth = tonumber(os.date("%m"))
+    local todayyearweek = os.date("%W")
+    -- Year week of last day of last month
+    local ldlmyearweek = hs.execute("date -v"..currentmonth.."m -v1d -v-1d +'%W'")
+    local rowofcurrentmonth = todayyearweek - ldlmyearweek
+    local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
     local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
