@@ -43,6 +43,7 @@ function switchSource()
             outputtype = "other"
         end
     else
+        if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
         chooser_data = chooserSourceOverview
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
@@ -428,8 +429,23 @@ function emojiRequest(querystr)
                 if pcall(function() hs.json.decode(data) end) then
                     local decoded_data = hs.json.decode(data)
                     if decoded_data.results and #decoded_data.results > 0 then
+                        if not hs_emoji_data then
+                            local emoji_database_path = "/System/Library/Input Methods/CharacterPalette.app/Contents/Resources/CharacterDB.sqlite3"
+                            hs_emoji_data = hs.sqlite3.open(emoji_database_path)
+                        end
+                        if hs_emoji_canvas then hs_emoji_canvas:delete() hs_emoji_canvas=nil end
+                        local hs_emoji_canvas = hs.canvas.new({x=0,y=0,w=96,h=96})
                         chooser_data = hs.fnutils.imap(decoded_data.results, function(item)
-                            return {text = item.text, image=hs.image.imageFromPath("./resources/emoji.png")}
+                            hs_emoji_canvas[1] = {type="text",text=item.text,textSize=64,frame={x="15%",y="10%",w="100%",h="100%"}}
+                            local hexcode = string.format("%#X",utf8.codepoint(item.text))
+                            local function getEmojiDesc()
+                                for w in hs_emoji_data:rows("SELECT info FROM unihan_dict WHERE uchr=\'"..item.text.."\'") do
+                                    return w[1]
+                                end
+                            end
+                            local emoji_description = getEmojiDesc()
+                            local formatted_desc = string.gsub(emoji_description,"|||||||||||||||","")
+                            return {text = formatted_desc, image=hs_emoji_canvas:imageFromCanvas(), subText="Hex Code: "..hexcode}
                         end)
                         search_chooser:choices(chooser_data)
                         search_chooser:refreshChoicesCallback()
@@ -449,7 +465,7 @@ function emojiSource()
   local emoji_overview = {text="Type mo<tab> to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png")}
     table.insert(chooserSourceOverview,emoji_overview)
     function emojiFunc()
-      local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
+        local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(emojiRequest)
