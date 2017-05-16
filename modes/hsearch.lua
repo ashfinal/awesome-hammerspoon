@@ -54,7 +54,7 @@ function switchSource()
     if sourcetable_index == nil then
         if justnotetrigger then justnotetrigger:disable() end
     else
-        if chooserSourceTable[sourcetable_index].kw ~= "t" then
+        if chooserSourceTable[sourcetable_index].kw ~= "n" then
             if justnotetrigger then justnotetrigger:disable() end
         end
     end
@@ -67,7 +67,7 @@ function launchChooser()
         sourcetrigger:enable()
     end
     if chooserSourceTable[sourcetable_index] then
-        if chooserSourceTable[sourcetable_index].kw == "t" then
+        if chooserSourceTable[sourcetable_index].kw == "n" then
             if justnotetrigger then justnotetrigger:enable() end
         end
     end
@@ -140,7 +140,7 @@ function browserTabsRequest()
 end
 
 function browserSource()
-    local browsersource_overview = {text="Type ta<tab> to search Safari/Chrome Tabs.", image=hs.image.imageFromPath("./resources/tabs.png")}
+    local browsersource_overview = {text="Type t<tab> to search safari/chrome Tabs.", image=hs.image.imageFromPath("./resources/tabs.png")}
     table.insert(chooserSourceOverview,browsersource_overview)
     function browserFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
@@ -154,7 +154,7 @@ function browserSource()
         search_chooser:searchSubText(true)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "ta"
+    sourcepkg.kw = "t"
     sourcepkg.func = browserFunc
     table.insert(chooserSourceTable,sourcepkg)
 end
@@ -203,7 +203,7 @@ function youdaoInstantTrans(querystr)
 end
 
 function youdaoSource()
-    local youdaosource_overview = {text="Type yd<tab> to use Yaodao Dictionary.", image=hs.image.imageFromPath("./resources/youdao.png")}
+    local youdaosource_overview = {text="Type y<tab> to use Yaodao dictionary.", image=hs.image.imageFromPath("./resources/youdao.png")}
     table.insert(chooserSourceOverview,youdaosource_overview)
     function youdaoFunc()
         local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath("./resources/youdao.png")}
@@ -212,7 +212,7 @@ function youdaoSource()
         search_chooser:queryChangedCallback(youdaoInstantTrans)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "yd"
+    sourcepkg.kw = "y"
     sourcepkg.func = youdaoFunc
     table.insert(chooserSourceTable,sourcepkg)
 end
@@ -272,7 +272,7 @@ end
 
 function appKillSource()
     -- Give some tips for this source
-    local appkillsource_overview = {text="Type kl<tab> to Kill running Process.", image=hs.image.imageFromPath("./resources/taskkill.png")}
+    local appkillsource_overview = {text="Type k<tab> to Kill running process.", image=hs.image.imageFromPath("./resources/taskkill.png")}
     table.insert(chooserSourceOverview,appkillsource_overview)
     -- Run the function below when triggered.
     function appkillFunc()
@@ -289,7 +289,7 @@ function appKillSource()
     end
     local sourcepkg = {}
     -- Give this source a trigger keyword
-    sourcepkg.kw = "kl"
+    sourcepkg.kw = "k"
     sourcepkg.func = appkillFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
@@ -334,7 +334,7 @@ function thesaurusRequest(querystr)
 end
 
 function thesaurusSource()
-  local thesaurus_overview = {text="Type th<tab> to find English Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
+  local thesaurus_overview = {text="Type s<tab> to request English Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
     table.insert(chooserSourceOverview,thesaurus_overview)
     function thesaurusFunc()
       local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath("./resources/thesaurus.png")}
@@ -343,7 +343,7 @@ function thesaurusSource()
         search_chooser:queryChangedCallback(thesaurusRequest)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "th"
+    sourcepkg.kw = "s"
     sourcepkg.func = thesaurusFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
@@ -398,7 +398,7 @@ function MenuitemsRequest()
 end
 
 function MenuitemsSource()
-    local menuitems_overview = {text="Type me<tab> to search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
+    local menuitems_overview = {text="Type m<tab> to search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
     table.insert(chooserSourceOverview,menuitems_overview)
     function menuitemsFunc()
         MenuitemsRequest()
@@ -409,7 +409,7 @@ function MenuitemsSource()
         search_chooser:searchSubText(true)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "me"
+    sourcepkg.kw = "m"
     sourcepkg.func = menuitemsFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
@@ -453,7 +453,7 @@ function v2exRequest()
 end
 
 function v2exSource()
-    local v2ex_overview = {text="Type v2<tab> to fetch v2ex Posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
+    local v2ex_overview = {text="Type v<tab> to fetch v2ex posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
     table.insert(chooserSourceOverview,v2ex_overview)
     function v2exFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
@@ -464,7 +464,7 @@ function v2exSource()
         search_chooser:searchSubText(true)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "v2"
+    sourcepkg.kw = "v"
     sourcepkg.func = v2exFunc
     table.insert(chooserSourceTable,sourcepkg)
 end
@@ -521,7 +521,7 @@ function emojiRequest(querystr)
 end
 
 function emojiSource()
-  local emoji_overview = {text="Type mo<tab> to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png")}
+  local emoji_overview = {text="Type e<tab> to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png")}
     table.insert(chooserSourceOverview,emoji_overview)
     function emojiFunc()
         local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
@@ -530,7 +530,7 @@ function emojiSource()
         search_chooser:queryChangedCallback(emojiRequest)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "mo"
+    sourcepkg.kw = "e"
     sourcepkg.func = emojiFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
@@ -585,30 +585,30 @@ function timeDeltaRequest(querystr)
             end
         else
             timeRequest()
-            local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+            local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath("./resources/time.png")}
             table.insert(chooser_data, 1, source_desc)
             search_chooser:choices(chooser_data)
         end
     else
         timeRequest()
-        local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+        local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath("./resources/time.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
     end
 end
 
 function timeSource()
-    local time_overview = {text="Type ti<tab> to format or query Time.", image=hs.image.imageFromPath("./resources/time.png")}
+    local time_overview = {text="Type d<tab> to format/query Date.", image=hs.image.imageFromPath("./resources/time.png")}
     table.insert(chooserSourceOverview,time_overview)
     function timeFunc()
         timeRequest()
-        local source_desc = {text="Time Query", subText="Type +/-1d (or y, m, w, H, M, S) to query time forwards or backwards.", image=hs.image.imageFromPath("./resources/time.png")}
+        local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath("./resources/time.png")}
         table.insert(chooser_data, 1, source_desc)
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback(timeDeltaRequest)
     end
     local sourcepkg = {}
-    sourcepkg.kw = "ti"
+    sourcepkg.kw = "d"
     sourcepkg.func = timeFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
@@ -657,7 +657,7 @@ function justNoteStore()
 end
 
 function justNoteSource()
-    local justnote_overview = {text="Type t<tab> to Note something.", image=hs.image.imageFromPath("./resources/justnote.png")}
+    local justnote_overview = {text="Type n<tab> to Note something.", image=hs.image.imageFromPath("./resources/justnote.png")}
     table.insert(chooserSourceOverview,justnote_overview)
     function justnoteFunc()
         justNoteRequest()
@@ -670,7 +670,7 @@ function justNoteSource()
         search_chooser:queryChangedCallback()
     end
     local sourcepkg = {}
-    sourcepkg.kw = "t"
+    sourcepkg.kw = "n"
     sourcepkg.func = justnoteFunc
     -- Add this source to SourceTable
     table.insert(chooserSourceTable,sourcepkg)
