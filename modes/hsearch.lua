@@ -5,7 +5,7 @@ chooserSourceTable = {}
 chooserSourceOverview = {}
 
 function switchSource()
-    function isInKeywords(value, tbl)
+    local function isInKeywords(value, tbl)
         for i=1,#tbl do
             if tbl[i].kw == value then
                 sourcetable_index = i
@@ -25,6 +25,7 @@ function switchSource()
                 search_chooser:queryChangedCallback()
                 chooserSourceTable[sourcetable_index].func()
             else
+                sourcetable_index = nil
                 chooser_data = {}
                 local source_desc = {text="No source found!", subText="Maybe misspelled the keyword?"}
                 table.insert(chooser_data, 1, source_desc)
@@ -35,6 +36,7 @@ function switchSource()
                 hs.eventtap.keyStroke({"cmd"}, "a")
             end
         else
+            sourcetable_index = nil
             chooser_data = {}
             local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
             table.insert(chooser_data, 1, source_desc)
@@ -43,10 +45,18 @@ function switchSource()
             hs.eventtap.keyStroke({"cmd"}, "a")
         end
     else
-        if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
+        sourcetable_index = nil
         chooser_data = chooserSourceOverview
         search_chooser:choices(chooser_data)
         search_chooser:queryChangedCallback()
+    end
+    if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
+    if sourcetable_index == nil then
+        if justnotetrigger then justnotetrigger:disable() end
+    else
+        if chooserSourceTable[sourcetable_index].kw ~= "t" then
+            if justnotetrigger then justnotetrigger:disable() end
+        end
     end
 end
 
@@ -56,10 +66,16 @@ function launchChooser()
     else
         sourcetrigger:enable()
     end
+    if chooserSourceTable[sourcetable_index] then
+        if chooserSourceTable[sourcetable_index].kw == "t" then
+            if justnotetrigger then justnotetrigger:enable() end
+        end
+    end
     if search_chooser == nil then
         chooser_data = {}
         search_chooser = hs.chooser.new(function(chosen)
             sourcetrigger:disable()
+            if justnotetrigger then justnotetrigger:disable() end
             if chosen ~= nil then
                 if chosen.outputType == "safari" then
                     hs.urlevent.openURLWithBundle(chosen.url,"com.apple.Safari")
@@ -80,6 +96,16 @@ function launchChooser()
                 elseif chosen.outputType == "menuclick" then
                     hs_belongto_app:activate()
                     hs_belongto_app:selectMenuItem(chosen.menuitem)
+                elseif chosen.outputType == "noteremove" then
+                    justnotetrigger:disable()
+                    for idx,val in pairs(hs_justnote_history) do
+                        if val.uuid == chosen.uuid then
+                            table.remove(hs_justnote_history,idx)
+                            hs.settings.set("just.another.note", hs_justnote_history)
+                        end
+                    end
+                    justNoteRequest()
+                    search_chooser:choices(chooser_data)
                 end
             end
         end)
@@ -591,4 +617,66 @@ end
 timeSource()
 
 -- New source - Time Source End here
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- New source - Just Note Source
+
+local function isInNoteHistory(value, tbl)
+    for idx,val in pairs(tbl) do
+        if val.uuid == value then
+            return true
+        end
+    end
+    return false
+end
+
+function justNoteRequest()
+    hs_justnote_history = hs.settings.get("just.another.note") or {}
+    if #hs_justnote_history == 0 then
+        chooser_data = {{text="Write something and press Enter.", subText="Your notes is automatically saved, selected item will be erased.", image=hs.image.imageFromPath("./resources/justnote.png")}}
+    else
+        chooser_data = hs.fnutils.imap(hs_justnote_history, function(item)
+            return {uuid=item.uuid, text=item.content, subText=item.ctime, image=hs.image.imageFromPath("./resources/justnote.png"), outputType="noteremove"}
+        end)
+    end
+end
+
+function justNoteStore()
+    local querystr = string.gsub(search_chooser:query(),"%s+$","")
+    if string.len(querystr) > 0 then
+        local query_hash = hs.hash.SHA1(querystr)
+        if not isInNoteHistory(query_hash, hs_justnote_history) then
+            table.insert(hs_justnote_history,{uuid=query_hash, ctime="Created at "..os.date(), content=querystr})
+            hs.settings.set("just.another.note",hs_justnote_history)
+            justNoteRequest()
+            search_chooser:choices(chooser_data)
+            search_chooser:query("")
+        end
+    end
+end
+
+function justNoteSource()
+    local justnote_overview = {text="Type t<tab> to Note something.", image=hs.image.imageFromPath("./resources/justnote.png")}
+    table.insert(chooserSourceOverview,justnote_overview)
+    function justnoteFunc()
+        justNoteRequest()
+        if justnotetrigger == nil then
+            justnotetrigger = hs.hotkey.bind("","return",nil,justNoteStore)
+        else
+            justnotetrigger:enable()
+        end
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback()
+    end
+    local sourcepkg = {}
+    sourcepkg.kw = "t"
+    sourcepkg.func = justnoteFunc
+    -- Add this source to SourceTable
+    table.insert(chooserSourceTable,sourcepkg)
+end
+
+justNoteSource()
+
+-- New source - Just Note Source End here
 --------------------------------------------------------------------------------
