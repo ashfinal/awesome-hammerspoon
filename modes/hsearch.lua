@@ -14,41 +14,51 @@ function switchSource()
         end
         return false
     end
-    local querystr = search_chooser:query()
-    if string.len(querystr) > 0 then
-        local matchstr = string.match(querystr,"^%w+")
-        if matchstr == querystr then
-            if isInKeywords(querystr, chooserSourceTable) then
-                search_chooser:query('')
-                chooser_data = {}
-                search_chooser:choices(chooser_data)
-                search_chooser:queryChangedCallback()
-                chooserSourceTable[sourcetable_index].func()
+    local selected_content = search_chooser:selectedRowContents()
+    local source_kw = selected_content.sourceKeyword or ""
+    if isInKeywords(source_kw, chooserSourceTable) then
+        search_chooser:query('')
+        chooser_data = {}
+        search_chooser:choices(chooser_data)
+        search_chooser:queryChangedCallback()
+        chooserSourceTable[sourcetable_index].func()
+    else
+        local querystr = search_chooser:query()
+        if string.len(querystr) > 0 then
+            local matchstr = string.match(querystr,"^%w+")
+            if matchstr == querystr then
+                if isInKeywords(querystr, chooserSourceTable) then
+                    search_chooser:query('')
+                    chooser_data = {}
+                    search_chooser:choices(chooser_data)
+                    search_chooser:queryChangedCallback()
+                    chooserSourceTable[sourcetable_index].func()
+                else
+                    sourcetable_index = nil
+                    chooser_data = {}
+                    local source_desc = {text="No source found!", subText="Maybe misspelled the keyword?"}
+                    table.insert(chooser_data, 1, source_desc)
+                    local more_tips = {text="Want to add your own source?", subText="Feel free to read the code and open PRs. :)"}
+                    table.insert(chooser_data, 2, more_tips)
+                    search_chooser:choices(chooser_data)
+                    search_chooser:queryChangedCallback()
+                    hs.eventtap.keyStroke({"cmd"}, "a")
+                end
             else
                 sourcetable_index = nil
                 chooser_data = {}
-                local source_desc = {text="No source found!", subText="Maybe misspelled the keyword?"}
+                local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
                 table.insert(chooser_data, 1, source_desc)
-                local more_tips = {text="Want to add your own source?", subText="Feel free to read the code and open PRs. :)"}
-                table.insert(chooser_data, 2, more_tips)
                 search_chooser:choices(chooser_data)
                 search_chooser:queryChangedCallback()
                 hs.eventtap.keyStroke({"cmd"}, "a")
             end
         else
             sourcetable_index = nil
-            chooser_data = {}
-            local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
-            table.insert(chooser_data, 1, source_desc)
+            chooser_data = chooserSourceOverview
             search_chooser:choices(chooser_data)
             search_chooser:queryChangedCallback()
-            hs.eventtap.keyStroke({"cmd"}, "a")
         end
-    else
-        sourcetable_index = nil
-        chooser_data = chooserSourceOverview
-        search_chooser:choices(chooser_data)
-        search_chooser:queryChangedCallback()
     end
     if hs_emoji_data then hs_emoji_data:close() hs_emoji_data = nil end
     if sourcetable_index == nil then
@@ -140,7 +150,7 @@ function browserTabsRequest()
 end
 
 function browserSource()
-    local browsersource_overview = {text="Type t ⇥ to search safari/chrome Tabs.", image=hs.image.imageFromPath("./resources/tabs.png")}
+    local browsersource_overview = {text="Type t ⇥ to search safari/chrome Tabs.", image=hs.image.imageFromPath("./resources/tabs.png"), sourceKeyword="t"}
     table.insert(chooserSourceOverview,browsersource_overview)
     function browserFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
@@ -203,7 +213,7 @@ function youdaoInstantTrans(querystr)
 end
 
 function youdaoSource()
-    local youdaosource_overview = {text="Type y ⇥ to use Yaodao dictionary.", image=hs.image.imageFromPath("./resources/youdao.png")}
+    local youdaosource_overview = {text="Type y ⇥ to use Yaodao dictionary.", image=hs.image.imageFromPath("./resources/youdao.png"), sourceKeyword="y"}
     table.insert(chooserSourceOverview,youdaosource_overview)
     function youdaoFunc()
         local source_desc = {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath("./resources/youdao.png")}
@@ -272,7 +282,7 @@ end
 
 function appKillSource()
     -- Give some tips for this source
-    local appkillsource_overview = {text="Type k ⇥ to Kill running process.", image=hs.image.imageFromPath("./resources/taskkill.png")}
+    local appkillsource_overview = {text="Type k ⇥ to Kill running process.", image=hs.image.imageFromPath("./resources/taskkill.png"), sourceKeyword="k"}
     table.insert(chooserSourceOverview,appkillsource_overview)
     -- Run the function below when triggered.
     function appkillFunc()
@@ -334,7 +344,7 @@ function thesaurusRequest(querystr)
 end
 
 function thesaurusSource()
-  local thesaurus_overview = {text="Type s ⇥ to request English Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png")}
+  local thesaurus_overview = {text="Type s ⇥ to request English Thesaurus.", image=hs.image.imageFromPath("./resources/thesaurus.png"), sourceKeyword="s"}
     table.insert(chooserSourceOverview,thesaurus_overview)
     function thesaurusFunc()
       local source_desc = {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath("./resources/thesaurus.png")}
@@ -398,7 +408,7 @@ function MenuitemsRequest()
 end
 
 function MenuitemsSource()
-    local menuitems_overview = {text="Type m ⇥ to search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png")}
+    local menuitems_overview = {text="Type m ⇥ to search Menuitems.", image=hs.image.imageFromPath("./resources/menus.png"), sourceKeyword="m"}
     table.insert(chooserSourceOverview,menuitems_overview)
     function menuitemsFunc()
         MenuitemsRequest()
@@ -453,7 +463,7 @@ function v2exRequest()
 end
 
 function v2exSource()
-    local v2ex_overview = {text="Type v ⇥ to fetch v2ex posts.", image=hs.image.imageFromPath("./resources/v2ex.png")}
+    local v2ex_overview = {text="Type v ⇥ to fetch v2ex posts.", image=hs.image.imageFromPath("./resources/v2ex.png"), sourceKeyword="v"}
     table.insert(chooserSourceOverview,v2ex_overview)
     function v2exFunc()
         local source_desc = {text="Requesting data, please wait a while …"}
@@ -521,7 +531,7 @@ function emojiRequest(querystr)
 end
 
 function emojiSource()
-  local emoji_overview = {text="Type e ⇥ to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png")}
+  local emoji_overview = {text="Type e ⇥ to find relevant Emoji.", image=hs.image.imageFromPath("./resources/emoji.png"), sourceKeyword="e"}
     table.insert(chooserSourceOverview,emoji_overview)
     function emojiFunc()
         local source_desc = {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath("./resources/emoji.png")}
@@ -598,7 +608,7 @@ function timeDeltaRequest(querystr)
 end
 
 function timeSource()
-    local time_overview = {text="Type d ⇥ to format/query Date.", image=hs.image.imageFromPath("./resources/time.png")}
+    local time_overview = {text="Type d ⇥ to format/query Date.", image=hs.image.imageFromPath("./resources/time.png"), sourceKeyword="d"}
     table.insert(chooserSourceOverview,time_overview)
     function timeFunc()
         timeRequest()
@@ -657,7 +667,7 @@ function justNoteStore()
 end
 
 function justNoteSource()
-    local justnote_overview = {text="Type n ⇥ to Note something.", image=hs.image.imageFromPath("./resources/justnote.png")}
+    local justnote_overview = {text="Type n ⇥ to Note something.", image=hs.image.imageFromPath("./resources/justnote.png"), sourceKeyword="n"}
     table.insert(chooserSourceOverview,justnote_overview)
     function justnoteFunc()
         justNoteRequest()
