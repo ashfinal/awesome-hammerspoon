@@ -14,20 +14,20 @@ function switchSource()
         end
         return false
     end
-    local selected_content = search_chooser:selectedRowContents()
-    local source_kw = selected_content.sourceKeyword or ""
-    if isInKeywords(source_kw, chooserSourceTable) then
-        search_chooser:query('')
-        chooser_data = {}
-        search_chooser:choices(chooser_data)
-        search_chooser:queryChangedCallback()
-        chooserSourceTable[sourcetable_index].func()
-    else
-        local querystr = search_chooser:query()
-        if string.len(querystr) > 0 then
-            local matchstr = string.match(querystr,"^%w+")
-            if matchstr == querystr then
-                if isInKeywords(querystr, chooserSourceTable) then
+    local querystr = search_chooser:query()
+    if string.len(querystr) > 0 then
+        local matchstr = string.match(querystr,"^%w+")
+        if matchstr == querystr then
+            if isInKeywords(querystr, chooserSourceTable) then
+                search_chooser:query('')
+                chooser_data = {}
+                search_chooser:choices(chooser_data)
+                search_chooser:queryChangedCallback()
+                chooserSourceTable[sourcetable_index].func()
+            else
+                local selected_content = search_chooser:selectedRowContents()
+                local source_kw = selected_content.sourceKeyword or ""
+                if isInKeywords(source_kw, chooserSourceTable) then
                     search_chooser:query('')
                     chooser_data = {}
                     search_chooser:choices(chooser_data)
@@ -44,15 +44,25 @@ function switchSource()
                     search_chooser:queryChangedCallback()
                     hs.eventtap.keyStroke({"cmd"}, "a")
                 end
-            else
-                sourcetable_index = nil
-                chooser_data = {}
-                local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
-                table.insert(chooser_data, 1, source_desc)
-                search_chooser:choices(chooser_data)
-                search_chooser:queryChangedCallback()
-                hs.eventtap.keyStroke({"cmd"}, "a")
             end
+        else
+            sourcetable_index = nil
+            chooser_data = {}
+            local source_desc = {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
+            table.insert(chooser_data, 1, source_desc)
+            search_chooser:choices(chooser_data)
+            search_chooser:queryChangedCallback()
+            hs.eventtap.keyStroke({"cmd"}, "a")
+        end
+    else
+        local selected_content = search_chooser:selectedRowContents()
+        local source_kw = selected_content.sourceKeyword or ""
+        if isInKeywords(source_kw, chooserSourceTable) then
+            search_chooser:query('')
+            chooser_data = {}
+            search_chooser:choices(chooser_data)
+            search_chooser:queryChangedCallback()
+            chooserSourceTable[sourcetable_index].func()
         else
             sourcetable_index = nil
             chooser_data = chooserSourceOverview
