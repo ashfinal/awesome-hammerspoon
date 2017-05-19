@@ -334,7 +334,7 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     | Action                     | Variable                    | Default value                   |
     | -------------------------- | --------------------------- | ------------------------------- |
     | Reload Configuration       | hsreload_keys               | {{"cmd", "shift", "ctrl"}, "R"} |
-    | Toggle Modal Supervisor    | modalmgr_keys               | {{"alt"}, "space"}              |
+    | Toggle Modal Supervisor    | modalmgr_keys               | {{"cmd", "shift", "ctrl"}, "Q"} |
     | Toggle Hammerspoon Console | toggleconsole_keys          | {{"alt"}, "Z"}                  |
     | Lock Screen                | lockscreen_keys             | {{"cmd", "shift", "ctrl"}, "L"} |
     | Enter Application Mode     | appM_keys                   | {{"alt"}, "A"}                  |
