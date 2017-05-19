@@ -324,13 +324,17 @@ end
 if not module_list then
     module_list = {
         "widgets/netspeed",
+        "widgets/calendar",
         "widgets/hcalendar",
         "widgets/analogclock",
+        "widgets/timelapsed",
         "widgets/aria2",
         "modes/basicmode",
         "modes/indicator",
         "modes/clipshow",
+        "modes/cheatsheet",
         "modes/hsearch",
+        "misc/bingdaily",
     }
 end
 

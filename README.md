@@ -1,8 +1,6 @@
 # Awesome-hammerspoon, as advertised.
 
-![modes](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-modes.png)
-
-Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, Alfred-like search, aria2 GUI, dictionary translation, cheatsheets... etc.
+Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, Alfred-like search, aria2 GUI, dictionary translation, cheatsheets, take notes ... etc.
 
 ## Get started
 
@@ -13,6 +11,8 @@ Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www
 and you're set.
 
 ## Keep update
+
+See [awesome-hammerspoon whiteboard](https://github.com/ashfinal/awesome-hammerspoon/projects/2) for project changlog and todos.
 
 `cd ~/.hammerspoon && git pull`
 
@@ -43,13 +43,11 @@ So, following above procedures, you have reloaded Hammerspoon's configutation. L
 <details>
 <summary>More details</summary>
 
-As you may have noticed, there are two clean, nice-looking desktop widgets, analogclock and calendar. Usually we don't interact with them, but I do hope you like them.
+As you may have noticed, there are two clean, nice-looking desktop widgets, analogclock and hcalendar. Usually we don't interact with them, but I do hope you like them.
 
 ![widgets](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-deskwidgets.png)
 
-**UPDATE:** Add new widget `hcalendar` and make it default module. The design comes from [here](https://github.com/ashikahmad/horizontal-calendar-widget).
-
-![hcal](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hcal.png)
+*There are also other widgets [calendar](https://github.com/ashfinal/awesome-hammerspoon/blob/master/widgets/calendar.lua), [time elapsed](https://github.com/ashfinal/awesome-hammerspoon/blob/master/widgets/timelapsed.lua), maybe more …*
 
 </details>
 
@@ -97,6 +95,8 @@ Use <kbd>Y/U/I/O</kbd> to resize windows to 1/4 of screen.
 
 Use <kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to **move** windows around.
 
+Use <kbd>␣</kbd> or <kbd>⇡⇣⇠⇢⇠</kbd> to **move** windows to **other screens**.
+
 Use <kbd>⇧</kbd> + <kbd>Y/U/I/O</kbd> to **resize** windows.
 
 Use <kbd>=</kbd>, <kbd>-</kbd> to **expand**/**shrink** the window size.
@@ -133,7 +133,7 @@ If you want to define your own hotkeys, please create `~/.hammerspoon/private/aw
 <details>
 <summary>More details</summary>
 
-Now you can do lots of things with Hammerspoon search: search Safari tabs, dictionary translation, kill active application, English thesaurus, get latest posts from v2ex … etc. And feel free to add your own source!
+Now you can do lots of things with Hammerspoon search: search Safari tabs, dictionary translation, kill active application, English thesaurus, get latest posts from v2ex, emoji search, take notes … etc. And feel free to add your own source!
 
 ![hsearch](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-hsearch.gif)
 
@@ -153,7 +153,7 @@ Then add them to `~/.hammerspoon/private/awesomeconfig.lua`:
 <details>
 <summary>More details</summary>
 
-This is a "native" frontend for aria2 (an ultra fast download utility in case you don't know).
+This is a "native" frontend for [aria2](https://github.com/aria2/aria2).
 
 ![hsearch](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-aria2.png)
 
@@ -250,6 +250,13 @@ Watch your netspeed sitting on the menubar. Support macos's darkmode.
 </details>
 
 <details>
+<summary>Bing Wallpaper</summary>
+
+Automatically use Bing daily picture for your wallpaper.
+
+</details>
+
+<details>
 <summary>Lock Screen <kbd>⌘</kbd> + <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd></summary>
 
 No description.
@@ -271,14 +278,6 @@ For whatever mode, you can always use:
 
 <kbd>⌘</kbd>  + <kbd>⌥</kbd> +  <kbd>↩︎</kbd> to put windows to center of screen
 
--------
-
-For those who care about system resource:
-
-![memusage](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-memusage.png)
-
--------
-
 </details>
 
 ## Customization
@@ -298,25 +297,33 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
         module_list = {
             "widgets/netspeed",
+            "widgets/calendar",
             "widgets/hcalendar",
             "widgets/analogclock",
+            "widgets/timelapsed",
             "widgets/aria2",
             "modes/basicmode",
             "modes/indicator",
             "modes/clipshow",
+            "modes/cheatsheet",
             "modes/hsearch",
+            "misc/bingdaily",
         }
 
-    For example, remove `hsearch` module, add your own module `mymodule`:
+    For example, remove `bingdaily` module, add your own module `mymodule`:
 
         module_list = {
             "widgets/netspeed",
+            "widgets/calendar",
             "widgets/hcalendar",
             "widgets/analogclock",
+            "widgets/timelapsed",
             "widgets/aria2",
             "modes/basicmode",
             "modes/indicator",
             "modes/clipshow",
+            "modes/cheatsheet",
+            "modes/hsearch",
             "private/mymodule",
         }
 
@@ -354,15 +361,13 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
         lockscreen_keys = {{}, ""}
 
-4. Create your own modal key bindings
-
-    See [http://www.hammerspoon.org/docs/hs.hotkey.modal.html](http://www.hammerspoon.org/docs/hs.hotkey.modal.html), also you can refer to my scripts.
-
-5. Global options
+4. Global options
 
     These options should be put into `~/.hammerspoon/private/awesomeconfig.lua` file.
 
     ``` lua
+    aria2_host = "http://localhost:6800/jsonrpc" -- default host
+    aria2_token = "token" -- YOUR OWN TOKEN
     aria2_refresh_interval = 1 -- How often the frontend should request data from the host
     aria2_show_items_max = 5 -- How many items the frontend should show
 
@@ -377,8 +382,27 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     aclockcenter = {x=200,y=200}
 
     -- Put calendar to somewhere by defining topleft point.
-    caltopleft = {200,200}
+    caltopleft = {2000,200}
+
+    -- Put timelapsed to somewhere by defining topleft point.
+    timelapsetopleft = {200,1800}
     ```
+
+</details>
+
+## FAQ
+
+<details>
+<summary>How can I integrate my little script into this configutation?</summary>
+
+Use `private` folder and `~/.hammerspoon/private/awesomeconfig.lua` file.
+
+If your script is just a few lines, then put it into `~/.hammerspoon/private/awesomeconfig.lua` file. If it is long enough, create a file in `private` folder, e.g. `mymodule.lua` (Wow, you just create a "module" without extra code), then include this module in `~/.hammerspoon/private/awesomeconfig.lua` file.
+
+        module_list = {
+            ...
+            "private/mymodule",
+        }
 
 </details>
 
