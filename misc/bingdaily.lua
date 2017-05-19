@@ -35,7 +35,7 @@ function downloadBingImage(url)
         bing_curl_task = nil
     end
     local localpath = os.getenv("HOME").."/.Trash/"..hs.http.urlParts(url).lastPathComponent
-    bing_curl_task = hs.task.new("/usr/bin/curl",curl_callback,{url,"-o",localpath})
+    bing_curl_task = hs.task.new("/usr/bin/curl",curl_callback,{"-A",user_agent_str,url,"-o",localpath})
     bing_curl_task:start()
 end
 
