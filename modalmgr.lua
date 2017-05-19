@@ -1,4 +1,4 @@
-modalmgr_keys = modalmgr_keys or {{"alt"}, "space"}
+modalmgr_keys = modalmgr_keys or {{"cmd", "shift", "ctrl"}, "Q"}
 modalmgr = hs.hotkey.modal.new(modalmgr_keys[1], modalmgr_keys[2], 'Toggle Modal Supervisor')
 
 -- function modalmgr:entered()
