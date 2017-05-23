@@ -6,7 +6,7 @@ modalmgr = hs.hotkey.modal.new(modalmgr_keys[1], modalmgr_keys[2], 'Toggle Modal
 -- end
 
 function modalmgr:exited()
-    modal_tray:hide()
+    if modal_tray then modal_tray:hide() end
     exit_others()
     if hotkeytext then
         hotkeytext:delete()
