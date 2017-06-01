@@ -20,11 +20,11 @@ black50 = {red=0,blue=0,green=0,alpha=0.5}
 darkblue = {red=24/255,blue=195/255,green=145/255,alpha=1}
 gray = {red=246/255,blue=246/255,green=246/255,alpha=0.3}
 
-privatepath = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private')
+privatepath = hs.fs.pathToAbsolute(hs.configdir..'/private')
 if privatepath == nil then
-    hs.fs.mkdir(hs.fs.currentDir()..'/private')
+    hs.fs.mkdir(hs.configdir..'/private')
 end
-privateconf = hs.fs.pathToAbsolute(hs.fs.currentDir()..'/private/awesomeconfig.lua')
+privateconf = hs.fs.pathToAbsolute(hs.configdir..'/private/awesomeconfig.lua')
 if privateconf ~= nil then
     require('private/awesomeconfig')
 end
