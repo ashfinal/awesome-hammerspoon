@@ -12,9 +12,9 @@ and you're set.
 
 ## Keep update
 
-See [awesome-hammerspoon whiteboard](https://github.com/ashfinal/awesome-hammerspoon/projects/2) for project changlog and todos.
+See [awesome-hammerspoon whiteboard](https://github.com/ashfinal/awesome-hammerspoon/projects/2) for changlog and roadmap.
 
-`cd ~/.hammerspoon && git pull`
+To update, run `cd ~/.hammerspoon && git pull`.
 
 ## What's modal-based key bindings?
 
@@ -256,6 +256,8 @@ No description.
 <summary>And More...</summary>
 
 For whatever mode, you can always use:
+
+<kbd>fn</kbd> + <kbd>H/J/K/L</kbd> to navigate, <kbd>fn</kbd> + <kbd>Y/U/I/O</kbd> to scroll, + <kbd>,</kbd> to leftClick, + <kbd>.</kbd> to rightClick.
 
 <kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>⇠</kbd> to resize windows to left-half of screen
 
