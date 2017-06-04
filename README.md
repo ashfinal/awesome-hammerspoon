@@ -157,7 +157,7 @@ This is a "native" frontend for [aria2](https://github.com/aria2/aria2).
 
 ![hsearch](https://github.com/ashfinal/bindata/raw/master/screenshots/awesome-hammerspoon-aria2.png)
 
-You need to run aria2 with RPC enabled before using this. Config aria2 host and token in `~/.hammerspoon/private/awesomeconfig.lua`, then you're ready to go.
+You need to [run aria2 with RPC enabled](https://github.com/ashfinal/awesome-hammerspoon/wiki#run-aria2-with-rpc) before using this. Config aria2 host and token in `~/.hammerspoon/private/awesomeconfig.lua`, then you're ready to go.
 
     aria2_host = "http://localhost:6800/jsonrpc" -- default host
     aria2_token = "token" -- YOUR OWN TOKEN
