@@ -232,17 +232,6 @@ Focus to your windows easier.
 </details>
 
 <details>
-<summary>View Mode <kbd>⌥</kbd> + <kbd>V</kbd></summary>
-
-Use <kbd>H/J/K/L</kbd> to scroll around.
-
-Use <kbd>⌃</kbd>/<kbd>⇧</kbd> + <kbd>H/J/K/L</kbd> to move mouse around.
-
-Use <kbd>,</kbd>/<kbd>.</kbd> for mouse left/right click.
-
-</details>
-
-<details>
 <summary>Netspeed Monitor</summary>
 
 Watch your netspeed sitting on the menubar. Support macos's darkmode.
@@ -345,7 +334,6 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
     | Enter Resize Mode          | resizeM_keys                | {{"alt"}, "R"}                  |
     | Enter Cheatsheet Mode      | cheatsheetM_keys            | {{"alt"}, "S"}                  |
     | Show Digital Clock         | showtime_keys               | {{"alt"}, "T"}                  |
-    | Enter View Mode            | viewM_keys                  | {{"alt"}, "V"}                  |
     | Show Window hints          | winhints_keys               | {{"alt"}, "tab"}                |
     | Lefthalf of Screen         | resizeextra_lefthalf_keys   | {{"cmd", "alt"}, "left"}        |
     | Righthalf of Screen        | resizeextra_righthalf_keys  | {{"cmd", "alt"}, "right"}       |
