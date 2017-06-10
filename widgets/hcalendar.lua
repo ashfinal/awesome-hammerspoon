@@ -6,7 +6,11 @@ midlinecolor = {red=1,blue=1,green=1,alpha=0.5}
 midlinetodaycolor = {red=0,blue=1,green=186/255,alpha=0.8}
 midlineoffcolor = {red=1,blue=119/255,green=119/255,alpha=0.5}
 
-if not hcaltopleft then hcaltopleft = {40,658} end
+if not hcaltopleft then
+    local mainScreen = hs.screen.mainScreen()
+    local mainRes = mainScreen:fullFrame()
+    hcaltopleft = {40,mainRes.h-102-40}
+end
 
 weeknames = {"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"}
 hcaltitlewh = {180,32}
