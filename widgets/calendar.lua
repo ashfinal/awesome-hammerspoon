@@ -11,9 +11,9 @@ end
 function drawToday()
     local currentmonth = tonumber(os.date("%m"))
     -- Offset +1 for start week from Sunday
-    todayyearweek = hs.execute("date -v+1d +'%W'")
+    local todayyearweek = hs.execute("date -v+1d +'%W'")
     -- Year week of the first day of current month with offset +1
-    fdcmyearweek = hs.execute("date -v"..currentmonth.."m -v1d -v+1d +'%W'")
+    local fdcmyearweek = hs.execute("date -v"..currentmonth.."m -v1d -v+1d +'%W'")
     local rowofcurrentmonth = todayyearweek - fdcmyearweek + 1
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
