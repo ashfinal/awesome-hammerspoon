@@ -1,11 +1,12 @@
 caltodaycolor = hs.drawing.color.white
 calcolor = {red=235/255,blue=235/255,green=235/255}
 calbgcolor = {red=0,blue=0,green=0,alpha=0.3}
+calcmd = [[bash -c "paste -d' ' <((echo -n '   '; ncal -w | tail -1 )| fold -w 3) <(cal)"]]
 
 if not caltopleft then
     local mainScreen = hs.screen.mainScreen()
     local mainRes = mainScreen:fullFrame()
-    caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
+    caltopleft = {mainRes.w-250-20,mainRes.h-161-44}
 end
 
 function drawToday()
@@ -18,7 +19,7 @@ function drawToday()
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
-    local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
+    local todaycoverrect = hs.geometry.rect(caltopleft[1]+50+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
     if not todaycover then
         todaycover = hs.drawing.rectangle(todaycoverrect)
         todaycover:setStroke(false)
@@ -34,14 +35,14 @@ function drawToday()
 end
 
 function updateCal()
-    local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
+    local caltext = hs.styledtext.ansi(hs.execute(calcmd),{font={name="Courier",size=16},color=calcolor})
     caldraw:setStyledText(caltext)
     drawToday()
 end
 
 function showCalendar()
     if not calbg then
-        local bgrect = hs.geometry.rect(caltopleft[1],caltopleft[2],230,161)
+        local bgrect = hs.geometry.rect(caltopleft[1],caltopleft[2],250,161)
         calbg = hs.drawing.rectangle(bgrect)
         calbg:setFillColor(calbgcolor)
         calbg:setStroke(false)
@@ -50,8 +51,8 @@ function showCalendar()
         calbg:setLevel(hs.drawing.windowLevels.desktopIcon)
         calbg:show()
 
-        local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
-        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,230,161)
+        local caltext = hs.styledtext.ansi(hs.execute(calcmd),{font={name="Courier",size=16},color=calcolor})
+        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,250,161)
         caldraw = hs.drawing.text(calrect,caltext)
         caldraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
         caldraw:setLevel(hs.drawing.windowLevels.desktopIcon)
