@@ -1,25 +1,24 @@
 caltodaycolor = hs.drawing.color.white
 calcolor = {red=235/255,blue=235/255,green=235/255}
 calbgcolor = {red=0,blue=0,green=0,alpha=0.3}
-calcmd = [[bash -c "paste -d' ' <((echo -n '   '; ncal -w | tail -1 )| fold -w 3) <(cal)"]]
+weeknumcolor = {red=246/255,blue=246/255,green=246/255,alpha=0.5}
 
 if not caltopleft then
     local mainScreen = hs.screen.mainScreen()
     local mainRes = mainScreen:fullFrame()
-    caltopleft = {mainRes.w-250-20,mainRes.h-161-44}
+    caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
 end
 
 function drawToday()
-    local currentmonth = tonumber(os.date("%m"))
     -- Offset +1 for start week from Sunday
     local todayyearweek = hs.execute("date -v+1d +'%W'")
     -- Year week of the first day of current month with offset +1
-    local fdcmyearweek = hs.execute("date -v"..currentmonth.."m -v1d -v+1d +'%W'")
+    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
     local rowofcurrentmonth = todayyearweek - fdcmyearweek + 1
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
     local splith = 141
-    local todaycoverrect = hs.geometry.rect(caltopleft[1]+50+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
+    local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
     if not todaycover then
         todaycover = hs.drawing.rectangle(todaycoverrect)
         todaycover:setStroke(false)
@@ -34,15 +33,34 @@ function drawToday()
     end
 end
 
+function drawWeeknum()
+    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
+    weeknumstr = tonumber(fdcmyearweek)
+    for i=weeknumstr+1,weeknumstr+4 do
+        weeknumstr = weeknumstr .. "\r" .. i
+    end
+    local weeknumrect = hs.geometry.rect(caltopleft[1]-205/7+15,caltopleft[2]+141/7*2+10,205/7,141/7*5)
+    local styledwknum = hs.styledtext.new(weeknumstr,{font={name="Courier",size=16},color=weeknumcolor})
+    if not weeknumdraw then
+        weeknumdraw = hs.drawing.text(weeknumrect,styledwknum)
+        weeknumdraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
+        weeknumdraw:setLevel(hs.drawing.windowLevels.desktopIcon)
+        weeknumdraw:show()
+    else
+        weeknumdraw:setStyledText(styledwknum)
+    end
+end
+
 function updateCal()
-    local caltext = hs.styledtext.ansi(hs.execute(calcmd),{font={name="Courier",size=16},color=calcolor})
+    local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
     caldraw:setStyledText(caltext)
+    drawWeeknum()
     drawToday()
 end
 
 function showCalendar()
     if not calbg then
-        local bgrect = hs.geometry.rect(caltopleft[1],caltopleft[2],250,161)
+        local bgrect = hs.geometry.rect(caltopleft[1]-205/7,caltopleft[2],230+205/7,161)
         calbg = hs.drawing.rectangle(bgrect)
         calbg:setFillColor(calbgcolor)
         calbg:setStroke(false)
@@ -51,13 +69,14 @@ function showCalendar()
         calbg:setLevel(hs.drawing.windowLevels.desktopIcon)
         calbg:show()
 
-        local caltext = hs.styledtext.ansi(hs.execute(calcmd),{font={name="Courier",size=16},color=calcolor})
-        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,250,161)
+        local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
+        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,230,161)
         caldraw = hs.drawing.text(calrect,caltext)
         caldraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
         caldraw:setLevel(hs.drawing.windowLevels.desktopIcon)
         caldraw:show()
 
+        drawWeeknum()
         drawToday()
         if caltimer == nil then
             caltimer = hs.timer.doEvery(1800,function() updateCal() end)
