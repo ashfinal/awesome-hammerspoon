@@ -1,6 +1,7 @@
 caltodaycolor = hs.drawing.color.white
 calcolor = {red=235/255,blue=235/255,green=235/255}
 calbgcolor = {red=0,blue=0,green=0,alpha=0.3}
+weeknumcolor = {red=246/255,blue=246/255,green=246/255,alpha=0.5}
 
 if not caltopleft then
     local mainScreen = hs.screen.mainScreen()
@@ -9,11 +10,10 @@ if not caltopleft then
 end
 
 function drawToday()
-    local currentmonth = tonumber(os.date("%m"))
     -- Offset +1 for start week from Sunday
     local todayyearweek = hs.execute("date -v+1d +'%W'")
     -- Year week of the first day of current month with offset +1
-    local fdcmyearweek = hs.execute("date -v"..currentmonth.."m -v1d -v+1d +'%W'")
+    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
     local rowofcurrentmonth = todayyearweek - fdcmyearweek + 1
     local columnofcurrentmonth = os.date("*t").wday
     local splitw = 205
@@ -33,15 +33,34 @@ function drawToday()
     end
 end
 
+function drawWeeknum()
+    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
+    weeknumstr = tonumber(fdcmyearweek)
+    for i=weeknumstr+1,weeknumstr+4 do
+        weeknumstr = weeknumstr .. "\r" .. i
+    end
+    local weeknumrect = hs.geometry.rect(caltopleft[1]-205/7+15,caltopleft[2]+141/7*2+10,205/7,141/7*5)
+    local styledwknum = hs.styledtext.new(weeknumstr,{font={name="Courier",size=16},color=weeknumcolor})
+    if not weeknumdraw then
+        weeknumdraw = hs.drawing.text(weeknumrect,styledwknum)
+        weeknumdraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
+        weeknumdraw:setLevel(hs.drawing.windowLevels.desktopIcon)
+        weeknumdraw:show()
+    else
+        weeknumdraw:setStyledText(styledwknum)
+    end
+end
+
 function updateCal()
     local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
     caldraw:setStyledText(caltext)
+    drawWeeknum()
     drawToday()
 end
 
 function showCalendar()
     if not calbg then
-        local bgrect = hs.geometry.rect(caltopleft[1],caltopleft[2],230,161)
+        local bgrect = hs.geometry.rect(caltopleft[1]-205/7,caltopleft[2],230+205/7,161)
         calbg = hs.drawing.rectangle(bgrect)
         calbg:setFillColor(calbgcolor)
         calbg:setStroke(false)
@@ -57,6 +76,7 @@ function showCalendar()
         caldraw:setLevel(hs.drawing.windowLevels.desktopIcon)
         caldraw:show()
 
+        drawWeeknum()
         drawToday()
         if caltimer == nil then
             caltimer = hs.timer.doEvery(1800,function() updateCal() end)
