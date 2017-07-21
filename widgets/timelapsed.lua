@@ -43,7 +43,7 @@ timelapsed_canvas[3] = {
 -- indicator background
 timelapsed_canvas[4] = {
     type = "image",
-    image = hs.image.imageFromPath("./resources/timebg.png"),
+    image = hs.image.imageFromPath(hs.configdir.."/resources/timebg.png"),
     frame = {
         x = tostring(10/280),
         y = tostring(65/125),
