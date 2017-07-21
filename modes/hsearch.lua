@@ -153,7 +153,7 @@ function browserTabsRequest()
         local stat, data= hs.osascript.applescript('tell application "Google Chrome"\nset winlist to tabs of windows\nset tablist to {}\nrepeat with i in winlist\nif (count of i) > 0 then\nrepeat with currenttab in i\nset tabinfo to {name of currenttab as unicode text, URL of currenttab}\ncopy tabinfo to the end of tablist\nend repeat\nend if\nend repeat\nreturn tablist\nend tell')
         if stat then
             for idx,val in pairs(data) do
-                table.insert(chooser_data, {text=val[1], subText=val[2], image=hs.image.imageFromPath("/Applications/Google Chrome.app/Contents/Resources/document.icns"), outputType="chrome", url=val[2]})
+                table.insert(chooser_data, {text=val[1], subText=val[2], image=hs.image.imageFromPath(hs.configdir.."/resources/chrome.png"), outputType="chrome", url=val[2]})
             end
         end
     end
