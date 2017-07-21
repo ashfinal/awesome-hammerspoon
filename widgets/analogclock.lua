@@ -13,7 +13,7 @@ end
 function showAnalogClock()
     if not bgcirle then
         imagerect = hs.geometry.rect(aclockcenter.x-100,aclockcenter.y-100,200,200)
-        imagedisp = hs.drawing.image(imagerect,"./resources/watchbg.png")
+        imagedisp = hs.drawing.image(imagerect, hs.configdir.."/resources/watchbg.png")
         imagedisp:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
         imagedisp:setLevel(hs.drawing.windowLevels.desktopIcon)
         imagedisp:show()
