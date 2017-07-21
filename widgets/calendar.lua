@@ -35,11 +35,17 @@ end
 
 function drawWeeknum()
     local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
+    local rows = hs.execute('cal | wc -l')
+    rows = tonumber(rows)
+    local count = 4
+    if rows == 8 then
+        count = 5
+    end
     weeknumstr = tonumber(fdcmyearweek)
-    for i=weeknumstr+1,weeknumstr+4 do
+    for i=weeknumstr+1,weeknumstr+count do
         weeknumstr = weeknumstr .. "\r" .. i
     end
-    local weeknumrect = hs.geometry.rect(caltopleft[1]-205/7+15,caltopleft[2]+141/7*2+10,205/7,141/7*5)
+    local weeknumrect = hs.geometry.rect(caltopleft[1]-205/7+15,caltopleft[2]+141/7*2+10,205/7,141/7*(count + 1))
     local styledwknum = hs.styledtext.new(weeknumstr,{font={name="Courier",size=16},color=weeknumcolor})
     if not weeknumdraw then
         weeknumdraw = hs.drawing.text(weeknumrect,styledwknum)
@@ -60,7 +66,13 @@ end
 
 function showCalendar()
     if not calbg then
-        local bgrect = hs.geometry.rect(caltopleft[1]-205/7,caltopleft[2],230+205/7,161)
+        local rows = hs.execute('cal | wc -l')
+        rows = tonumber(rows)
+        local high = 161 / 7 
+        if rows == 8 then
+            high = 161 / 7 * 8
+        end
+        local bgrect = hs.geometry.rect(caltopleft[1]-205/7,caltopleft[2],230+205/7,high)
         calbg = hs.drawing.rectangle(bgrect)
         calbg:setFillColor(calbgcolor)
         calbg:setStroke(false)
@@ -70,7 +82,7 @@ function showCalendar()
         calbg:show()
 
         local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
-        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,230,161)
+        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,230,high)
         caldraw = hs.drawing.text(calrect,caltext)
         caldraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
         caldraw:setLevel(hs.drawing.windowLevels.desktopIcon)
