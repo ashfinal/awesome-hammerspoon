@@ -368,8 +368,8 @@ Modify the file `~/.hammerspoon/private/awesomeconfig.lua`, you should create it
 
     hotkey_tips_bg = "light"/"dark" -- Make the hotkey tips' background light or dark
 
-    -- Put analogclock to somewhere by defining center point.
-    aclockcenter = {x=200,y=200}
+    -- Put analogclock to somewhere by defining topleft point.
+    aclocktopleft = {x=200,y=200}
 
     -- Put calendar to somewhere by defining topleft point.
     caltopleft = {2000,200}
