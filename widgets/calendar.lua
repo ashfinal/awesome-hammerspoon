@@ -1,111 +1,166 @@
-caltodaycolor = hs.drawing.color.white
-calcolor = {red=235/255,blue=235/255,green=235/255}
-calbgcolor = {red=0,blue=0,green=0,alpha=0.3}
-weeknumcolor = {red=246/255,blue=246/255,green=246/255,alpha=0.5}
+local caltodaycolor = {red=1, blue=1, green=1, alpha=0.3}
+local calcolor = {red=235/255, blue=235/255, green=235/255}
+local calbgcolor = {red=0, blue=0, green=0, alpha=0.3}
+local weeknumcolor = {red=246/255, blue=246/255, green=246/255, alpha=0.5}
+local calw = 260
+local calh = 184
 
 if not caltopleft then
     local mainScreen = hs.screen.mainScreen()
     local mainRes = mainScreen:fullFrame()
-    caltopleft = {mainRes.w-230-20,mainRes.h-161-44}
+    caltopleft = {mainRes.w-calw-20,mainRes.h-calh-20}
 end
 
-function drawToday()
-    -- Offset +1 for start week from Sunday
-    local todayyearweek = hs.execute("date -v+1d +'%W'")
-    -- Year week of the first day of current month with offset +1
-    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
-    local rowofcurrentmonth = todayyearweek - fdcmyearweek + 1
-    local columnofcurrentmonth = os.date("*t").wday
-    local splitw = 205
-    local splith = 141
-    local todaycoverrect = hs.geometry.rect(caltopleft[1]+10+splitw/7*(columnofcurrentmonth-1),caltopleft[2]+10+splith/7*(rowofcurrentmonth+1),splitw/7,splith/7)
-    if not todaycover then
-        todaycover = hs.drawing.rectangle(todaycoverrect)
-        todaycover:setStroke(false)
-        todaycover:setRoundedRectRadii(3,3)
-        todaycover:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        todaycover:setLevel(hs.drawing.windowLevels.desktopIcon)
-        todaycover:setFillColor(caltodaycolor)
-        todaycover:setAlpha(0.3)
-        todaycover:show()
-    else
-        todaycover:setFrame(todaycoverrect)
+calendarCanvas = hs.canvas.new({
+    x = caltopleft[1],
+    y = caltopleft[2],
+    w = calw,
+    h = calh
+}):show()
+
+calendarCanvas:behavior(hs.canvas.windowBehaviors.canJoinAllSpaces)
+calendarCanvas:level(hs.canvas.windowLevels.desktopIcon)
+
+calendarCanvas[1] = {
+    id = "cal_bg",
+    type = "rectangle",
+    action = "fill",
+    fillColor = calbgcolor,
+    roundedRectRadii = {xRadius = 10, yRadius = 10},
+}
+
+calendarCanvas[2] = {
+    id = "cal_title",
+    type = "text",
+    text = "",
+    textFont = "Courier",
+    textSize = 16,
+    textColor = calcolor,
+    textAlignment = "center",
+    frame = {
+        x = tostring(10/calw),
+        y = tostring(10/calw),
+        w = tostring(1-20/calw),
+        h = tostring((calh-20)/8/calh)
+    }
+}
+
+local weeknames = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"}
+for i=1,#weeknames do
+    calendarCanvas[2+i] = {
+        id = "cal_weekday",
+        type = "text",
+        text = weeknames[i],
+        textFont = "Courier",
+        textSize = 16,
+        textColor = calcolor,
+        textAlignment = "center",
+        frame = {
+            x = tostring((10+(calw-20)/8*i)/calw),
+            y = tostring((10+(calh-20)/8)/calh),
+            w = tostring((calw-20)/8/calw),
+            h = tostring((calh-20)/8/calh)
+        }
+    }
+end
+
+-- Create 7x6 calendar table
+for i=1,6 do
+    for k=1,7 do
+        calendarCanvas[9+7*(i-1)+k] = {
+            type = "text",
+            text = "",
+            textFont = "Courier",
+            textSize = 16,
+            textColor = calcolor,
+            textAlignment = "center",
+            frame = {
+                x = tostring((10+(calw-20)/8*k)/calw),
+                y = tostring((10+(calh-20)/8*(i+1))/calh),
+                w = tostring((calw-20)/8/calw),
+                h = tostring((calh-20)/8/calh)
+            }
+        }
     end
 end
 
-function drawWeeknum()
-    local fdcmyearweek = hs.execute("date -v1d -v+1d +'%W'")
-    local rows = hs.execute('cal | wc -l')
-    rows = tonumber(rows)
-    local count = 4
-    if rows == 8 then
-        count = 5
-    end
-    weeknumstr = tonumber(fdcmyearweek)
-    for i=weeknumstr+1,weeknumstr+count do
-        weeknumstr = weeknumstr .. "\r" .. i
-    end
-    local weeknumrect = hs.geometry.rect(caltopleft[1]-205/7+15,caltopleft[2]+141/7*2+10,205/7,141/7*(count + 1))
-    local styledwknum = hs.styledtext.new(weeknumstr,{font={name="Courier",size=16},color=weeknumcolor})
-    if not weeknumdraw then
-        weeknumdraw = hs.drawing.text(weeknumrect,styledwknum)
-        weeknumdraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        weeknumdraw:setLevel(hs.drawing.windowLevels.desktopIcon)
-        weeknumdraw:show()
-    else
-        weeknumdraw:setStyledText(styledwknum)
-    end
+-- Create yearweek column
+for i=1,6 do
+    calendarCanvas[51+i] = {
+        type = "text",
+        text = "",
+        textFont = "Courier",
+        textSize = 16,
+        textColor = weeknumcolor,
+        textAlignment = "center",
+        frame = {
+            x = tostring(10/calw),
+            y = tostring((10+(calh-20)/8*(i+1))/calh),
+            w = tostring((calw-20)/8/calw),
+            h = tostring((calh-20)/8/calh)
+        }
+    }
 end
 
-function updateCal()
-    local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
-    caldraw:setStyledText(caltext)
-    drawWeeknum()
-    drawToday()
-end
+-- today cover rectangle
+calendarCanvas[58] = {
+    type = "rectangle",
+    action = "fill",
+    fillColor = caltodaycolor,
+    roundedRectRadii = {xRadius = 3, yRadius = 3},
+    frame = {
+        x = tostring((10+(calw-20)/8)/calw),
+        y = tostring((10+(calh-20)/8*2)/calh),
+        w = tostring((calw-20)/8/calw),
+        h = tostring((calh-20)/8/calh)
+    }
+}
 
-function showCalendar()
-    if not calbg then
-        local rows = hs.execute('cal | wc -l')
-        rows = tonumber(rows)
-        local high = 161 / 7 
-        if rows == 8 then
-            high = 161 / 7 * 8
+function updateCalCanvas()
+    local titlestr = os.date("%B %Y")
+    calendarCanvas[2].text = titlestr
+    local current_year = os.date("%Y")
+    local current_month = os.date("%m")
+    local current_day = os.date("%d")
+    local firstday_of_nextmonth = os.time{year=current_year, month=current_month+1, day=1}
+    local maxday_of_currentmonth = os.date("*t", firstday_of_nextmonth-24*60*60).day
+    local weekday_of_firstday = os.date("*t", os.time{year=current_year, month=current_month, day=1}).wday
+    local needed_rownum = math.ceil((weekday_of_firstday+maxday_of_currentmonth-1)/7)
+
+    for i=1,needed_rownum do
+        for k=1,7 do
+            local caltable_idx = 7*(i-1)+k
+            local pushbacked_value = caltable_idx-weekday_of_firstday + 2
+            if pushbacked_value <= 0 or pushbacked_value > maxday_of_currentmonth then
+                calendarCanvas[9+caltable_idx].text = ""
+            else
+                calendarCanvas[9+caltable_idx].text = pushbacked_value
+            end
+            if pushbacked_value == math.tointeger(current_day) then
+                calendarCanvas[58].frame.x = tostring((10+(calw-20)/8*k)/calw)
+                calendarCanvas[58].frame.y = tostring((10+(calh-20)/8*(i+1))/calh)
+            end
         end
-        local bgrect = hs.geometry.rect(caltopleft[1]-205/7,caltopleft[2],230+205/7,high)
-        calbg = hs.drawing.rectangle(bgrect)
-        calbg:setFillColor(calbgcolor)
-        calbg:setStroke(false)
-        calbg:setRoundedRectRadii(10,10)
-        calbg:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        calbg:setLevel(hs.drawing.windowLevels.desktopIcon)
-        calbg:show()
-
-        local caltext = hs.styledtext.ansi(hs.execute("cal"),{font={name="Courier",size=16},color=calcolor})
-        local calrect = hs.geometry.rect(caltopleft[1]+15,caltopleft[2]+10,230,high)
-        caldraw = hs.drawing.text(calrect,caltext)
-        caldraw:setBehavior(hs.drawing.windowBehaviors.canJoinAllSpaces)
-        caldraw:setLevel(hs.drawing.windowLevels.desktopIcon)
-        caldraw:show()
-
-        drawWeeknum()
-        drawToday()
-        if caltimer == nil then
-            caltimer = hs.timer.doEvery(1800,function() updateCal() end)
-        else
-            caltimer:start()
-        end
-    else
-        caltimer:stop()
-        caltimer=nil
-        todaycover:delete()
-        todaycover=nil
-        calbg:delete()
-        calbg=nil
-        caldraw:delete()
-        caldraw=nil
     end
+    -- update yearweek
+    local yearweek_of_firstday = hs.execute("date -v1d +'%W'")
+    for i=1,6 do
+        local yearweek_rowvalue = math.tointeger(yearweek_of_firstday)+i-1
+        calendarCanvas[51+i].text = yearweek_rowvalue
+        if i > needed_rownum then
+            calendarCanvas[51+i].text = ""
+        end
+    end
+    -- trim the canvas
+    calendarCanvas:size({
+        w = calw,
+        h = 20+(calh-20)/8*(needed_rownum+2)
+    })
 end
 
-if not launch_calendar then launch_calendar=true end
-if launch_calendar == true then showCalendar() end
+if caltimer == nil then
+    caltimer = hs.timer.doEvery(1800, function() updateCalCanvas() end)
+    caltimer:setNextTrigger(0)
+else
+    caltimer:start()
+end
