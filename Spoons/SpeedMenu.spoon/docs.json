@@ -1,0 +1,79 @@
+[
+  {
+    "Constant" : [
+
+    ],
+    "submodules" : [
+
+    ],
+    "Function" : [
+
+    ],
+    "Variable" : [
+
+    ],
+    "stripped_doc" : [
+
+    ],
+    "desc" : "Menubar netspeed meter",
+    "Deprecated" : [
+
+    ],
+    "type" : "Module",
+    "Constructor" : [
+
+    ],
+    "doc" : "Menubar netspeed meter\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/SpeedMenu.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/SpeedMenu.spoon.zip)",
+    "Field" : [
+
+    ],
+    "Command" : [
+
+    ],
+    "items" : [
+      {
+        "doc" : "Redetect the active interface, darkmode …And redraw everything.",
+        "desc" : "Redetect the active interface, darkmode …And redraw everything.",
+        "parameters" : [
+
+        ],
+        "stripped_doc" : [
+          "Redetect the active interface, darkmode …And redraw everything."
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SpeedMenu:rescan()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "SpeedMenu:rescan()",
+        "name" : "rescan"
+      }
+    ],
+    "Method" : [
+      {
+        "doc" : "Redetect the active interface, darkmode …And redraw everything.",
+        "desc" : "Redetect the active interface, darkmode …And redraw everything.",
+        "parameters" : [
+
+        ],
+        "stripped_doc" : [
+          "Redetect the active interface, darkmode …And redraw everything."
+        ],
+        "notes" : [
+
+        ],
+        "signature" : "SpeedMenu:rescan()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "def" : "SpeedMenu:rescan()",
+        "name" : "rescan"
+      }
+    ],
+    "name" : "SpeedMenu"
+  }
+]
