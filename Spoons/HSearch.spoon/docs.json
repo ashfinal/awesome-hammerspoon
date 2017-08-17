@@ -1,0 +1,159 @@
+[
+  {
+    "Constant" : [
+
+    ],
+    "submodules" : [
+
+    ],
+    "Function" : [
+
+    ],
+    "Variable" : [
+
+    ],
+    "stripped_doc" : [
+
+    ],
+    "Deprecated" : [
+
+    ],
+    "type" : "Module",
+    "desc" : "Hammerspoon Search",
+    "Constructor" : [
+
+    ],
+    "Field" : [
+
+    ],
+    "Method" : [
+      {
+        "doc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "stripped_doc" : [
+          "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:switchSource()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:switchSource()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "name" : "switchSource"
+      },
+      {
+        "doc" : "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual.",
+        "stripped_doc" : [
+          "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual."
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:loadSources()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:loadSources()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual.",
+        "name" : "loadSources"
+      },
+      {
+        "doc" : "Toggle the display of HSearch",
+        "stripped_doc" : [
+          "Toggle the display of HSearch"
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:toggleShow()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:toggleShow()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Toggle the display of HSearch",
+        "name" : "toggleShow"
+      }
+    ],
+    "Command" : [
+
+    ],
+    "doc" : "Hammerspoon Search\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/HSearch.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/HSearch.spoon.zip)",
+    "items" : [
+      {
+        "doc" : "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual.",
+        "stripped_doc" : [
+          "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual."
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:loadSources()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:loadSources()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Load new sources from `HSearch.search_path`, the search_path defaults to `~\/.hammerspoon\/private\/hsearch_dir` and the HSearch Spoon directory. Only for debug purpose in usual.",
+        "name" : "loadSources"
+      },
+      {
+        "doc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "stripped_doc" : [
+          "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:switchSource()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:switchSource()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "name" : "switchSource"
+      },
+      {
+        "doc" : "Toggle the display of HSearch",
+        "stripped_doc" : [
+          "Toggle the display of HSearch"
+        ],
+        "parameters" : [
+
+        ],
+        "def" : "HSearch:toggleShow()",
+        "notes" : [
+
+        ],
+        "signature" : "HSearch:toggleShow()",
+        "type" : "Method",
+        "returns" : [
+
+        ],
+        "desc" : "Toggle the display of HSearch",
+        "name" : "toggleShow"
+      }
+    ],
+    "name" : "HSearch"
+  }
+]
