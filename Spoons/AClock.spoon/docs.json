@@ -23,16 +23,20 @@
     "Constructor" : [
 
     ],
+    "doc" : "Just another clock, floating above all\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip)",
+    "Field" : [
+
+    ],
     "items" : [
       {
-        "parameters" : [
-
-        ],
+        "doc" : "Show AClock, if already showing, just hide it.",
         "stripped_doc" : [
           "Show AClock, if already showing, just hide it."
         ],
-        "desc" : "Show AClock, if already showing, just hide it.",
-        "doc" : "Show AClock, if already showing, just hide it.",
+        "def" : "AClock:toggleShow()",
+        "parameters" : [
+
+        ],
         "notes" : [
 
         ],
@@ -41,20 +45,20 @@
         "returns" : [
 
         ],
-        "def" : "AClock:toggleShow()",
-        "name" : "toggleShow"
+        "name" : "toggleShow",
+        "desc" : "Show AClock, if already showing, just hide it."
       }
     ],
     "Method" : [
       {
-        "parameters" : [
-
-        ],
+        "doc" : "Show AClock, if already showing, just hide it.",
         "stripped_doc" : [
           "Show AClock, if already showing, just hide it."
         ],
-        "desc" : "Show AClock, if already showing, just hide it.",
-        "doc" : "Show AClock, if already showing, just hide it.",
+        "def" : "AClock:toggleShow()",
+        "parameters" : [
+
+        ],
         "notes" : [
 
         ],
@@ -63,17 +67,13 @@
         "returns" : [
 
         ],
-        "def" : "AClock:toggleShow()",
-        "name" : "toggleShow"
+        "name" : "toggleShow",
+        "desc" : "Show AClock, if already showing, just hide it."
       }
     ],
     "Command" : [
 
     ],
-    "Field" : [
-
-    ],
-    "doc" : "Just another clock, floating above all\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip)",
     "name" : "AClock"
   }
 ]
