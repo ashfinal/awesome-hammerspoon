@@ -73,7 +73,7 @@ local function emojiRequest(querystr)
         end)
     else
         local chooser_data = {
-            {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath(hs.configdir.."/resources/emoji.png")}
+            {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/emoji.png")}
         }
         if spoon.HSearch then
             spoon.HSearch.chooser:choices(chooser_data)
