@@ -52,6 +52,9 @@ hsaria2_host = "http://localhost:6800/jsonrpc"
 -- aria2 RPC host secret
 hsaria2_secret = "token"
 
+----------------------------------------------------------------------------------------------------
+-- Those keybindings below could be disabled by setting to {"", ""} or {{}, ""}
+
 -- Window hints keybinding: Focuse to any window you want
 hswhints_keys = {"alt", "tab"}
 
