@@ -78,22 +78,55 @@ function obj:stepResize(direction)
     end
 end
 
+--- WinWin:stash()
+--- Method
+--- Stash current windows's position and size.
+---
+
+local function isInHistory(windowid)
+    for idx,val in ipairs(obj.history) do
+        if val[1] == windowid then
+            return idx
+        end
+    end
+    return false
+end
+
+function obj:stash()
+    local cwin = hs.window.focusedWindow()
+    local winid = cwin:id()
+    local winf = cwin:frame()
+    local id_idx = isInHistory(winid)
+    if id_idx then
+        -- Bring recently used window id up, so they wouldn't get removed because of exceeding capacity
+        if id_idx == 100 then
+            local tmptable = obj.history[id_idx]
+            table.remove(obj.history, id_idx)
+            table.insert(obj.history, 1, tmptable)
+            -- Make sure the history for each application doesn't reach the maximum (100 items)
+            local id_history = obj.history[1][2]
+            if #id_history > 100 then table.remove(id_history) end
+            table.insert(id_history, 1, winf)
+        else
+            local id_history = obj.history[id_idx][2]
+            if #id_history > 100 then table.remove(id_history) end
+            table.insert(id_history, 1, winf)
+        end
+    else
+        -- Make sure the history of window id doesn't reach the maximum (100 items).
+        if #obj.history > 100 then table.remove(obj.history) end
+        -- Stash new window id and its first history
+        local newtable = {winid, {winf}}
+        table.insert(obj.history, 1, newtable)
+    end
+end
+
 --- WinWin:moveAndResize(option)
 --- Method
 --- Move and resize the focused window.
 ---
 --- Parameters:
 ---  * option - A string specifying the option, valid strings are: `halfleft`, `halfright`, `halfup`, `halfdown`, `cornerNW`, `cornerSW`, `cornerNE`, `cornerSE`, `center`, `fullscreen`, `expand`, `shrink`.
-local function windowStash(window)
-    local winid = window:id()
-    local winf = window:frame()
-    if #obj.history > 50 then
-        -- Make sure the history doesn't reach the maximum (50 items).
-        table.remove(obj.history) -- Remove the last item
-    end
-    local winstru = {winid, winf}
-    table.insert(obj.history, winstru) -- Insert new item of window history
-end
 
 function obj:moveAndResize(option)
     local cwin = hs.window.focusedWindow()
@@ -104,34 +137,24 @@ function obj:moveAndResize(option)
         local steph = cres.h/obj.gridparts
         local wf = cwin:frame()
         if option == "halfleft" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h})
         elseif option == "halfright" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h})
         elseif option == "halfup" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h/2})
         elseif option == "halfdown" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w, h=cres.h/2})
         elseif option == "cornerNW" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h/2})
         elseif option == "cornerNE" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h/2})
         elseif option == "cornerSW" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
         elseif option == "cornerSE" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x+cres.w/2, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
         elseif option == "fullscreen" then
-            windowStash(cwin)
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h})
         elseif option == "center" then
-            windowStash(cwin)
             cwin:centerOnScreen()
         elseif option == "expand" then
             cwin:setFrame({x=wf.x-stepw, y=wf.y-steph, w=wf.w+(stepw*2), h=wf.h+(steph*2)})
@@ -173,13 +196,62 @@ end
 --- Method
 --- Undo the last window manipulation. Only those "moveAndResize" manipulations can be undone.
 ---
+
 function obj:undo()
     local cwin = hs.window.focusedWindow()
-    local cwinid = cwin:id()
-    for idx,val in ipairs(obj.history) do
-        -- Has this window been stored previously?
-        if val[1] == cwinid then
-            cwin:setFrame(val[2])
+    local winid = cwin:id()
+    -- Has this window been stored previously?
+    local id_idx = isInHistory(winid)
+    if id_idx then
+        -- Bring recently used window id up, so they wouldn't get removed because of exceeding capacity
+        if id_idx == 100 then
+            local tmptable = obj.history[id_idx]
+            table.remove(obj.history, id_idx)
+            table.insert(obj.history, 1, tmptable)
+            local id_history = obj.history[1][2]
+            cwin:setFrame(id_history[1])
+            -- Rewind the history
+            local tmpframe = id_history[1]
+            table.remove(id_history, 1)
+            table.insert(id_history, tmpframe)
+        else
+            local id_history = obj.history[id_idx][2]
+            cwin:setFrame(id_history[1])
+            local tmpframe = id_history[1]
+            table.remove(id_history, 1)
+            table.insert(id_history, tmpframe)
+        end
+    end
+end
+
+--- WinWin:redo()
+--- Method
+--- Redo the window manipulation. Only those "moveAndResize" manipulations can be undone.
+---
+
+function obj:redo()
+    local cwin = hs.window.focusedWindow()
+    local winid = cwin:id()
+    -- Has this window been stored previously?
+    local id_idx = isInHistory(winid)
+    if id_idx then
+        -- Bring recently used window id up, so they wouldn't get removed because of exceeding capacity
+        if id_idx == 100 then
+            local tmptable = obj.history[id_idx]
+            table.remove(obj.history, id_idx)
+            table.insert(obj.history, 1, tmptable)
+            local id_history = obj.history[1][2]
+            cwin:setFrame(id_history[#id_history])
+            -- Play the history
+            local tmpframe = id_history[#id_history]
+            table.remove(id_history)
+            table.insert(id_history, 1, tmpframe)
+        else
+            local id_history = obj.history[id_idx][2]
+            cwin:setFrame(id_history[#id_history])
+            local tmpframe = id_history[#id_history]
+            table.remove(id_history)
+            table.insert(id_history, 1, tmpframe)
         end
     end
 end
@@ -188,6 +260,7 @@ end
 --- Method
 --- Center the cursor on the focused window.
 ---
+
 function obj:centerCursor()
     local cwin = hs.window.focusedWindow()
     local wf = cwin:frame()
