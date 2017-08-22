@@ -22,7 +22,7 @@ Press <kbd>opt</kbd> + <kbd>?</kbd> to toggle the help panel, which will show al
 
 ### Screenshots
 
-These screenshots demostrate what awesome-hammerspoon is capable of.
+These screenshots demostrate what awesome-hammerspoon is capable of. Learn more about [built-in Spoons](https://github.com/ashfinal/awesome-hammerspoon/wiki/The-built-in-Spoons).
 
 ##### Desktop widgets
 
@@ -89,7 +89,7 @@ Then modify the file `~/.hammerspoon/private/config.lua`:
 
   Please read `~/.hammerspoon/private/config.lua`for more details.
 
-Finally remember pressing `cmd + ctrl + shift + r` to reload the configuration.
+Finally press `cmd + ctrl + shift + r` to reload the configuration.
 
 </details>
 
