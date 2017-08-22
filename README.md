@@ -1,6 +1,6 @@
 # Awesome-hammerspoon, as advertised.
 
-Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-styled key bindings, provides some functionality like desktop widgets, window management, application launcher, Alfred-like search, aria2 GUI, dictionary translation, cheatsheets, take notes ... etc.
+Awesome-hammerspoon is my collection of lua scripts for [Hammerspoon](http://www.hammerspoon.org/). It has highly modal-based, vim-style key bindings, provides some functionality like desktop widgets, window management, application launcher, instant search, aria2 frontend, dictionary translation, cheatsheets, take notes ... etc.
 
 ## Get started
 
