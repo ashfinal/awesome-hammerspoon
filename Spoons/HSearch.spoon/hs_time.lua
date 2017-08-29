@@ -64,7 +64,7 @@ local function timeDeltaRequest(querystr)
                 local new_exec_result = hs.execute(new_exec_command)
                 return {text=new_exec_result, subText=new_exec_command, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png"), output="keystrokes", arg=new_exec_result}
             end)
-            local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(hs.configdir.."/resources/time.png")}
+            local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png")}
             table.insert(chooser_data, 1, source_desc)
             if spoon.HSearch then
                 -- Make sure HSearch spoon is running now
@@ -73,7 +73,7 @@ local function timeDeltaRequest(querystr)
         end
     else
         local chooser_data = timeRequest()
-        local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(hs.configdir.."/resources/time.png")}
+        local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png")}
         table.insert(chooser_data, 1, source_desc)
         if spoon.HSearch then
             -- Make sure HSearch spoon is running now
