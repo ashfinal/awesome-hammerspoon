@@ -24,7 +24,7 @@ Press <kbd>opt</kbd> + <kbd>?</kbd> to toggle the help panel, which will show al
 
 These screenshots demostrate what awesome-hammerspoon is capable of. Learn more about [built-in Spoons](https://github.com/ashfinal/awesome-hammerspoon/wiki/The-built-in-Spoons).
 
-##### Desktop widgets
+#### Desktop widgets
 
 <details>
 <summary>More details</summary>
@@ -33,7 +33,7 @@ These screenshots demostrate what awesome-hammerspoon is capable of. Learn more 
 
 </details>
 
-##### Window manpulation <kbd>⌥</kbd> + <kbd>R</kbd>
+#### Window manpulation <kbd>⌥</kbd> + <kbd>R</kbd>
 
 <details>
 <summary>More details</summary>
@@ -42,7 +42,7 @@ These screenshots demostrate what awesome-hammerspoon is capable of. Learn more 
 
 </details>
 
-##### Search something <kbd>⌥</kbd> + <kbd>G</kbd>
+#### Search something <kbd>⌥</kbd> + <kbd>G</kbd>
 
 <details>
 <summary>More details</summary>
@@ -51,7 +51,7 @@ These screenshots demostrate what awesome-hammerspoon is capable of. Learn more 
 
 </details>
 
-##### aria2 Frontend <kbd>⌥</kbd> + <kbd>D</kbd>
+#### aria2 Frontend <kbd>⌥</kbd> + <kbd>D</kbd>
 
 <details>
 <summary>More details</summary>
@@ -93,7 +93,7 @@ Finally press `cmd + ctrl + shift + r` to reload the configuration.
 
 </details>
 
-### Contribute
+## Contribute
 
 <details>
 <summary>More details</summary>
