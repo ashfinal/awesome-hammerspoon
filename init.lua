@@ -2,8 +2,19 @@ hs.hotkey.alertDuration = 0
 hs.hints.showTitleThresh = 0
 hs.window.animationDuration = 0
 
-privatepath = hs.fs.pathToAbsolute(hs.configdir .. '/private')
+-- Use the standardized config location, if present
+custom_config = hs.fs.pathToAbsolute(os.getenv("HOME") .. '/.config/hammerspoon/private/config.lua')
+if custom_config then
+	hs.alert("Loading custom config")
+	dofile( os.getenv("HOME") .. "/.config/hammerspoon/private/config.lua")
+privatepath = hs.fs.pathToAbsolute(hs.configdir .. '/private/config.lua')
+if privatepath then
+	hs.alert("You have config in both .config/hammerspoon and private. The .config/hammerspoon one will be used.")
+end
+else
+	-- otherwise fallback to 'classic' location.
 if not privatepath then
+privatepath = hs.fs.pathToAbsolute(hs.configdir .. '/private')
     -- Create `~/.hammerspoon/private` directory if not exists.
     hs.fs.mkdir(hs.configdir .. '/private')
 end
@@ -12,7 +23,7 @@ if privateconf then
     -- Load awesomeconfig file if exists
     require('private/config')
 end
-
+end
 hsreload_keys = hsreload_keys or {{"cmd", "shift", "ctrl"}, "R"}
 if string.len(hsreload_keys[2]) > 0 then
     hs.hotkey.bind(hsreload_keys[1], hsreload_keys[2], "Reload Configuration", function() hs.reload() end)
