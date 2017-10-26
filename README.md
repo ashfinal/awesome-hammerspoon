@@ -74,7 +74,7 @@ hsaria2_secret = "token" -- YOUR OWN SECRET
 <summary>More details</summary>
 
 ```shell
-cp ~/.hammerspooon/config-example.lua ~/.hammerspoon/private/config.lua
+cp ~/.hammerspoon/config-example.lua ~/.hammerspoon/private/config.lua
 ```
 
 Then modify the file `~/.hammerspoon/private/config.lua`:
