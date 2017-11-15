@@ -143,11 +143,12 @@ function obj:activate(idList, trayColor, showKeys)
     if trayColor then
         local cscreen = hs.screen.mainScreen()
         local cres = cscreen:fullFrame()
-        obj.modal_tray:frame({
-            x = cres.w - math.ceil(cres.w / 32),
-            y = cres.h - math.ceil(cres.w / 32),
-            w = math.ceil(cres.w / 32 / 2),
-            h = math.ceil(cres.w / 32 / 2)
+        local lcres = cscreen:absoluteToLocal(cres)
+        obj.modal_tray:frame(cscreen:localToAbsolute{
+            x = cres.w - 40,
+            y = cres.h - 40,
+            w = 20,
+            h = 20
         })
         obj.modal_tray[1].fillColor = {hex = trayColor, alpha = 0.7}
         obj.modal_tray:show()
