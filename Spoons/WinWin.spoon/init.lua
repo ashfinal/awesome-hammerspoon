@@ -176,15 +176,15 @@ function obj:moveToScreen(direction)
     local cwin = hs.window.focusedWindow()
     if cwin then
         local cscreen = cwin:screen()
-        if option == "up" then
+        if direction == "up" then
             cwin:moveOneScreenNorth()
-        elseif option == "down" then
+        elseif direction == "down" then
             cwin:moveOneScreenSouth()
-        elseif option == "left" then
+        elseif direction == "left" then
             cwin:moveOneScreenWest()
-        elseif option == "right" then
+        elseif direction == "right" then
             cwin:moveOneScreenEast()
-        elseif option == "next" then
+        elseif direction == "next" then
             cwin:moveToScreen(cscreen:next())
         end
     else
