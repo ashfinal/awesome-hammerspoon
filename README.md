@@ -6,7 +6,7 @@ awesome-hammerspoon is my configuration for [Hammerspoon](http://www.hammerspoon
 
 1. Install [Hammerspoon](http://www.hammerspoon.org/) first.
 
-2. `git clone --depth 1 https://github.com/ashfinal/awesome-hammerspoon.git ~/.hammerspoon`
+2. `git clone https://github.com/ashfinal/awesome-hammerspoon.git ~/.hammerspoon`
 
 3. Reload the configutation.
 
