@@ -28,9 +28,9 @@
     ],
     "Method" : [
       {
-        "doc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "doc" : "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
         "stripped_doc" : [
-          "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
+          "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
         ],
         "parameters" : [
 
@@ -44,7 +44,7 @@
         "returns" : [
 
         ],
-        "desc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "desc" : "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
         "name" : "switchSource"
       },
       {
@@ -114,9 +114,9 @@
         "name" : "loadSources"
       },
       {
-        "doc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "doc" : "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
         "stripped_doc" : [
-          "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
+          "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual."
         ],
         "parameters" : [
 
@@ -130,7 +130,7 @@
         "returns" : [
 
         ],
-        "desc" : "Tigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
+        "desc" : "Trigger new source according to hs.chooser's query string and keyword. Only for debug purpose in usual.",
         "name" : "switchSource"
       },
       {
