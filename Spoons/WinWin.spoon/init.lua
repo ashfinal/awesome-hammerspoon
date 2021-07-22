@@ -32,7 +32,7 @@ function obj:stepMove(direction)
     local cwin = hs.window.focusedWindow()
     if cwin then
         local cscreen = cwin:screen()
-        local cres = cscreen:fullFrame()
+        local cres = cscreen:frame()
         local stepw = cres.w/obj.gridparts
         local steph = cres.h/obj.gridparts
         local wtopleft = cwin:topLeft()
@@ -60,7 +60,7 @@ function obj:stepResize(direction)
     local cwin = hs.window.focusedWindow()
     if cwin then
         local cscreen = cwin:screen()
-        local cres = cscreen:fullFrame()
+        local cres = cscreen:frame()
         local stepw = cres.w/obj.gridparts
         local steph = cres.h/obj.gridparts
         local wsize = cwin:size()
@@ -132,7 +132,7 @@ function obj:moveAndResize(option)
     local cwin = hs.window.focusedWindow()
     if cwin then
         local cscreen = cwin:screen()
-        local cres = cscreen:fullFrame()
+        local cres = cscreen:frame()
         local stepw = cres.w/obj.gridparts
         local steph = cres.h/obj.gridparts
         local wf = cwin:frame()
@@ -265,7 +265,7 @@ function obj:centerCursor()
     local cwin = hs.window.focusedWindow()
     local wf = cwin:frame()
     local cscreen = cwin:screen()
-    local cres = cscreen:fullFrame()
+    local cres = cscreen:frame()
     if cwin then
         -- Center the cursor one the focused window
         hs.mouse.setAbsolutePosition({x=wf.x+wf.w/2, y=wf.y+wf.h/2})
