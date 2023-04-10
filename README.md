@@ -33,7 +33,7 @@ These screenshots demostrate what awesome-hammerspoon is capable of. Learn more 
 
 </details>
 
-#### Window manpulation <kbd>⌥</kbd> + <kbd>R</kbd>
+#### Window manipulation <kbd>⌥</kbd> + <kbd>R</kbd>
 
 <details>
 <summary>More details</summary>
